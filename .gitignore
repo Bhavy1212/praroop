@@ -23,6 +23,10 @@
 # misc
 .DS_Store
 *.pem
+scrape_images.py
+get_campaign_imgs.py
+campaign_images_map.json
+campaign_imgs.json
 
 # debug
 npm-debug.log*

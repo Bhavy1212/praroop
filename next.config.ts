@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
         hostname: "praaroop.com",
         pathname: "/wp-content/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
   },
   // Trailing slash to match existing WordPress URL structure
