@@ -27,6 +27,7 @@
   --foreground: #212529;
 }
 
+/* Normal Smooth Document Flow with Scroll Padding for Sticky Nav */
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 90px;
@@ -41,17 +42,29 @@ body {
 
 /* Custom premium scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 9px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: #f8f9fa;
 }
 ::-webkit-scrollbar-thumb {
   background: #345995;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #27426f;
+}
+
+/* Horizontal Snap Scroll Utilities for Carousels */
+.snap-x-container {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.snap-x-item {
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
 }
 
 /* Marquee Animations */
@@ -64,21 +77,12 @@ body {
   }
 }
 
-@keyframes marquee-right {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
-
 .animate-marquee-left {
   animation: marquee-left 35s linear infinite;
 }
 
-.animate-marquee-right {
-  animation: marquee-right 35s linear infinite;
+.animate-marquee-left:hover {
+  animation-play-state: paused;
 }
 
 /* Pulse ring effect for WhatsApp CTA */
@@ -99,4 +103,15 @@ body {
 
 .whatsapp-pulse {
   animation: pulse-ring 2s infinite;
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-marquee-left,
+  .whatsapp-pulse {
+    animation: none !important;
+  }
 }

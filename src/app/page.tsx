@@ -14,11 +14,11 @@ import FooterCtaCards from "@/components/home/FooterCtaCards";
 
 export default function HomePage() {
   return (
-    <>
+    <main className="relative bg-white text-ink">
       {/* Top Reading Progress Bar */}
       <ScrollProgress />
 
-      {/* Sequential Webflow/GSAP-Style Scroll Triggered Sections */}
+      {/* Sequential Homepage Sections with Scroll-Triggered Entrance Animations */}
       <div className="space-y-4">
         <Hero />
 
@@ -62,6 +62,6 @@ export default function HomePage() {
           <FooterCtaCards />
         </ScrollTransition>
       </div>
-    </>
+    </main>
   );
 }

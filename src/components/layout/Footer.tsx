@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { BRAND } from "@/lib/data";
+import ObfuscatedEmail from "@/components/ui/ObfuscatedEmail";
 
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -132,8 +133,8 @@ export default function Footer() {
               <li>
                 📍 {BRAND.address}
               </li>
-              <li>
-                ✉️ <span className="font-mono text-xs">{BRAND.email}</span>
+              <li className="flex items-center gap-1.5">
+                ✉️ <ObfuscatedEmail className="font-mono text-xs text-ink-body" />
               </li>
             </ul>
           </div>

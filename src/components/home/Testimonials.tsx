@@ -1,25 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, Quote, ExternalLink, ChevronLeft, ChevronRight, CheckCircle } from "lucide-react";
 import Image from "next/image";
-import { TESTIMONIALS, BRAND } from "@/lib/data";
+import { TESTIMONIALS } from "@/lib/data";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
 export default function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const nextTestimonial = () => {
-    setActiveIndex((prev) => (prev + 1) % TESTIMONIALS.length);
+    const nextIdx = (activeIndex + 1) % TESTIMONIALS.length;
+    setActiveIndex(nextIdx);
+    scrollToCard(nextIdx);
   };
 
   const prevTestimonial = () => {
-    setActiveIndex((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+    const prevIdx = (activeIndex - 1 + TESTIMONIALS.length) % TESTIMONIALS.length;
+    setActiveIndex(prevIdx);
+    scrollToCard(prevIdx);
+  };
+
+  const scrollToCard = (index: number) => {
+    if (containerRef.current) {
+      const cardWidth = containerRef.current.clientWidth;
+      containerRef.current.scrollTo({
+        left: index * cardWidth,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
-    <section className="py-20 bg-surface-light border-b border-surface-mid overflow-hidden relative">
+    <section id="testimonials" className="py-20 bg-surface-light border-b border-surface-mid overflow-hidden relative">
       
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 right-0 -translate-y-1/2 w-96 h-96 bg-brand/5 rounded-full blur-3xl pointer-events-none" />
@@ -60,7 +75,7 @@ export default function Testimonials() {
           </ScrollReveal>
         </div>
 
-        {/* Featured Showcase Interactive Carousel / Slider */}
+        {/* Horizontal Drag/Swipe Snap Carousel — One Testimonial Per Snap Point */}
         <ScrollReveal className="relative">
           <div className="bg-white rounded-3xl border border-surface-mid p-8 sm:p-12 shadow-xl relative overflow-hidden">
             
@@ -69,9 +84,9 @@ export default function Testimonials() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: 30, scale: 0.98 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: -30, scale: 0.98 }}
                 transition={{ duration: 0.4 }}
                 className="space-y-6 max-w-3xl"
               >
@@ -112,13 +127,16 @@ export default function Testimonials() {
               </motion.div>
             </AnimatePresence>
 
-            {/* Slider Controls */}
+            {/* Carousel Navigation Indicators & Snap Controls */}
             <div className="flex items-center justify-between pt-8 mt-8 border-t border-surface-light">
               <div className="flex items-center gap-2">
                 {TESTIMONIALS.map((t, idx) => (
                   <button
                     key={t.id}
-                    onClick={() => setActiveIndex(idx)}
+                    onClick={() => {
+                      setActiveIndex(idx);
+                      scrollToCard(idx);
+                    }}
                     aria-label={`Go to review ${idx + 1}`}
                     className={`h-2.5 rounded-full transition-all duration-300 ${
                       activeIndex === idx
@@ -150,13 +168,21 @@ export default function Testimonials() {
           </div>
         </ScrollReveal>
 
-        {/* 4 Interactive Testimonial Cards Grid */}
+        {/* 4 Interactive Testimonial Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {TESTIMONIALS.map((t, i) => (
             <motion.div
               key={t.id}
-              onClick={() => setActiveIndex(i)}
+              onClick={() => {
+                setActiveIndex(i);
+                scrollToCard(i);
+              }}
               whileHover={{ y: -4 }}
+              animate={{
+                scale: activeIndex === i ? 1.03 : 1,
+                opacity: activeIndex === i ? 1 : 0.85,
+              }}
+              transition={{ duration: 0.3 }}
               className={`p-6 rounded-3xl border transition-all duration-300 cursor-pointer flex flex-col justify-between ${
                 activeIndex === i
                   ? "bg-white border-brand shadow-lg ring-2 ring-brand/20"
