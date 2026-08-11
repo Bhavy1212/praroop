@@ -9,12 +9,12 @@ import { Store, ShoppingBag, Building2, GraduationCap } from "lucide-react";
 
 const ICONS = [Store, ShoppingBag, Building2, GraduationCap];
 
-// Real local event photography for the 4 Activations cards
-const ACTIVATION_IMAGES: Record<string, string> = {
-  Mall: "/campaigns/the-greatestest-denim-fest_0.jpg",
-  Retail: "/campaigns/udaipur-tea-fest_0.jpg",
-  Corporate: "/campaigns/hbf_0.jpg",
-  "SCHOOL/COLLEGE": "/campaigns/field-club-dandiya-2023-2025_0.jpg",
+// Original relevant service tile graphics from live site for Activations
+const ACTIVATION_SERVICE_IMAGES: Record<string, string> = {
+  Mall: "/services/mall.webp",
+  Retail: "/services/store.webp",
+  Corporate: "/services/corporate.webp",
+  "SCHOOL/COLLEGE": "/services/school.webp",
 };
 
 export default function ActivationsSection() {
@@ -35,11 +35,11 @@ export default function ActivationsSection() {
           </p>
         </ScrollReveal>
 
-        {/* 4 Cards with Real Campaign Photography Backgrounds */}
+        {/* 4 Cards with Relevant Original Service Tile Graphics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {ACTIVATIONS_ITEMS.map((item, index) => {
             const Icon = ICONS[index] || Store;
-            const realImg = ACTIVATION_IMAGES[item] || "/campaigns/makingudaipurproud_0.jpg";
+            const tileImg = ACTIVATION_SERVICE_IMAGES[item] || "/services/mall.webp";
 
             return (
               <motion.div
@@ -49,18 +49,18 @@ export default function ActivationsSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 whileHover={{ y: -6 }}
-                className="relative h-80 rounded-3xl overflow-hidden border border-surface-mid shadow-sm hover:shadow-2xl transition-all duration-500 group cursor-pointer flex flex-col justify-between p-6"
+                className="relative h-80 rounded-3xl overflow-hidden border border-surface-mid shadow-sm hover:shadow-2xl transition-all duration-500 group cursor-pointer flex flex-col justify-between p-6 bg-brand-dark/5"
               >
-                {/* Background Real Event Photo */}
+                {/* Background Relevant Service Tile Image */}
                 <Image
-                  src={realImg}
-                  alt={`${item} activation real photo`}
+                  src={tileImg}
+                  alt={`${item} activation graphic`}
                   fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                  className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
                 />
                 
-                {/* Dark gradient overlay for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20 group-hover:from-black/95 group-hover:via-black/50 transition-colors duration-500" />
+                {/* Gradient overlay for contrast and text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/15 group-hover:from-black/90 group-hover:via-black/45 transition-colors duration-500" />
 
                 {/* Top Icon Badge */}
                 <div className="relative z-10 flex items-center justify-between">

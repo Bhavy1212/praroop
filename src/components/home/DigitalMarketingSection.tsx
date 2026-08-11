@@ -9,20 +9,14 @@ import { TrendingUp, Share2, Globe, Award, Video, Users, CheckCircle2 } from "lu
 
 const ICONS = [TrendingUp, Share2, Globe, Award, Video, Users];
 
-// REAL local campaign work photos for all 6 Digital Marketing cards
-const REAL_WORK_IMAGES: Record<string, string> = {
-  "Brand strategy / Performance marketing":
-    "/campaigns/the-greatestest-denim-fest_0.jpg",
-  "Digital marketing / Social media marketing":
-    "/campaigns/field-club-dandiya-2023-2025_0.jpg",
-  "Website Development":
-    "/campaigns/tiecon-2023-and-2025_0.jpg",
-  "Political Campaign/ Narrative Building":
-    "/campaigns/makingudaipurproud_0.jpg",
-  "Content Marketing / Content Creation":
-    "/campaigns/udaipur-winter-carnival_0.jpg",
-  "Influencer Marketing":
-    "/campaigns/udaipur-tea-fest_0.jpg",
+// Original relevant service tile graphics from live site
+const DIGITAL_MARKETING_IMAGES: Record<string, string> = {
+  "Brand strategy / Performance marketing": "/services/analysis.webp",
+  "Digital marketing / Social media marketing": "/services/social-media.webp",
+  "Website Development": "/services/app-development.webp",
+  "Political Campaign/ Narrative Building": "/services/banner.webp",
+  "Content Marketing / Content Creation": "/services/content-creation.webp",
+  "Influencer Marketing": "/services/influencer.webp",
 };
 
 // Key points for each of the 6 exact Digital Marketing topics
@@ -76,12 +70,12 @@ export default function DigitalMarketingSection() {
           </p>
         </ScrollReveal>
 
-        {/* 6 Cards with Real Campaign Photography Support & Hover Zoom */}
+        {/* 6 Cards with Original Relevant Service Tile Imagery & Hover Effect */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {DIGITAL_MARKETING_ITEMS.map((item, index) => {
             const Icon = ICONS[index] || TrendingUp;
             const points = DIGITAL_MARKETING_DETAILS[item] || [];
-            const realImg = REAL_WORK_IMAGES[item];
+            const tileImg = DIGITAL_MARKETING_IMAGES[item] || "/services/analysis.webp";
 
             return (
               <motion.div
@@ -93,15 +87,15 @@ export default function DigitalMarketingSection() {
                 whileHover={{ y: -6 }}
                 className="relative rounded-3xl bg-surface-light border border-surface-mid hover:border-brand/40 shadow-sm hover:shadow-2xl transition-all duration-500 group overflow-hidden flex flex-col justify-between"
               >
-                {/* Real Campaign Photo Header */}
-                <div className="relative h-48 w-full overflow-hidden bg-brand-dark">
+                {/* Relevant Service Graphic Header */}
+                <div className="relative h-48 w-full overflow-hidden bg-brand-dark/5 p-4 flex items-center justify-center">
                   <Image
-                    src={realImg}
-                    alt={`${item} real campaign work`}
+                    src={tileImg}
+                    alt={`${item} service tile`}
                     fill
-                    className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-surface-light via-transparent to-black/30" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-surface-light via-transparent to-black/10" />
                   
                   {/* Top Badge Overlay */}
                   <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">

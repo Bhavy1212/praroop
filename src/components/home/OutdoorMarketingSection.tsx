@@ -36,20 +36,20 @@ const ICONS = [
   FileText,
 ];
 
-// Real local campaign photography for all 12 Outdoor Marketing formats
-const REAL_OUTDOOR_IMAGES: Record<string, string> = {
-  "Airport Advertising": "/campaigns/mewar-tourism-cup_0.jpg",
-  "Hoarding Advertising": "/campaigns/field-club-dandiya-2023-2025_0.jpg",
-  "Theater Advertising": "/campaigns/makingudaipurproud_0.jpg",
-  "Bus Advertising": "/campaigns/udaipur-winter-carnival_0.jpg",
-  "Auto Hood Advertising": "/campaigns/field-club-dandiya-2023-2025_3.jpg",
-  "Newspaper Advertising": "/campaigns/makingudaipurproud_3.jpg",
-  "Tri-Cycle Advertising": "/campaigns/hbf_0.jpg",
-  "No Parking Board Advertising": "/campaigns/tiecon-2023-and-2025_0.jpg",
-  "Pole Advertising": "/campaigns/udaipur-tea-fest_0.jpg",
-  "Radio Advertising": "/campaigns/the-greatestest-denim-fest_0.jpg",
-  "Mobile Van Advertising": "/campaigns/udaipur-winter-carnival_4.jpg",
-  "Newspaper Pamphlet Insert Advertising": "/campaigns/mewar-tourism-cup_3.jpg",
+// Original relevant service tile graphics for all 12 Outdoor Marketing formats
+const OUTDOOR_SERVICE_IMAGES: Record<string, string> = {
+  "Airport Advertising": "/services/airport-ad.webp",
+  "Hoarding Advertising": "/services/ads.webp",
+  "Theater Advertising": "/services/watching-a-movie.webp",
+  "Bus Advertising": "/services/bus.webp",
+  "Auto Hood Advertising": "/services/rickshaw.webp",
+  "Newspaper Advertising": "/services/newspaper.webp",
+  "Tri-Cycle Advertising": "/services/cycle-AD.webp",
+  "No Parking Board Advertising": "/services/no-parking.webp",
+  "Pole Advertising": "/services/transport.webp",
+  "Radio Advertising": "/services/radio-1.webp",
+  "Mobile Van Advertising": "/services/transport.webp",
+  "Newspaper Pamphlet Insert Advertising": "/services/print-advertising.webp",
 };
 
 // High-impact placement features for all 12 Outdoor Marketing formats
@@ -134,12 +134,12 @@ export default function OutdoorMarketingSection() {
           </p>
         </ScrollReveal>
 
-        {/* 12 Outdoor Media Cards - Horizontal Snap Scroll on Mobile/Tablet + Responsive Grid on Desktop */}
+        {/* 12 Outdoor Media Cards with Relevant Original Service Tile Images */}
         <div className="flex md:grid md:grid-cols-3 xl:grid-cols-4 gap-6 overflow-x-auto pb-4 snap-x-container no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
           {OUTDOOR_MARKETING_ITEMS.map((item, index) => {
             const Icon = ICONS[index] || Maximize;
             const points = OUTDOOR_DETAILS[item] || [];
-            const realImg = REAL_OUTDOOR_IMAGES[item] || "/campaigns/makingudaipurproud_0.jpg";
+            const tileImg = OUTDOOR_SERVICE_IMAGES[item] || "/services/airport-ad.webp";
 
             return (
               <motion.div
@@ -151,15 +151,15 @@ export default function OutdoorMarketingSection() {
                 whileHover={{ y: -6 }}
                 className="snap-x-item w-[280px] sm:w-[320px] md:w-auto shrink-0 rounded-3xl bg-white border border-surface-mid hover:border-brand/40 shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden flex flex-col justify-between"
               >
-                {/* Real Event Photo Header */}
-                <div className="relative h-44 w-full bg-brand-dark overflow-hidden">
+                {/* Relevant Service Graphic Header */}
+                <div className="relative h-44 w-full bg-brand-dark/5 overflow-hidden p-3 flex items-center justify-center">
                   <Image
-                    src={realImg}
-                    alt={`${item} real photography`}
+                    src={tileImg}
+                    alt={`${item} service tile`}
                     fill
-                    className="object-cover group-hover:scale-108 transition-transform duration-500"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/30" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/10" />
                   
                   <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
                     <div className="w-9 h-9 rounded-xl bg-white/90 backdrop-blur-md text-brand flex items-center justify-center shadow-md">
