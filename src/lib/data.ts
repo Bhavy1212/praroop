@@ -167,35 +167,35 @@ export const WHY_CHOOSE_US = {
 
 export const WHY_US_PILLARS = WHY_CHOOSE_US.pillars;
 
-// TESTIMONIALS (4 exact items)
+// TESTIMONIALS (4 exact items with clean initials badges - zero Unsplash stock photos)
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: "t1",
     name: "Sunita Rao",
     content: "Thanks to Praaroop Media, our theater ads have driven a huge increase in ticket sales. Their creativity and professionalism make them our top advertising partner.",
     rating: 5,
-    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop",
+    avatar: "SR",
   },
   {
     id: "t2",
     name: "Anjali Patel",
     content: "Praaroop transformed our outdoor advertising on a modest budget. Their creative solutions and dedication boosted our brand presence significantly. Fantastic team!",
     rating: 5,
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop",
+    avatar: "AP",
   },
   {
     id: "t3",
     name: "Vikram Mehta",
     content: "Praaroop Media LED van branding at the airport has greatly enhanced our visibility. Their personalized service and attention to detail are outstanding. Thrilled with the results!",
     rating: 5,
-    avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop",
+    avatar: "VM",
   },
   {
     id: "t4",
     name: "Rajesh Kumar",
     content: "Praaroop's bus and auto-rickshaw ads gave our brand incredible visibility. Their innovative approach and attention to detail are unmatched. Highly recommend!",
     rating: 5,
-    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=200&auto=format&fit=crop",
+    avatar: "RK",
   },
 ];
 
@@ -219,14 +219,14 @@ export const ABOUT_US_PAGE = {
   image: "/IMG_1116.jpg",
 };
 
-// PAGE 3: 8 REAL CAMPAIGN POSTS WITH FULL HIGH-RES GALLERY IMAGES
+// PAGE 3: 8 REAL CAMPAIGN POSTS WITH EXACT ORIGINAL LIVE SITE FEATURED IMAGES
 export const CAMPAIGN_POSTS: CampaignPost[] = [
   {
     slug: "field-club-dandiya-2023-2025",
     title: "Field Club DANDIYA",
     category: "Event",
     date: "Jan 27, 2026",
-    image: "/campaigns/field-club-dandiya-2023-2025_0.jpg",
+    image: "/campaigns/Praaroop-Media-Profile-2_page-0043-622x400.jpg",
     gallery: [
       "/campaigns/field-club-dandiya-2023-2025_0.jpg",
       "/campaigns/field-club-dandiya-2023-2025_3.jpg",
@@ -241,7 +241,7 @@ export const CAMPAIGN_POSTS: CampaignPost[] = [
     title: "#MakingUdaipurProud",
     category: "Event",
     date: "Jan 27, 2026",
-    image: "/campaigns/makingudaipurproud_0.jpg",
+    image: "/campaigns/Praaroop-Media-Profile-2_page-0021-622x400.jpg",
     gallery: [
       "/campaigns/makingudaipurproud_0.jpg",
       "/campaigns/makingudaipurproud_3.jpg",
@@ -256,7 +256,7 @@ export const CAMPAIGN_POSTS: CampaignPost[] = [
     title: "THE Greatest DENIM Fest",
     category: "Event",
     date: "Jan 27, 2026",
-    image: "/campaigns/the-greatestest-denim-fest_0.jpg",
+    image: "/campaigns/Praaroop-Media-Profile-2_page-0034-622x400.jpg",
     gallery: [
       "/campaigns/the-greatestest-denim-fest_0.jpg",
       "/campaigns/the-greatestest-denim-fest_3.jpg",
@@ -270,7 +270,7 @@ export const CAMPAIGN_POSTS: CampaignPost[] = [
     title: "Mewar Tourism Cup",
     category: "Event",
     date: "Jan 27, 2026",
-    image: "/campaigns/mewar-tourism-cup_0.jpg",
+    image: "/campaigns/Praaroop-Media-Profile-2_page-0037-622x400.jpg",
     gallery: [
       "/campaigns/mewar-tourism-cup_0.jpg",
       "/campaigns/mewar-tourism-cup_3.jpg",
@@ -284,7 +284,7 @@ export const CAMPAIGN_POSTS: CampaignPost[] = [
     title: "HBF",
     category: "Event",
     date: "Jan 27, 2026",
-    image: "/campaigns/hbf_0.jpg",
+    image: "/campaigns/Praaroop-Media-Profile-2_page-0025-622x400.jpg",
     gallery: [
       "/campaigns/hbf_0.jpg",
       "/campaigns/hbf_3.jpg",
@@ -299,7 +299,7 @@ export const CAMPAIGN_POSTS: CampaignPost[] = [
     title: "TIEcon 2023 and 2025",
     category: "Event",
     date: "Sep 15, 2025",
-    image: "/campaigns/tiecon-2023-and-2025_0.jpg",
+    image: "/campaigns/Praaroop-Media-Profile-2_page-0016-622x400.jpg",
     gallery: [
       "/campaigns/tiecon-2023-and-2025_0.jpg",
       "/campaigns/tiecon-2023-and-2025_3.jpg",
@@ -314,7 +314,7 @@ export const CAMPAIGN_POSTS: CampaignPost[] = [
     title: "Udaipur Tea Fest",
     category: "Event",
     date: "Sep 5, 2025",
-    image: "/campaigns/udaipur-tea-fest_0.jpg",
+    image: "/campaigns/Praaroop-Media-Profile-2_page-0029-622x400.jpg",
     gallery: [
       "/campaigns/udaipur-tea-fest_0.jpg",
       "/campaigns/udaipur-tea-fest_3.jpg",
@@ -328,7 +328,7 @@ export const CAMPAIGN_POSTS: CampaignPost[] = [
     title: "Udaipur Winter Carnival",
     category: "Event",
     date: "Sep 5, 2025",
-    image: "/campaigns/udaipur-winter-carnival_0.jpg",
+    image: "/campaigns/Praaroop-Media-Profile-2_page-0032-622x400.jpg",
     gallery: [
       "/campaigns/udaipur-winter-carnival_0.jpg",
       "/campaigns/udaipur-winter-carnival_3.jpg",

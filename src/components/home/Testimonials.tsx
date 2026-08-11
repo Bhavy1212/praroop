@@ -34,6 +34,21 @@ export default function Testimonials() {
     }
   };
 
+  const renderAvatar = (avatar: string, name: string, sizeClass = "w-14 h-14", textClass = "text-lg") => {
+    if (avatar.startsWith("/") || avatar.startsWith("http")) {
+      return (
+        <div className={`relative ${sizeClass} rounded-full overflow-hidden shrink-0 border-2 border-brand/30 shadow-md`}>
+          <Image src={avatar} alt={name} fill className="object-cover" />
+        </div>
+      );
+    }
+    return (
+      <div className={`relative ${sizeClass} rounded-full bg-brand text-white flex items-center justify-center font-display font-bold ${textClass} shrink-0 shadow-md border-2 border-brand/30`}>
+        {avatar}
+      </div>
+    );
+  };
+
   return (
     <Section id="testimonials" className="bg-surface-light border-b border-surface-mid overflow-hidden relative">
       
@@ -108,14 +123,7 @@ export default function Testimonials() {
 
                 {/* Reviewer Details */}
                 <div className="flex items-center gap-4 pt-4">
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-brand/30 shadow-md">
-                    <Image
-                      src={TESTIMONIALS[activeIndex].avatar}
-                      alt={TESTIMONIALS[activeIndex].name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+                  {renderAvatar(TESTIMONIALS[activeIndex].avatar, TESTIMONIALS[activeIndex].name, "w-14 h-14", "text-lg")}
                   <div>
                     <h3 className="font-display font-bold text-lg text-ink">
                       {TESTIMONIALS[activeIndex].name}
@@ -209,14 +217,7 @@ export default function Testimonials() {
               </div>
 
               <div className="flex items-center gap-3 pt-4 mt-4 border-t border-surface-light">
-                <div className="relative w-9 h-9 rounded-full overflow-hidden shrink-0 border border-brand/20">
-                  <Image
-                    src={t.avatar}
-                    alt={t.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+                {renderAvatar(t.avatar, t.name, "w-9 h-9", "text-xs")}
                 <div>
                   <h3 className="font-display font-bold text-xs text-ink">
                     {t.name}
