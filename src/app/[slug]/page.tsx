@@ -44,9 +44,9 @@ export default async function CampaignDetailPage({
   const relatedPosts = CAMPAIGN_POSTS.filter((p) => p.slug !== post.slug).slice(0, 3);
 
   return (
-    <article className="pb-24 space-y-12">
+    <article className="pb-24 space-y-16">
       
-      {/* Header & Breadcrumbs */}
+      {/* 1. Header & Breadcrumbs */}
       <header className="py-12 bg-surface-light border-b border-surface-mid">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
           
@@ -77,7 +77,7 @@ export default async function CampaignDetailPage({
         </div>
       </header>
 
-      {/* Hero Featured Main High-Res Image */}
+      {/* 2. Hero Featured Main High-Res Image */}
       <section className="max-w-5xl mx-auto px-4">
         <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border border-surface-mid bg-black/5">
           <Image
@@ -91,7 +91,7 @@ export default async function CampaignDetailPage({
         </div>
       </section>
 
-      {/* Description & Social Share */}
+      {/* 3. Campaign Description & Details */}
       <section className="max-w-5xl mx-auto px-4 space-y-8">
         <div className="prose prose-lg text-ink-body leading-relaxed space-y-4 max-w-none">
           <p className="text-xl font-medium text-ink bg-surface-light p-6 rounded-2xl border border-surface-mid">
@@ -125,7 +125,7 @@ export default async function CampaignDetailPage({
         </div>
       </section>
 
-      {/* Full High-Resolution Campaign Showcase Gallery */}
+      {/* 4. Full High-Resolution Campaign Showcase Gallery */}
       <section className="max-w-5xl mx-auto px-4 space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="font-display text-2xl font-bold text-ink flex items-center gap-2">
@@ -152,68 +152,8 @@ export default async function CampaignDetailPage({
         </div>
       </section>
 
-      {/* Continue Reading Prev/Next Navigation */}
-      <section className="max-w-5xl mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-surface-mid">
-          <Link
-            href={`/${prevPost.slug}/`}
-            className="p-5 rounded-2xl bg-surface-light border border-surface-mid hover:border-brand/40 transition-all flex items-center gap-3 group"
-          >
-            <ArrowLeft className="w-5 h-5 text-brand group-hover:-translate-x-1 transition-transform" />
-            <div>
-              <span className="text-[11px] font-bold text-ink-muted uppercase">Previous Campaign</span>
-              <p className="font-display font-bold text-base text-ink group-hover:text-brand transition-colors line-clamp-1">
-                {prevPost.title}
-              </p>
-            </div>
-          </Link>
-
-          <Link
-            href={`/${nextPost.slug}/`}
-            className="p-5 rounded-2xl bg-surface-light border border-surface-mid hover:border-brand/40 transition-all flex items-center justify-end gap-3 text-right group"
-          >
-            <div>
-              <span className="text-[11px] font-bold text-ink-muted uppercase">Next Campaign</span>
-              <p className="font-display font-bold text-base text-ink group-hover:text-brand transition-colors line-clamp-1">
-                {nextPost.title}
-              </p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-brand group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-      </section>
-
-      {/* Related Posts (3 other campaign cards) */}
-      <section className="max-w-5xl mx-auto px-4 space-y-6 pt-6">
-        <h2 className="font-display text-2xl font-bold text-ink">Related Campaigns</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {relatedPosts.map((rPost) => (
-            <Link
-              key={rPost.slug}
-              href={`/${rPost.slug}/`}
-              className="group rounded-2xl bg-white border border-surface-mid hover:border-brand/40 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col justify-between"
-            >
-              <div className="relative h-48 w-full bg-surface-light">
-                <Image
-                  src={rPost.image}
-                  alt={rPost.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform"
-                />
-              </div>
-              <div className="p-4 space-y-1">
-                <span className="text-[11px] font-bold text-brand">{rPost.date}</span>
-                <h3 className="font-display font-bold text-sm text-ink group-hover:text-brand transition-colors line-clamp-2">
-                  {rPost.title}
-                </h3>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Comment Form */}
-      <section className="max-w-5xl mx-auto px-4 pt-8">
+      {/* 5. Comment Form for This Particular Campaign */}
+      <section className="max-w-5xl mx-auto px-4 pt-4">
         <div className="p-8 sm:p-10 rounded-3xl bg-surface-light border border-surface-mid space-y-6 shadow-sm">
           <div className="flex items-center gap-3">
             <MessageSquare className="w-6 h-6 text-brand" />
@@ -268,6 +208,75 @@ export default async function CampaignDetailPage({
               <span>Post Comment</span>
             </button>
           </form>
+        </div>
+      </section>
+
+      {/* SECTION SEPARATOR: END OF CAMPAIGN CONTENT */}
+      <hr className="max-w-5xl mx-auto border-surface-mid my-12" />
+
+      {/* 6. AFTER ALL CAMPAIGN CONTENT & IMAGES ARE DONE: Prev/Next Navigation */}
+      <section className="max-w-5xl mx-auto px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Link
+            href={`/${prevPost.slug}/`}
+            className="p-5 rounded-2xl bg-surface-light border border-surface-mid hover:border-brand/40 transition-all flex items-center gap-3 group"
+          >
+            <ArrowLeft className="w-5 h-5 text-brand group-hover:-translate-x-1 transition-transform" />
+            <div>
+              <span className="text-[11px] font-bold text-ink-muted uppercase">Previous Campaign</span>
+              <p className="font-display font-bold text-base text-ink group-hover:text-brand transition-colors line-clamp-1">
+                {prevPost.title}
+              </p>
+            </div>
+          </Link>
+
+          <Link
+            href={`/${nextPost.slug}/`}
+            className="p-5 rounded-2xl bg-surface-light border border-surface-mid hover:border-brand/40 transition-all flex items-center justify-end gap-3 text-right group"
+          >
+            <div>
+              <span className="text-[11px] font-bold text-ink-muted uppercase">Next Campaign</span>
+              <p className="font-display font-bold text-base text-ink group-hover:text-brand transition-colors line-clamp-1">
+                {nextPost.title}
+              </p>
+            </div>
+            <ArrowRight className="w-5 h-5 text-brand group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+      </section>
+
+      {/* 7. AFTER ALL CAMPAIGN CONTENT & IMAGES ARE DONE: Related Campaigns Grid */}
+      <section className="max-w-5xl mx-auto px-4 space-y-6">
+        <div className="flex items-center justify-between border-b border-surface-mid pb-3">
+          <h2 className="font-display text-2xl font-bold text-ink">Related Campaigns</h2>
+          <Link href="/campaigns/" className="text-xs font-bold text-brand hover:underline">
+            View All Campaigns →
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {relatedPosts.map((rPost) => (
+            <Link
+              key={rPost.slug}
+              href={`/${rPost.slug}/`}
+              className="group rounded-2xl bg-white border border-surface-mid hover:border-brand/40 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col justify-between"
+            >
+              <div className="relative h-48 w-full bg-surface-light">
+                <Image
+                  src={rPost.image}
+                  alt={rPost.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform"
+                />
+              </div>
+              <div className="p-4 space-y-1">
+                <span className="text-[11px] font-bold text-brand">{rPost.date}</span>
+                <h3 className="font-display font-bold text-sm text-ink group-hover:text-brand transition-colors line-clamp-2">
+                  {rPost.title}
+                </h3>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
