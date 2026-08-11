@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppFAB from "@/components/ui/WhatsAppFAB";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import { BRAND } from "@/lib/data";
 
 const inter = Inter({
@@ -110,10 +111,12 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col font-sans bg-white text-ink antialiased">
-        <Navbar />
-        <main className="flex-1 pt-24 md:pt-28">{children}</main>
-        <Footer />
-        <WhatsAppFAB />
+        <SmoothScrollProvider>
+          <Navbar />
+          <main className="flex-1 pt-24 md:pt-28">{children}</main>
+          <Footer />
+          <WhatsAppFAB />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

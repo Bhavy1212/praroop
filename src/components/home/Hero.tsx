@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Plane, Bus, Tv, Smartphone, Store, Sparkles, Phone } from "lucide-react";
 import Link from "next/link";
+import Section from "@/components/ui/Section";
 
 const HERO_FEATURE_TILES = [
   { icon: Plane, title: "Airport Advertising" },
@@ -15,7 +16,7 @@ const HERO_FEATURE_TILES = [
 
 export default function Hero() {
   return (
-    <section className="snap-section relative overflow-hidden bg-surface-light py-12 md:py-20 lg:py-24 border-b border-surface-mid">
+    <Section className="relative overflow-hidden bg-surface-light border-b border-surface-mid !py-12 md:!py-20 lg:!py-24">
       {/* Background ambient radial gradients */}
       <div className="absolute top-0 right-0 -mt-20 -mr-20 w-[500px] h-[500px] bg-brand/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-[400px] h-[400px] bg-brand/5 rounded-full blur-3xl pointer-events-none" />
@@ -130,6 +131,6 @@ export default function Hero() {
 
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

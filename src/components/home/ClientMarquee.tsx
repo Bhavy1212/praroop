@@ -1,16 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { CLIENT_LOGOS } from "@/lib/data";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import Section from "@/components/ui/Section";
 
 export default function ClientMarquee() {
   const track1 = CLIENT_LOGOS.slice(0, 12);
   const track2 = CLIENT_LOGOS.slice(12);
 
   return (
-    <section id="client" className="py-20 bg-surface-light border-b border-surface-mid overflow-hidden">
+    <Section id="client" className="bg-surface-light border-b border-surface-mid overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Section Header */}
@@ -75,6 +75,6 @@ export default function ClientMarquee() {
         </div>
 
       </div>
-    </section>
+    </Section>
   );
 }

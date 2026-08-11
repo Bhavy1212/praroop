@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { OUTDOOR_MARKETING_ITEMS } from "@/lib/data";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import Section from "@/components/ui/Section";
 import {
   Plane,
   Maximize,
@@ -35,7 +36,7 @@ const ICONS = [
   FileText,
 ];
 
-// Real local campaign photography for all 12 Outdoor Marketing formats (Zero stock photos)
+// Real local campaign photography for all 12 Outdoor Marketing formats
 const REAL_OUTDOOR_IMAGES: Record<string, string> = {
   "Airport Advertising": "/campaigns/mewar-tourism-cup_0.jpg",
   "Hoarding Advertising": "/campaigns/field-club-dandiya-2023-2025_0.jpg",
@@ -117,7 +118,7 @@ const OUTDOOR_DETAILS: Record<string, string[]> = {
 
 export default function OutdoorMarketingSection() {
   return (
-    <section id="outdoor" className="py-20 bg-surface-light border-b border-surface-mid">
+    <Section id="outdoor" className="bg-surface-light border-b border-surface-mid">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Section Header */}
@@ -195,6 +196,6 @@ export default function OutdoorMarketingSection() {
         </div>
 
       </div>
-    </section>
+    </Section>
   );
 }

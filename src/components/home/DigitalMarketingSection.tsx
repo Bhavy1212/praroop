@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { DIGITAL_MARKETING_ITEMS } from "@/lib/data";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import Section from "@/components/ui/Section";
 import { TrendingUp, Share2, Globe, Award, Video, Users, CheckCircle2 } from "lucide-react";
 
 const ICONS = [TrendingUp, Share2, Globe, Award, Video, Users];
 
-// REAL local campaign work photos for all 6 Digital Marketing cards (Zero Unsplash stock photos)
+// REAL local campaign work photos for all 6 Digital Marketing cards
 const REAL_WORK_IMAGES: Record<string, string> = {
   "Brand strategy / Performance marketing":
     "/campaigns/the-greatestest-denim-fest_0.jpg",
@@ -60,7 +61,7 @@ const DIGITAL_MARKETING_DETAILS: Record<string, string[]> = {
 
 export default function DigitalMarketingSection() {
   return (
-    <section id="services" className="py-20 bg-white border-b border-surface-mid">
+    <Section id="services" className="bg-white border-b border-surface-mid">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         <ScrollReveal className="text-center max-w-3xl mx-auto space-y-3">
@@ -140,6 +141,6 @@ export default function DigitalMarketingSection() {
         </div>
 
       </div>
-    </section>
+    </Section>
   );
 }

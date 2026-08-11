@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { ACTIVATIONS_ITEMS } from "@/lib/data";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import Section from "@/components/ui/Section";
 import { Store, ShoppingBag, Building2, GraduationCap } from "lucide-react";
 
 const ICONS = [Store, ShoppingBag, Building2, GraduationCap];
 
-// Real local event photography for the 4 Activations cards (Zero stock photos)
+// Real local event photography for the 4 Activations cards
 const ACTIVATION_IMAGES: Record<string, string> = {
   Mall: "/campaigns/the-greatestest-denim-fest_0.jpg",
   Retail: "/campaigns/udaipur-tea-fest_0.jpg",
@@ -18,7 +19,7 @@ const ACTIVATION_IMAGES: Record<string, string> = {
 
 export default function ActivationsSection() {
   return (
-    <section id="activations" className="py-20 bg-white border-b border-surface-mid">
+    <Section id="activations" className="bg-white border-b border-surface-mid">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Section Header */}
@@ -86,6 +87,6 @@ export default function ActivationsSection() {
         </div>
 
       </div>
-    </section>
+    </Section>
   );
 }

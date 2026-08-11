@@ -6,6 +6,7 @@ import { Star, Quote, ExternalLink, ChevronLeft, ChevronRight, CheckCircle } fro
 import Image from "next/image";
 import { TESTIMONIALS } from "@/lib/data";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import Section from "@/components/ui/Section";
 
 export default function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -34,7 +35,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="py-20 bg-surface-light border-b border-surface-mid overflow-hidden relative">
+    <Section id="testimonials" className="bg-surface-light border-b border-surface-mid overflow-hidden relative">
       
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 right-0 -translate-y-1/2 w-96 h-96 bg-brand/5 rounded-full blur-3xl pointer-events-none" />
@@ -227,6 +228,6 @@ export default function Testimonials() {
         </div>
 
       </div>
-    </section>
+    </Section>
   );
 }

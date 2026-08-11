@@ -4,13 +4,14 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { WHY_CHOOSE_US } from "@/lib/data";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import Section from "@/components/ui/Section";
 import { ShieldCheck, Sparkles, Cpu, HeartHandshake } from "lucide-react";
 
 const PILLAR_ICONS = [ShieldCheck, Sparkles, Cpu, HeartHandshake];
 
 export default function WhyUs() {
   return (
-    <section id="why-us" className="py-20 bg-white border-b border-surface-mid">
+    <Section id="why-us" className="bg-white border-b border-surface-mid">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
         {/* Section Header */}
@@ -95,6 +96,6 @@ export default function WhyUs() {
         </div>
 
       </div>
-    </section>
+    </Section>
   );
 }
