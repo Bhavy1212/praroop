@@ -24,7 +24,7 @@ const SERVICES_DATA = [
     title: "Brand strategy /\nPerformance marketing",
     description: "Targeted ROI, brand authority, and data-driven audience conversion funnels.",
     image: "/services/analysis.webp",
-    video: "https://assets.mixkit.co/videos/preview/mixkit-business-charts-and-graphs-analysis-4856-large.mp4",
+    video: "/services/videos/brand-strategy.mp4",
   },
   {
     id: "slide-02",
@@ -34,7 +34,7 @@ const SERVICES_DATA = [
     title: "Digital marketing /\nSocial media marketing",
     description: "Meta & Google performance campaigns, social growth, community engagement and analytics.",
     image: "/services/social-media.webp",
-    video: "https://assets.mixkit.co/videos/preview/mixkit-hand-holding-a-smartphone-with-a-social-network-feed-41995-large.mp4",
+    video: "/services/videos/social-marketing.mp4",
   },
   {
     id: "slide-03",
@@ -44,7 +44,7 @@ const SERVICES_DATA = [
     title: "Website development",
     description: "High-speed responsive websites with modern UI/UX, conversion-focused experiences and SEO.",
     image: "/services/app-development.webp",
-    video: "https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-programmer-typing-on-a-keyboard-41961-large.mp4",
+    video: "/services/videos/web-development.mp4",
   },
   {
     id: "slide-04",
@@ -54,7 +54,7 @@ const SERVICES_DATA = [
     title: "Political campaign /\nNarrative building",
     description: "Constituency sentiment analytics, digital war rooms, voter outreach and strategic narrative building.",
     image: "/services/banner.webp",
-    video: "https://assets.mixkit.co/videos/preview/mixkit-crowd-raising-hands-at-a-music-festival-42526-large.mp4",
+    video: "/services/videos/political-campaign.mp4",
   },
   {
     id: "slide-05",
@@ -64,7 +64,7 @@ const SERVICES_DATA = [
     title: "Content marketing /\nContent creation",
     description: "High-converting copy, scripts, visual storytelling, reels and brand identity assets.",
     image: "/services/content-creation.webp",
-    video: "https://assets.mixkit.co/videos/preview/mixkit-video-editor-working-on-a-digital-timeline-34332-large.mp4",
+    video: "/services/videos/content-creation.mp4",
   },
   {
     id: "slide-06",
@@ -74,7 +74,7 @@ const SERVICES_DATA = [
     title: "Influencer marketing",
     description: "Regional creator networks, brand ambassador partnerships and high-impact sponsored reach.",
     image: "/services/influencer.webp",
-    video: "https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-smartphone-with-a-scrolling-social-feed-41994-large.mp4",
+    video: "/services/videos/influencer-marketing.mp4",
   },
 ];
 
