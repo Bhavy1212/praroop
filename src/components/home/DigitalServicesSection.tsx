@@ -83,6 +83,7 @@ export default function DigitalServicesSection() {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -155,8 +156,9 @@ export default function DigitalServicesSection() {
   const activeSlide = SERVICES_DATA[activeIndex];
 
   const get3DOrbitTransform = (cardIndex: number) => {
+    const offset = cardIndex - activeIndex;
+
     if (reducedMotion || isMobile) {
-      const offset = cardIndex - activeIndex;
       if (offset === 0) {
         return {
           xPercent: 0,
@@ -164,7 +166,8 @@ export default function DigitalServicesSection() {
           rotateY: 0,
           scale: 1,
           opacity: 1,
-          filter: "blur(0px) brightness(1)",
+          blur: "0px",
+          brightness: 1,
           zIndex: 30,
         };
       }
@@ -174,43 +177,106 @@ export default function DigitalServicesSection() {
         rotateY: 0,
         scale: 0.85,
         opacity: 0,
-        filter: "blur(8px) brightness(0.5)",
+        blur: "8px",
+        brightness: 0.5,
         zIndex: 10,
       };
     }
 
-    const currentProgressIndex = scrollProgress * (SERVICES_DATA.length - 1);
-    const offset = cardIndex - currentProgressIndex;
-    const angle = offset * 0.65;
-
-    const xPercent = Math.sin(angle) * 64;
-    const z = Math.cos(angle) * 280 - 280;
-    const rotateY = -angle * 35;
-
-    const distFromCenter = Math.abs(offset);
-    let scale = Math.max(0.65, 1.0 - distFromCenter * 0.22);
-    let opacity = Math.max(0, 1.0 - distFromCenter * 0.55);
-    let blurPx = distFromCenter * 3;
-    let brightness = Math.max(0.6, 1.0 - distFromCenter * 0.35);
-    let zIndex = Math.round(30 - distFromCenter * 10);
-
-    if (distFromCenter < 0.25) {
-      scale = 1.0;
-      opacity = 1.0;
-      blurPx = 0;
-      brightness = 1.0;
-      zIndex = 30;
+    // Active centered card
+    if (offset === 0) {
+      return {
+        xPercent: 0,
+        z: 0,
+        rotateY: 0,
+        scale: 1,
+        opacity: 1,
+        blur: "0px",
+        brightness: 1,
+        zIndex: 30,
+      };
     }
 
+    // First card to the left
+    if (offset === -1) {
+      return {
+        xPercent: -62,
+        z: -180,
+        rotateY: 30,
+        scale: 0.84,
+        opacity: 0.65,
+        blur: "2px",
+        brightness: 0.75,
+        zIndex: 20,
+      };
+    }
+
+    // First card to the right
+    if (offset === 1) {
+      return {
+        xPercent: 62,
+        z: -180,
+        rotateY: -30,
+        scale: 0.84,
+        opacity: 0.65,
+        blur: "2px",
+        brightness: 0.75,
+        zIndex: 20,
+      };
+    }
+
+    // Secondary cards further to the left
+    if (offset === -2) {
+      return {
+        xPercent: -110,
+        z: -360,
+        rotateY: 45,
+        scale: 0.72,
+        opacity: 0.25,
+        blur: "4px",
+        brightness: 0.55,
+        zIndex: 10,
+      };
+    }
+
+    // Secondary cards further to the right
+    if (offset === 2) {
+      return {
+        xPercent: 110,
+        z: -360,
+        rotateY: -45,
+        scale: 0.72,
+        opacity: 0.25,
+        blur: "4px",
+        brightness: 0.55,
+        zIndex: 10,
+      };
+    }
+
+    // Out of view / far away cards
+    if (offset < -2) {
+      return {
+        xPercent: -160,
+        z: -500,
+        rotateY: 60,
+        scale: 0.6,
+        opacity: 0,
+        blur: "8px",
+        brightness: 0.4,
+        zIndex: 5,
+      };
+    }
+
+    // Outer right cards
     return {
-      xPercent,
-      z,
-      rotateY,
-      scale,
-      opacity,
-      blur: `${blurPx}px`,
-      brightness,
-      zIndex,
+      xPercent: 160,
+      z: -500,
+      rotateY: -60,
+      scale: 0.6,
+      opacity: 0,
+      blur: "8px",
+      brightness: 0.4,
+      zIndex: 5,
     };
   };
 
@@ -269,20 +335,28 @@ export default function DigitalServicesSection() {
           >
             {SERVICES_DATA.map((slide, i) => {
               const transform3D = get3DOrbitTransform(i);
-              const isCenter = Math.abs(i - scrollProgress * (SERVICES_DATA.length - 1)) < 0.4;
+              const isCenter = i === activeIndex;
+              const isHovered = hoveredIndex === i;
+
+              // Apply extremely subtle hover scale/brightness zoom to active card
+              const finalScale = isCenter && isHovered ? (transform3D.scale * 1.025) : transform3D.scale;
+              const finalBrightness = isCenter && isHovered ? (transform3D.brightness * 1.06) : transform3D.brightness;
 
               return (
                 <div
                   key={slide.id}
                   onClick={() => scrollToSlideIndex(i)}
+                  onMouseEnter={() => setHoveredIndex(i)}
+                  onMouseLeave={() => setHoveredIndex(null)}
                   className="carousel-panel absolute w-[90vw] sm:w-[84vw] max-w-[1050px] h-full rounded-[36px] overflow-hidden bg-white border border-slate-200/80 shadow-[0_25px_60px_rgba(15,23,42,0.12)] flex flex-col justify-between p-6 sm:p-12 cursor-pointer transform-gpu transition-shadow duration-300 select-none"
                   style={{
-                    transform: `translateX(${transform3D.xPercent}%) translateZ(${transform3D.z}px) rotateY(${transform3D.rotateY}deg) scale(${transform3D.scale})`,
+                    transform: `translateX(${transform3D.xPercent}%) translateZ(${transform3D.z}px) rotateY(${transform3D.rotateY}deg) scale(${finalScale})`,
                     opacity: transform3D.opacity,
-                    filter: `blur(${transform3D.blur}) brightness(${transform3D.brightness})`,
+                    filter: `blur(${transform3D.blur}) brightness(${finalBrightness})`,
                     zIndex: transform3D.zIndex,
                     pointerEvents: transform3D.opacity > 0.2 ? "auto" : "none",
                     transformStyle: "preserve-3d",
+                    transition: "transform 0.85s cubic-bezier(0.25, 1, 0.33, 1), opacity 0.85s cubic-bezier(0.25, 1, 0.33, 1), filter 0.85s cubic-bezier(0.25, 1, 0.33, 1)",
                   }}
                 >
                   {/* Direct CDN Looping Video Background with Poster Fallback */}
