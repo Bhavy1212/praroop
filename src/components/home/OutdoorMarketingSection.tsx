@@ -1,201 +1,148 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { OUTDOOR_MARKETING_ITEMS } from "@/lib/data";
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import Section from "@/components/ui/Section";
 import {
   Plane,
-  Maximize,
-  Tv,
+  Building2,
+  Film,
   Bus,
-  Navigation,
+  Car,
   Newspaper,
   Bike,
   ShieldAlert,
-  Zap,
   Radio,
   Truck,
   FileText,
-  CheckCircle2,
+  Compass,
 } from "lucide-react";
+import { OUTDOOR_MARKETING_ITEMS } from "@/lib/data";
 
-const ICONS = [
-  Plane,
-  Maximize,
-  Tv,
-  Bus,
-  Navigation,
-  Newspaper,
-  Bike,
-  ShieldAlert,
-  Zap,
-  Radio,
-  Truck,
-  FileText,
+const OUTDOOR_ITEMS_DATA = [
+  { title: OUTDOOR_MARKETING_ITEMS[0], icon: Plane, desc: "High-impact placements at Maharana Pratap Airport Udaipur reaching executive travelers.", color: "#0080CB" },
+  { title: OUTDOOR_MARKETING_ITEMS[1], icon: Building2, desc: "Prime arterial road billboards and high-traffic intersection hoardings across Rajasthan.", color: "#0C9DA8" },
+  { title: OUTDOOR_MARKETING_ITEMS[2], icon: Film, desc: "On-screen cinema jingles and lobby branding in major multiplexes.", color: "#D10B6A" },
+  { title: OUTDOOR_MARKETING_ITEMS[3], icon: Bus, desc: "Full bus wraps and rear panel branding on city and intercity transit fleets.", color: "#0080CB" },
+  { title: OUTDOOR_MARKETING_ITEMS[4], icon: Car, desc: "Mobile auto-rickshaw hood and back panel branding covering all city zones.", color: "#0C9DA8" },
+  { title: OUTDOOR_MARKETING_ITEMS[5], icon: Newspaper, desc: "Front page display ads, jacket wraps, and targeted classified insertions.", color: "#D10B6A" },
+  { title: OUTDOOR_MARKETING_ITEMS[6], icon: Bike, desc: "Eco-friendly mobile tri-cycle branding for hyper-local market promotions.", color: "#0080CB" },
+  { title: OUTDOOR_MARKETING_ITEMS[7], icon: ShieldAlert, desc: "Residential and commercial no-parking board branding across high-density neighborhoods.", color: "#0C9DA8" },
+  { title: OUTDOOR_MARKETING_ITEMS[8], icon: Compass, desc: "Street light pole kiosks and avenue banners along main commercial corridors.", color: "#D10B6A" },
+  { title: OUTDOOR_MARKETING_ITEMS[9], icon: Radio, desc: "Catchy radio jingles and RJ mentions on leading FM channels.", color: "#0080CB" },
+  { title: OUTDOOR_MARKETING_ITEMS[10], icon: Truck, desc: "LED screen mobile vans and campaign floats for live event broadcasting.", color: "#0C9DA8" },
+  { title: OUTDOOR_MARKETING_ITEMS[11], icon: FileText, desc: "Direct door-to-door newspaper pamphlet insertion reaching thousands of households.", color: "#D10B6A" },
 ];
 
-// Original relevant service tile graphics for all 12 Outdoor Marketing formats
-const OUTDOOR_SERVICE_IMAGES: Record<string, string> = {
-  "Airport Advertising": "/services/airport-ad.webp",
-  "Hoarding Advertising": "/services/ads.webp",
-  "Theater Advertising": "/services/watching-a-movie.webp",
-  "Bus Advertising": "/services/bus.webp",
-  "Auto Hood Advertising": "/services/rickshaw.webp",
-  "Newspaper Advertising": "/services/newspaper.webp",
-  "Tri-Cycle Advertising": "/services/cycle-AD.webp",
-  "No Parking Board Advertising": "/services/no-parking.webp",
-  "Pole Advertising": "/services/transport.webp",
-  "Radio Advertising": "/services/radio-1.webp",
-  "Mobile Van Advertising": "/services/transport.webp",
-  "Newspaper Pamphlet Insert Advertising": "/services/print-advertising.webp",
-};
-
-// High-impact placement features for all 12 Outdoor Marketing formats
-const OUTDOOR_DETAILS: Record<string, string[]> = {
-  "Airport Advertising": [
-    "Maharana Pratap Airport Lounges",
-    "Baggage Conveyor LED Screens",
-    "High-Net-Worth Passenger Reach",
-  ],
-  "Hoarding Advertising": [
-    "Prime Highway Junction Billboards",
-    "Arterial Road High-Traffic Sites",
-    "Illuminated Night-lit Displays",
-  ],
-  "Theater Advertising": [
-    "PVR & Cinepolis Cinema Screens",
-    "Pre-Movie On-Screen Slides",
-    "Lobby Canopy & Ticket Banners",
-  ],
-  "Bus Advertising": [
-    "Full RSRTC & City Bus Wraps",
-    "Side Banners & Back Wraps",
-    "Mass Urban Commuter Reach",
-  ],
-  "Auto Hood Advertising": [
-    "High-Frequency City Auto Banners",
-    "High-Density Market Route Banners",
-    "Cost-Effective Local Reach",
-  ],
-  "Newspaper Advertising": [
-    "Front Page Front-Jacket Banners",
-    "Dainik Bhaskar & Patrika Display",
-    "High-Credibility Reader Reach",
-  ],
-  "Tri-Cycle Advertising": [
-    "Eco-Friendly Mobile Banners",
-    "Narrow Market Street Outreach",
-    "Targeted Neighborhood Campaigns",
-  ],
-  "No Parking Board Advertising": [
-    "Residential & Commercial Gates",
-    "Hyper-Local Daily Footfall Impact",
-    "High-Retention Street Level Ads",
-  ],
-  "Pole Advertising": [
-    "Street Light Pole Kiosks",
-    "Consecutive Avenue Repetition",
-    "Major Traffic Corridor Placement",
-  ],
-  "Radio Advertising": [
-    "94.3 FM Prime-Time Audio Jingles",
-    "Popular RJ Mentions & Contests",
-    "City-Wide Driver & Home Listeners",
-  ],
-  "Mobile Van Advertising": [
-    "High-Brightness Outdoor LED Screens",
-    "Interactive Sound System Roadshows",
-    "Custom Event & District Routes",
-  ],
-  "Newspaper Pamphlet Insert Advertising": [
-    "Direct Morning Doorstep Delivery",
-    "Pincode-Specific Household Target",
-    "High Response Rate Promotional Banners",
-  ],
-};
-
 export default function OutdoorMarketingSection() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, clientWidth } = scrollRef.current;
+    const newIdx = Math.round(scrollLeft / (clientWidth * 0.8));
+    setActiveIndex(Math.min(newIdx, OUTDOOR_ITEMS_DATA.length - 1));
+  };
+
   return (
-    <Section id="outdoor" className="bg-surface-light border-b border-surface-mid">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        
+    <section id="outdoor" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
-        <ScrollReveal className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-brand-tint text-brand text-xs font-bold uppercase tracking-wider">
-            Outdoor Media
-          </span>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-            Outdoor Marketing
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-bold uppercase tracking-wider text-[#0080CB]">
+            High-Impact Outdoor & Transit Media
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#0B1220] tracking-tight">
+            Outdoor <span className="text-gradient-tri">Marketing</span>
           </h2>
-          <p className="text-ink-body text-base max-w-2xl mx-auto">
-            High-impact transit, billboard, cinema, and aerial placement media solutions across Rajasthan.
+          <p className="text-base sm:text-lg text-slate-600 font-normal">
+            Strategic physical media placements designed to dominate urban landscapes and connect with audiences on the move.
           </p>
-        </ScrollReveal>
+        </div>
 
-        {/* 12 Outdoor Media Cards with Relevant Original Service Tile Images */}
-        <div className="flex md:grid md:grid-cols-3 xl:grid-cols-4 gap-6 overflow-x-auto pb-4 snap-x-container no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
-          {OUTDOOR_MARKETING_ITEMS.map((item, index) => {
-            const Icon = ICONS[index] || Maximize;
-            const points = OUTDOOR_DETAILS[item] || [];
-            const tileImg = OUTDOOR_SERVICE_IMAGES[item] || "/services/airport-ad.webp";
-
+        {/* Desktop / Tablet Grid Layout (3x4 or 4x3) */}
+        <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {OUTDOOR_ITEMS_DATA.map((item, idx) => {
+            const IconComp = item.icon;
             return (
               <motion.div
-                key={item}
-                initial={{ opacity: 0, y: 15 }}
+                key={item.title}
+                initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: (index % 4) * 0.05 }}
-                whileHover={{ y: -6 }}
-                className="snap-x-item w-[280px] sm:w-[320px] md:w-auto shrink-0 rounded-3xl bg-white border border-surface-mid hover:border-brand/40 shadow-sm hover:shadow-2xl transition-all duration-300 group overflow-hidden flex flex-col justify-between"
+                transition={{ duration: 0.4, delay: idx * 0.05 }}
+                className="group relative rounded-2xl bg-white border border-slate-200/80 p-6 flex flex-col justify-between transition-all duration-300 hover:border-slate-300 hover:shadow-[0_10px_25px_-5px_rgba(0,128,203,0.1)] hover:-translate-y-1"
               >
-                {/* Relevant Service Graphic Header */}
-                <div className="relative h-44 w-full bg-brand-dark/5 overflow-hidden p-3 flex items-center justify-center">
-                  <Image
-                    src={tileImg}
-                    alt={`${item} service tile`}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/10" />
-                  
-                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
-                    <div className="w-9 h-9 rounded-xl bg-white/90 backdrop-blur-md text-brand flex items-center justify-center shadow-md">
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-md text-ink shadow-sm">
-                      #{index + 1 < 10 ? `0${index + 1}` : index + 1}
-                    </span>
+                <div>
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center border border-slate-100 mb-5 transition-transform duration-300 group-hover:scale-110"
+                    style={{ backgroundColor: `${item.color}12` }}
+                  >
+                    <IconComp className="w-6 h-6" style={{ color: item.color }} />
                   </div>
-                </div>
-
-                {/* Card Content Body */}
-                <div className="p-5 space-y-3 flex-1 flex flex-col justify-between">
-                  <h3 className="font-display text-base font-bold text-ink group-hover:text-brand transition-colors leading-snug">
-                    {item}
+                  <h3 className="text-lg font-bold text-[#0B1220] mb-2 leading-snug group-hover:text-[#0080CB] transition-colors">
+                    {item.title}
                   </h3>
-
-                  {/* Placement Features */}
-                  <div className="pt-2 border-t border-surface-mid/60 space-y-1.5">
-                    {points.map((point) => (
-                      <div
-                        key={point}
-                        className="flex items-center gap-2 text-xs font-medium text-ink-body"
-                      >
-                        <CheckCircle2 className="w-3.5 h-3.5 text-brand shrink-0" />
-                        <span className="line-clamp-1">{point}</span>
-                      </div>
-                    ))}
-                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
               </motion.div>
             );
           })}
         </div>
 
+        {/* Mobile Horizontal Scroll-Snap Row (Peeking cards layout) */}
+        <div className="md:hidden">
+          <div
+            ref={scrollRef}
+            onScroll={handleScroll}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-6 px-1"
+          >
+            {OUTDOOR_ITEMS_DATA.map((item) => {
+              const IconComp = item.icon;
+              return (
+                <div
+                  key={item.title}
+                  className="snap-center shrink-0 w-[82vw] max-w-[320px] rounded-2xl bg-white border border-slate-200/80 p-6 flex flex-col justify-between shadow-md"
+                >
+                  <div>
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center border border-slate-100 mb-4"
+                      style={{ backgroundColor: `${item.color}12` }}
+                    >
+                      <IconComp className="w-6 h-6" style={{ color: item.color }} />
+                    </div>
+                    <h3 className="text-base font-bold text-[#0B1220] mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Mobile Scroll Indicator Dots */}
+          <div className="flex items-center justify-center gap-1.5 pt-4">
+            {OUTDOOR_ITEMS_DATA.map((_, i) => (
+              <span
+                key={i}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  activeIndex === i ? "w-6 bg-[#0080CB]" : "w-1.5 bg-slate-300"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }

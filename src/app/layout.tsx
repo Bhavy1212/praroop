@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Syne } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import WhatsAppFAB from "@/components/ui/WhatsAppFAB";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import CustomCursor from "@/components/ui/CustomCursor";
+import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import { BRAND } from "@/lib/data";
 
 const inter = Inter({
@@ -13,30 +14,31 @@ const inter = Inter({
   display: "swap",
 });
 
-const syne = Syne({
+const displayFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-syne",
+  variable: "--font-display",
+  weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Praroop Media - Marketing Agency in Udaipur for Branding & Web",
+  title: "Praroop Media - 360° Marketing & Branding Agency in Udaipur",
   description:
-    "Praroop Media is a marketing agency in Udaipur offering expert branding, digital marketing, airport & hoarding advertising, and web development services to elevate your business presence online.",
+    "Praroop Media is Udaipur's premier 360° marketing agency offering strategic branding, performance marketing, outdoor hoardings, airport advertising, and modern web development.",
   keywords: [
     "Praroop Media",
-    "marketing agency in Udaipur",
-    "digital marketing Udaipur",
+    "360 marketing agency Udaipur",
+    "branding agency Udaipur",
     "outdoor advertising Udaipur",
     "hoarding advertising Udaipur",
-    "branding agency Rajasthan",
+    "airport advertising Rajasthan",
     "website development Udaipur",
   ],
   authors: [{ name: "Praaroop Media" }],
   openGraph: {
-    title: "Praroop Media - Marketing Agency in Udaipur for Branding & Web",
+    title: "Praroop Media - 360° Marketing & Branding Agency in Udaipur",
     description:
-      "Praroop Media is a marketing agency in Udaipur offering expert branding, digital marketing, and web development services to elevate your business presence online.",
+      "Praroop Media is Udaipur's premier 360° marketing agency offering strategic branding, performance marketing, outdoor hoardings, and web development.",
     url: "https://praaroop.com/",
     siteName: "Praaroop Media",
     locale: "en_US",
@@ -44,9 +46,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Praroop Media - Marketing Agency in Udaipur for Branding & Web",
+    title: "Praroop Media - 360° Marketing & Branding Agency in Udaipur",
     description:
-      "Praroop Media is a marketing agency in Udaipur offering expert branding, digital marketing, and web development services to elevate your business presence online.",
+      "Praroop Media is Udaipur's premier 360° marketing agency offering strategic branding, performance marketing, and outdoor advertising.",
   },
   robots: {
     index: true,
@@ -60,7 +62,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-US" className={`${inter.variable} ${syne.variable}`}>
+    <html lang="en-US" className={`${inter.variable} ${displayFont.variable}`}>
       <head>
         {/* JSON-LD Schema for LocalBusiness */}
         <script
@@ -110,11 +112,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen flex flex-col font-sans bg-white text-ink antialiased">
+      <body className="min-h-screen flex flex-col font-sans bg-white text-[#0B1220] antialiased selection:bg-[#0080CB] selection:text-white">
         <SmoothScrollProvider>
+          <ScrollProgressBar />
+          <CustomCursor />
           <Navbar />
-          <main className="flex-1 pt-24 md:pt-28">{children}</main>
-          <Footer />
+          <main className="flex-1 pt-0">{children}</main>
           <WhatsAppFAB />
         </SmoothScrollProvider>
       </body>

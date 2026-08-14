@@ -4,36 +4,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, MessageSquare } from "lucide-react";
+import { InstagramIcon, FacebookIcon, LinkedinIcon } from "@/components/ui/SocialIcons";
 import { BRAND, NAV_LINKS } from "@/lib/data";
-
-function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-    </svg>
-  );
-}
-
-function FacebookIcon({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-    </svg>
-  );
-}
-
-function LinkedinIcon({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-      <rect x="2" y="9" width="4" height="12"/>
-      <circle cx="4" cy="4" r="2"/>
-    </svg>
-  );
-}
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -54,60 +27,20 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-white/95 backdrop-blur-md shadow-md py-3 border-b border-surface-mid"
-          : "bg-white/85 backdrop-blur-sm py-4 border-b border-surface-mid/50"
+          ? "bg-white/90 backdrop-blur-xl border-b border-slate-200/80 py-3 shadow-[0_4px_25px_rgba(0,128,203,0.06)]"
+          : "bg-transparent py-5 border-b border-transparent"
       }`}
     >
-      {/* Top micro-bar for social links */}
-      <div className="hidden lg:block border-b border-surface-mid/60 pb-2 mb-2">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center text-xs text-ink-muted">
-          <div className="flex items-center gap-6">
-            <span>📍 {BRAND.address}</span>
-            <span>📞 {BRAND.phone}</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="font-medium text-ink-body">Follow us on:</span>
-            <a
-              href={BRAND.socials.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-brand transition-colors p-1"
-              aria-label="Instagram"
-            >
-              <InstagramIcon className="w-3.5 h-3.5" />
-            </a>
-            <a
-              href={BRAND.socials.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-brand transition-colors p-1"
-              aria-label="Facebook"
-            >
-              <FacebookIcon className="w-3.5 h-3.5" />
-            </a>
-            <a
-              href={BRAND.socials.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-brand transition-colors p-1"
-              aria-label="LinkedIn"
-            >
-              <LinkedinIcon className="w-3.5 h-3.5" />
-            </a>
-          </div>
-        </div>
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative h-12 w-44">
+          <Link href="/" className="flex items-center gap-3 group relative z-10">
+            <div className="relative h-10 w-36 sm:h-11 sm:w-44 transition-transform duration-300 group-hover:scale-105">
               <Image
                 src="/praaroop-Media-and-Adv-1.png"
-                alt="Praaroop Media — Marketing Agency in Udaipur"
+                alt="Praaroop Media — 360° Marketing Agency in Udaipur"
                 fill
                 priority
                 className="object-contain"
@@ -115,8 +48,8 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Nav Links (exact names & order: Home | About us | Our clients | Campaigns | Contact us) */}
-          <nav className="hidden md:flex items-center gap-8" aria-label="Main Navigation">
+          {/* Desktop Nav Links */}
+          <nav className="hidden lg:flex items-center gap-8" aria-label="Main Navigation">
             {NAV_LINKS.map((link) => {
               const isActive =
                 pathname === link.href ||
@@ -126,71 +59,138 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   className={`relative text-sm font-semibold transition-colors duration-200 py-1 ${
-                    isActive ? "text-brand" : "text-ink hover:text-brand"
+                    isActive ? "text-[#0080CB] font-bold" : "text-slate-700 hover:text-[#0080CB]"
                   }`}
                 >
                   {link.name}
-                  {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand rounded-full" />
+                  {isActive ? (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0080CB] via-[#0C9DA8] to-[#D10B6A] rounded-full shadow-[0_0_8px_#0080CB]" />
+                  ) : (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0C9DA8] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-200" />
                   )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* CTA Button: "Get in touch" -> WhatsApp link with +918696940199 */}
+          {/* Social Icons & CTA Button */}
           <div className="hidden sm:flex items-center gap-4">
+            {/* Social Icons */}
+            <div className="flex items-center gap-2 pr-2 border-r border-slate-200">
+              <a
+                href={BRAND.socials.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 text-slate-600 hover:text-[#D10B6A] hover:bg-slate-100 rounded-full transition-all duration-200"
+                aria-label="Instagram"
+              >
+                <InstagramIcon className="w-4 h-4" />
+              </a>
+              <a
+                href={BRAND.socials.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 text-slate-600 hover:text-[#0080CB] hover:bg-slate-100 rounded-full transition-all duration-200"
+                aria-label="Facebook"
+              >
+                <FacebookIcon className="w-4 h-4" />
+              </a>
+              <a
+                href={BRAND.socials.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 text-slate-600 hover:text-[#0C9DA8] hover:bg-slate-100 rounded-full transition-all duration-200"
+                aria-label="LinkedIn"
+              >
+                <LinkedinIcon className="w-4 h-4" />
+              </a>
+            </div>
+
+            {/* WhatsApp CTA */}
             <a
-              href="https://api.whatsapp.com/send?phone=918696940199&text=Hello"
+              href={BRAND.whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-brand hover:bg-brand-dark text-white text-sm font-bold px-6 py-2.5 rounded-full transition-all shadow-md hover:shadow-brand hover:-translate-y-0.5"
+              className="relative group inline-flex items-center gap-2 bg-gradient-to-r from-[#0080CB] to-[#0C9DA8] hover:from-[#0066A3] hover:to-[#0A828B] text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_15px_rgba(0,128,203,0.3)] hover:shadow-[0_6px_20px_rgba(12,157,168,0.5)] whatsapp-pulse-ring"
             >
-              <Phone className="w-4 h-4" />
+              <MessageSquare className="w-4 h-4 text-white" />
               <span>Get in touch</span>
             </a>
           </div>
 
           {/* Mobile menu trigger */}
-          <div className="md:hidden flex items-center gap-2">
+          <div className="lg:hidden flex items-center gap-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-lg text-ink hover:bg-surface-light focus:outline-none"
+              className="p-2 rounded-xl text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-200 focus:outline-none transition-colors"
               aria-label="Toggle navigation menu"
             >
               {isMobileMenuOpen ? (
-                <X className="w-6 h-6 text-brand" />
+                <X className="w-6 h-6 text-[#D10B6A]" />
               ) : (
-                <Menu className="w-6 h-6 text-ink" />
+                <Menu className="w-6 h-6 text-slate-800" />
               )}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Slide-down Menu */}
+      {/* Mobile Animated Drawer Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-surface-mid px-4 pt-4 pb-6 mt-3 shadow-xl">
-          <nav className="flex flex-col gap-4">
+        <div className="lg:hidden fixed inset-x-0 top-full bg-white/95 backdrop-blur-2xl border-b border-slate-200 px-6 pt-6 pb-8 shadow-2xl transition-all duration-300">
+          <nav className="flex flex-col gap-5">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-base font-semibold text-ink hover:text-brand transition-colors py-2 border-b border-surface-light"
+                className="text-lg font-bold text-slate-800 hover:text-[#0080CB] transition-colors py-2 border-b border-slate-100 flex items-center justify-between"
               >
-                {link.name}
+                <span>{link.name}</span>
+                <span className="text-xs text-[#0C9DA8]">→</span>
               </Link>
             ))}
-            <div className="pt-2">
+
+            {/* Mobile Socials */}
+            <div className="flex items-center gap-4 pt-2">
               <a
-                href="https://api.whatsapp.com/send?phone=918696940199&text=Hello"
+                href={BRAND.socials.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 bg-brand text-white font-bold py-3 rounded-xl"
+                className="p-2.5 text-slate-700 hover:text-[#D10B6A] bg-slate-100 rounded-xl border border-slate-200"
+                aria-label="Instagram"
               >
-                <Phone className="w-4 h-4" />
-                <span>Get in touch</span>
+                <InstagramIcon className="w-5 h-5" />
+              </a>
+              <a
+                href={BRAND.socials.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 text-slate-700 hover:text-[#0080CB] bg-slate-100 rounded-xl border border-slate-200"
+                aria-label="Facebook"
+              >
+                <FacebookIcon className="w-5 h-5" />
+              </a>
+              <a
+                href={BRAND.socials.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2.5 text-slate-700 hover:text-[#0C9DA8] bg-slate-100 rounded-xl border border-slate-200"
+                aria-label="LinkedIn"
+              >
+                <LinkedinIcon className="w-5 h-5" />
+              </a>
+            </div>
+
+            <div className="pt-3">
+              <a
+                href={BRAND.whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#0080CB] via-[#0C9DA8] to-[#D10B6A] text-white font-bold py-3.5 rounded-xl shadow-lg"
+              >
+                <MessageSquare className="w-5 h-5" />
+                <span>Get in touch on WhatsApp</span>
               </a>
             </div>
           </nav>

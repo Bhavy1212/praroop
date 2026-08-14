@@ -1,92 +1,107 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import { ShoppingBag, Store, Building, GraduationCap, ArrowUpRight } from "lucide-react";
 import { ACTIVATIONS_ITEMS } from "@/lib/data";
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import Section from "@/components/ui/Section";
-import { Store, ShoppingBag, Building2, GraduationCap } from "lucide-react";
 
-const ICONS = [Store, ShoppingBag, Building2, GraduationCap];
-
-// Original relevant service tile graphics from live site for Activations
-const ACTIVATION_SERVICE_IMAGES: Record<string, string> = {
-  Mall: "/services/mall.webp",
-  Retail: "/services/store.webp",
-  Corporate: "/services/corporate.webp",
-  "SCHOOL/COLLEGE": "/services/school.webp",
-};
+const ACTIVATIONS_DATA = [
+  {
+    title: ACTIVATIONS_ITEMS[0], // Mall
+    subtitle: "Mall Activations & Kiosk Displays",
+    desc: "Interactive brand pop-ups, footfall engagement kiosks, and experiential zones inside Udaipur's premier shopping centers.",
+    icon: ShoppingBag,
+    color: "#0080CB",
+  },
+  {
+    title: ACTIVATIONS_ITEMS[1], // Retail
+    subtitle: "Point of Sale & In-Store Experience",
+    desc: "Strategic POS visual merchandising, window graphics, and retail promotional setups that convert shoppers at final purchase.",
+    icon: Store,
+    color: "#0C9DA8",
+  },
+  {
+    title: ACTIVATIONS_ITEMS[2], // Corporate
+    subtitle: "Executive Summits & B2B Events",
+    desc: "End-to-end corporate event design, stage setups, VIP lounge branding, and executive networking activations.",
+    icon: Building,
+    color: "#D10B6A",
+  },
+  {
+    title: ACTIVATIONS_ITEMS[3], // SCHOOL/COLLEGE
+    subtitle: "Youth & Campus Engagements",
+    desc: "Targeted youth outreach campaigns, campus ambassador activations, and fest sponsorships across major educational institutions.",
+    icon: GraduationCap,
+    color: "#0080CB",
+  },
+];
 
 export default function ActivationsSection() {
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
   return (
-    <Section id="activations" className="bg-white border-b border-surface-mid">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        
+    <section id="activations" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-slate-50/50 overflow-hidden border-t border-slate-100">
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
-        <ScrollReveal className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-brand-tint text-brand text-xs font-bold uppercase tracking-wider">
-            On-Ground Engagement
-          </span>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-            Activations
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-bold uppercase tracking-wider text-[#D10B6A] shadow-xs">
+            On-Ground B2C & B2B Engagements
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#0B1220] tracking-tight">
+            Brand <span className="text-gradient-tri">Activations</span>
           </h2>
-          <p className="text-ink-body text-base max-w-2xl mx-auto">
-            High-conversion experiential marketing and live audience engagement activations.
+          <p className="text-base sm:text-lg text-slate-600 font-normal">
+            Immersive physical experiences designed to bridge offline touchpoints with digital brand affinity.
           </p>
-        </ScrollReveal>
+        </div>
 
-        {/* 4 Cards with Relevant Original Service Tile Graphics */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {ACTIVATIONS_ITEMS.map((item, index) => {
-            const Icon = ICONS[index] || Store;
-            const tileImg = ACTIVATION_SERVICE_IMAGES[item] || "/services/mall.webp";
-
+        {/* 4 Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {ACTIVATIONS_DATA.map((item, idx) => {
+            const IconComp = item.icon;
             return (
               <motion.div
-                key={item}
-                initial={{ opacity: 0, y: 20 }}
+                key={item.title}
+                initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                whileHover={{ y: -6 }}
-                className="relative h-80 rounded-3xl overflow-hidden border border-surface-mid shadow-sm hover:shadow-2xl transition-all duration-500 group cursor-pointer flex flex-col justify-between p-6 bg-brand-dark/5"
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="group relative rounded-3xl bg-white border border-slate-200/80 p-8 sm:p-10 flex flex-col justify-between transition-all duration-300 hover:border-slate-300 hover:shadow-[0_15px_35px_-10px_rgba(209,11,106,0.12)] hover:-translate-y-1"
               >
-                {/* Background Relevant Service Tile Image */}
-                <Image
-                  src={tileImg}
-                  alt={`${item} activation graphic`}
-                  fill
-                  className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
-                />
-                
-                {/* Gradient overlay for contrast and text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/15 group-hover:from-black/90 group-hover:via-black/45 transition-colors duration-500" />
-
-                {/* Top Icon Badge */}
-                <div className="relative z-10 flex items-center justify-between">
-                  <div className="w-12 h-12 rounded-2xl bg-white/90 backdrop-blur-md text-brand flex items-center justify-center shadow-lg group-hover:bg-brand group-hover:text-white transition-colors duration-300">
-                    <Icon className="w-6 h-6" />
+                <div>
+                  <div className="flex items-center justify-between mb-8">
+                    <div
+                      className="w-16 h-16 rounded-2xl flex items-center justify-center border border-slate-100 transition-transform duration-300 group-hover:scale-110"
+                      style={{ backgroundColor: `${item.color}12` }}
+                    >
+                      <IconComp className="w-8 h-8" style={{ color: item.color }} />
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0080CB] group-hover:bg-[#0080CB]/10 transition-colors">
+                      <ArrowUpRight className="w-5 h-5" />
+                    </div>
                   </div>
-                  <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-ink shadow-md">
-                    0{index + 1}
-                  </span>
-                </div>
 
-                {/* Bottom Content */}
-                <div className="relative z-10 space-y-2">
-                  <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-brand-light">
-                    On-Ground Format
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#0C9DA8] block mb-1">
+                    {item.title}
                   </span>
-                  <h3 className="font-display text-2xl font-bold text-white tracking-tight">
-                    {item}
+
+                  <h3 className="text-2xl font-bold text-[#0B1220] mb-4 leading-tight group-hover:text-[#0080CB] transition-colors">
+                    {item.subtitle}
                   </h3>
+
+                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
               </motion.div>
             );
           })}
         </div>
-
       </div>
-    </Section>
+    </section>
   );
 }

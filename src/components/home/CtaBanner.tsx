@@ -1,41 +1,56 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowRight, HelpCircle } from "lucide-react";
-import { CTA_BANNER } from "@/lib/data";
-import ScrollReveal from "@/components/ui/ScrollReveal";
+import { motion } from "framer-motion";
+import { MessageSquare, ArrowRight, HelpCircle } from "lucide-react";
+import { BRAND, CTA_BANNER } from "@/lib/data";
 
 export default function CtaBanner() {
   return (
-    <section className="py-16 bg-surface-light border-b border-surface-mid">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <ScrollReveal className="p-8 sm:p-12 rounded-3xl bg-brand text-white text-center space-y-6 shadow-xl relative overflow-hidden">
-          {/* Ambient light ring */}
-          <div className="absolute -top-12 -right-12 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+    <section id="growth" className="relative py-20 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto relative">
+        {/* Glowing Tri-Color Vibrant Container */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative rounded-3xl p-8 sm:p-14 overflow-hidden bg-gradient-to-r from-[#0080CB] via-[#0C9DA8] to-[#D10B6A] text-white shadow-[0_20px_50px_rgba(0,128,203,0.3)]"
+        >
+          {/* Inner Decorative Glow Orbs */}
+          <div className="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-white/20 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-black/10 blur-3xl pointer-events-none" />
 
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 text-white text-xs font-bold uppercase tracking-wider">
-            <HelpCircle className="w-4 h-4" />
-            <span>{CTA_BANNER.title}</span>
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
+            <div className="space-y-4 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 border border-white/25 text-xs font-bold text-white uppercase tracking-wider backdrop-blur-md">
+                <HelpCircle className="w-4 h-4 text-white" />
+                <span>Expert Media Planning</span>
+              </div>
+
+              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                {CTA_BANNER.title} <span className="text-amber-300">{CTA_BANNER.subhead}</span>
+              </h2>
+
+              <p className="text-base sm:text-lg text-white/90 font-medium leading-relaxed">
+                {CTA_BANNER.body}
+              </p>
+            </div>
+
+            {/* Action CTA */}
+            <div className="shrink-0">
+              <a
+                href={BRAND.whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 bg-white text-[#0B1220] hover:bg-slate-100 text-base font-black px-9 py-4.5 rounded-full transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.2)] hover:scale-105"
+              >
+                <MessageSquare className="w-5 h-5 text-[#0080CB]" />
+                <span>{CTA_BANNER.buttonText}</span>
+                <ArrowRight className="w-5 h-5 text-[#0080CB]" />
+              </a>
+            </div>
           </div>
-
-          <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white max-w-2xl mx-auto">
-            {CTA_BANNER.subhead}
-          </h2>
-
-          <p className="text-white/85 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
-            {CTA_BANNER.body}
-          </p>
-
-          <div className="pt-2">
-            <Link
-              href="/contact-us/"
-              className="inline-flex items-center gap-2 bg-white text-brand hover:bg-surface-light font-bold text-base px-8 py-3.5 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
-            >
-              <span>{CTA_BANNER.buttonText}</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </ScrollReveal>
+        </motion.div>
       </div>
     </section>
   );

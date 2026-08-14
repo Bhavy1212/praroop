@@ -1,31 +1,44 @@
 "use client";
 
-import ScrollReveal from "@/components/ui/ScrollReveal";
+import { motion } from "framer-motion";
 import { SECTION_INTRO } from "@/lib/data";
 
 export default function SectionIntro() {
   return (
-    <section className="py-16 sm:py-20 bg-brand text-white relative overflow-hidden">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10">
-        
-        <ScrollReveal className="space-y-4">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 text-brand-light text-xs font-bold uppercase tracking-wider">
-            {SECTION_INTRO.eyebrow}
-          </span>
-          <p className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-white/95 leading-tight">
-            {SECTION_INTRO.heading}
-          </p>
-        </ScrollReveal>
+    <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden border-t border-b border-slate-100">
+      {/* Background Subtle Gradient Glow */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0080CB]/5 via-[#0C9DA8]/5 to-[#D10B6A]/5 opacity-60 pointer-events-none" />
 
-        <ScrollReveal delay={0.15} className="space-y-4 pt-4 border-t border-white/10 max-w-4xl mx-auto">
-          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">
-            {SECTION_INTRO.h1}
-          </h1>
-          <p className="text-white/80 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
-            {SECTION_INTRO.body}
-          </p>
-        </ScrollReveal>
+      <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-bold uppercase tracking-widest text-[#0C9DA8]"
+        >
+          {SECTION_INTRO.eyebrow}
+        </motion.div>
 
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-[#0B1220] tracking-tight leading-tight"
+        >
+          {SECTION_INTRO.h1}
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="text-lg sm:text-xl text-slate-600 leading-relaxed max-w-4xl mx-auto font-normal"
+        >
+          {SECTION_INTRO.body}
+        </motion.p>
       </div>
     </section>
   );

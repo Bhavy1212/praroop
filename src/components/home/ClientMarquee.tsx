@@ -1,80 +1,64 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { CLIENT_LOGOS } from "@/lib/data";
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import Section from "@/components/ui/Section";
 
 export default function ClientMarquee() {
-  const track1 = CLIENT_LOGOS.slice(0, 12);
-  const track2 = CLIENT_LOGOS.slice(12);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
+  const marqueeLogos = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
 
   return (
-    <Section id="client" className="bg-surface-light border-b border-surface-mid overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        
-        {/* Section Header */}
-        <ScrollReveal className="text-center space-y-3 max-w-2xl mx-auto">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-brand-tint text-brand text-xs font-bold uppercase tracking-wider">
-            Trusted By Top Brands
-          </span>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-            Clients
+    <section id="client" className="relative py-20 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto relative z-10 space-y-12">
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-bold uppercase tracking-wider text-[#0C9DA8] shadow-xs">
+            Trusted Partnerships
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0B1220] tracking-tight">
+            Brands We Have <span className="text-gradient-tri">Elevated</span>
           </h2>
-          <p className="text-ink-body text-base">
-            From healthcare giants and luxury hospitality resorts to automotive networks and political leaders.
+          <p className="text-sm sm:text-base text-slate-600">
+            Partnering with industry leaders, healthcare providers, and regional visionaries across India.
           </p>
-        </ScrollReveal>
+        </div>
 
-        {/* Marquee Track 1 (Left) - Pauses on Hover, Grayscale to Color Transition per Logo */}
-        <div className="relative w-full overflow-hidden py-2">
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-surface-light to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-surface-light to-transparent z-10 pointer-events-none" />
+        {/* Marquee Wrapper with side fade gradients */}
+        <div className="relative w-full overflow-hidden py-4">
+          <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-          <div className="flex gap-6 w-max animate-marquee-left">
-            {[...track1, ...track1, ...track1].map((client, index) => (
+          <div
+            className={`flex items-center gap-8 ${
+              reducedMotion
+                ? "overflow-x-auto no-scrollbar justify-center flex-wrap"
+                : "animate-marquee-left"
+            }`}
+          >
+            {marqueeLogos.map((client, idx) => (
               <div
-                key={`${client.id}-${index}`}
-                className="w-44 h-24 sm:w-52 sm:h-28 rounded-2xl bg-white border border-surface-mid shadow-sm hover:shadow-md flex items-center justify-center p-4 transition-all duration-300 group cursor-pointer shrink-0"
+                key={`${client.id}-${idx}`}
+                className="shrink-0 w-44 sm:w-52 h-24 rounded-2xl bg-white border border-slate-200/80 p-4 flex items-center justify-center transition-all duration-300 hover:border-slate-300 hover:shadow-md"
               >
-                <div className="relative w-full h-full grayscale group-hover:grayscale-0 transition-all duration-300 opacity-75 group-hover:opacity-100 scale-95 group-hover:scale-105">
+                <div className="relative w-full h-full">
                   <Image
                     src={client.logo}
                     alt={`${client.name} logo`}
                     fill
-                    className="object-contain"
+                    className="object-contain opacity-90 hover:opacity-100 transition-opacity"
                   />
                 </div>
               </div>
             ))}
           </div>
         </div>
-
-        {/* Marquee Track 2 (Right) */}
-        <div className="relative w-full overflow-hidden py-2">
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-surface-light to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-surface-light to-transparent z-10 pointer-events-none" />
-
-          <div className="flex gap-6 w-max animate-marquee-left" style={{ animationDirection: "reverse" }}>
-            {[...track2, ...track2, ...track2].map((client, index) => (
-              <div
-                key={`${client.id}-${index}`}
-                className="w-44 h-24 sm:w-52 sm:h-28 rounded-2xl bg-white border border-surface-mid shadow-sm hover:shadow-md flex items-center justify-center p-4 transition-all duration-300 group cursor-pointer shrink-0"
-              >
-                <div className="relative w-full h-full grayscale group-hover:grayscale-0 transition-all duration-300 opacity-75 group-hover:opacity-100 scale-95 group-hover:scale-105">
-                  <Image
-                    src={client.logo}
-                    alt={`${client.name} logo`}
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
       </div>
-    </Section>
+    </section>
   );
 }

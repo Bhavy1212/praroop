@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CAMPAIGN_POSTS } from "@/lib/data";
-import { Calendar, Tag, ArrowLeft, ArrowRight, Share2, MessageSquare, Send, Sparkles } from "lucide-react";
+import { CAMPAIGN_POSTS, BRAND } from "@/lib/data";
+import { Calendar, Tag, ArrowLeft, ArrowRight, Share2, MessageSquare, Sparkles } from "lucide-react";
+import Footer from "@/components/layout/Footer";
+import AmbientBackground from "@/components/ui/AmbientBackground";
 
 export function generateStaticParams() {
   return CAMPAIGN_POSTS.map((post) => ({
@@ -40,246 +42,145 @@ export default async function CampaignDetailPage({
   const nextPost =
     postIndex < CAMPAIGN_POSTS.length - 1 ? CAMPAIGN_POSTS[postIndex + 1] : CAMPAIGN_POSTS[0];
 
-  // Related Posts (3 items excluding current)
-  const relatedPosts = CAMPAIGN_POSTS.filter((p) => p.slug !== post.slug).slice(0, 3);
+  // Additional gallery images excluding main hero image
+  const additionalGallery = post.gallery.filter((imgSrc) => imgSrc !== post.image);
 
   return (
-    <article className="pb-24 space-y-16">
-      
-      {/* 1. Header & Breadcrumbs */}
-      <header className="py-12 bg-surface-light border-b border-surface-mid">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-          
-          {/* Breadcrumb */}
-          <nav className="text-xs text-ink-muted flex items-center gap-2 font-medium" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-brand">Home</Link>
-            <span>/</span>
-            <Link href="/campaigns/" className="hover:text-brand">{post.category}</Link>
-            <span>/</span>
-            <span className="text-ink font-semibold">{post.title}</span>
-          </nav>
+    <main className="relative bg-white text-[#0B1220] min-h-screen pt-24 selection:bg-[#0080CB] selection:text-white">
+      <AmbientBackground />
 
-          {/* Category Badge & Date */}
-          <div className="flex items-center gap-3 pt-2">
-            <span className="px-3.5 py-1 rounded-full bg-brand text-white text-xs font-bold flex items-center gap-1 shadow-sm">
-              <Tag className="w-3 h-3" /> {post.category}
-            </span>
-            <span className="text-xs font-medium text-ink-muted flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5 text-brand" /> {post.date}
-            </span>
-          </div>
+      <div className="space-y-16 pb-0 relative z-10">
+        <article className="space-y-16">
+          {/* Header & Breadcrumbs */}
+          <header className="py-12 bg-slate-50/60 border-b border-slate-100">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+              {/* Breadcrumb */}
+              <nav className="text-xs text-slate-500 flex items-center gap-2 font-semibold" aria-label="Breadcrumb">
+                <Link href="/" className="hover:text-[#0080CB]">Home</Link>
+                <span>/</span>
+                <Link href="/campaigns/" className="hover:text-[#0080CB]">{post.category}</Link>
+                <span>/</span>
+                <span className="text-[#0B1220] font-bold">{post.title}</span>
+              </nav>
 
-          {/* H1 Title */}
-          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-            {post.title}
-          </h1>
+              {/* Badges */}
+              <div className="flex items-center gap-3 pt-2">
+                <span className="px-3.5 py-1 rounded-full bg-[#0080CB] text-white text-xs font-bold flex items-center gap-1 shadow-xs">
+                  <Tag className="w-3 h-3" /> {post.category}
+                </span>
+                <span className="text-xs font-semibold text-slate-500 flex items-center gap-1">
+                  <Calendar className="w-3.5 h-3.5 text-[#0C9DA8]" /> {post.date}
+                </span>
+              </div>
 
-        </div>
-      </header>
+              {/* Title */}
+              <h1 className="text-3xl sm:text-5xl font-black text-[#0B1220] tracking-tight">
+                {post.title}
+              </h1>
+            </div>
+          </header>
 
-      {/* 2. Hero Featured Main High-Res Image */}
-      <section className="max-w-5xl mx-auto px-4">
-        <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border border-surface-mid bg-black/5">
-          <Image
-            src={post.image}
-            alt={post.title}
-            width={1200}
-            height={800}
-            priority
-            className="w-full h-auto object-contain max-h-[700px] mx-auto"
-          />
-        </div>
-      </section>
-
-      {/* 3. Campaign Description & Details */}
-      <section className="max-w-5xl mx-auto px-4 space-y-8">
-        <div className="prose prose-lg text-ink-body leading-relaxed space-y-4 max-w-none">
-          <p className="text-xl font-medium text-ink bg-surface-light p-6 rounded-2xl border border-surface-mid">
-            {post.description}
-          </p>
-        </div>
-
-        {/* Social Share Buttons (Facebook, X) */}
-        <div className="flex items-center justify-between py-4 border-y border-surface-mid">
-          <span className="text-xs font-bold text-ink uppercase tracking-wider flex items-center gap-2">
-            <Share2 className="w-4 h-4 text-brand" /> Share this campaign:
-          </span>
-          <div className="flex items-center gap-3">
-            <a
-              href={`https://www.facebook.com/sharer/sharer.php?u=https://praaroop.com/${post.slug}/`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 rounded-full bg-surface-light border border-surface-mid text-ink font-semibold text-xs hover:bg-brand hover:text-white transition-all"
-            >
-              Facebook
-            </a>
-            <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=https://praaroop.com/${post.slug}/`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 rounded-full bg-surface-light border border-surface-mid text-ink font-semibold text-xs hover:bg-brand hover:text-white transition-all"
-            >
-              X (Twitter)
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Full High-Resolution Campaign Showcase Gallery */}
-      <section className="max-w-5xl mx-auto px-4 space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="font-display text-2xl font-bold text-ink flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-brand" /> Campaign Showcase & Creatives
-          </h2>
-          <span className="text-xs text-ink-muted font-mono">{post.gallery.length} High-Res Assets</span>
-        </div>
-
-        <div className="space-y-8">
-          {post.gallery.map((imgSrc, i) => (
-            <div
-              key={i}
-              className="group relative w-full rounded-3xl overflow-hidden border border-surface-mid bg-surface-light shadow-lg hover:shadow-2xl transition-all duration-300"
-            >
+          {/* Featured Hero Image */}
+          <section className="max-w-5xl mx-auto px-4">
+            <div className="relative w-full rounded-3xl overflow-hidden shadow-xl border border-slate-200 bg-slate-50">
               <Image
-                src={imgSrc}
-                alt={`${post.title} campaign asset ${i + 1}`}
-                width={1400}
-                height={900}
-                className="w-full h-auto object-contain max-h-[850px] mx-auto group-hover:scale-[1.01] transition-transform duration-500"
+                src={post.image}
+                alt={post.title}
+                width={1200}
+                height={800}
+                priority
+                className="w-full h-auto object-contain max-h-[700px] mx-auto"
               />
             </div>
-          ))}
-        </div>
-      </section>
+          </section>
 
-      {/* 5. Comment Form for This Particular Campaign */}
-      <section className="max-w-5xl mx-auto px-4 pt-4">
-        <div className="p-8 sm:p-10 rounded-3xl bg-surface-light border border-surface-mid space-y-6 shadow-sm">
-          <div className="flex items-center gap-3">
-            <MessageSquare className="w-6 h-6 text-brand" />
-            <h2 className="font-display text-2xl font-bold text-ink">Leave a Comment</h2>
-          </div>
-
-          <form className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-xs font-bold text-ink mb-1">Name *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Your Name"
-                  className="w-full px-4 py-2.5 rounded-xl border border-surface-mid bg-white text-sm focus:ring-2 focus:ring-brand focus:outline-none"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-ink mb-1">Email *</label>
-                <input
-                  type="email"
-                  required
-                  placeholder="Your Email"
-                  className="w-full px-4 py-2.5 rounded-xl border border-surface-mid bg-white text-sm focus:ring-2 focus:ring-brand focus:outline-none"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-ink mb-1">Website</label>
-                <input
-                  type="url"
-                  placeholder="https://yourwebsite.com"
-                  className="w-full px-4 py-2.5 rounded-xl border border-surface-mid bg-white text-sm focus:ring-2 focus:ring-brand focus:outline-none"
-                />
-              </div>
+          {/* Description & Details */}
+          <section className="max-w-5xl mx-auto px-4 space-y-8">
+            <div className="text-lg font-medium text-slate-700 bg-slate-50 p-8 rounded-3xl border border-slate-200/80 leading-relaxed shadow-xs">
+              {post.description}
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-ink mb-1">Comment *</label>
-              <textarea
-                rows={4}
-                required
-                placeholder="Share your thoughts on this campaign..."
-                className="w-full px-4 py-2.5 rounded-xl border border-surface-mid bg-white text-sm focus:ring-2 focus:ring-brand focus:outline-none"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="inline-flex items-center gap-2 bg-brand hover:bg-brand-dark text-white font-bold text-sm px-7 py-3 rounded-full transition-all shadow-md"
-            >
-              <Send className="w-4 h-4" />
-              <span>Post Comment</span>
-            </button>
-          </form>
-        </div>
-      </section>
-
-      {/* SECTION SEPARATOR: END OF CAMPAIGN CONTENT */}
-      <hr className="max-w-5xl mx-auto border-surface-mid my-12" />
-
-      {/* 6. AFTER ALL CAMPAIGN CONTENT & IMAGES ARE DONE: Prev/Next Navigation */}
-      <section className="max-w-5xl mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Link
-            href={`/${prevPost.slug}/`}
-            className="p-5 rounded-2xl bg-surface-light border border-surface-mid hover:border-brand/40 transition-all flex items-center gap-3 group"
-          >
-            <ArrowLeft className="w-5 h-5 text-brand group-hover:-translate-x-1 transition-transform" />
-            <div>
-              <span className="text-[11px] font-bold text-ink-muted uppercase">Previous Campaign</span>
-              <p className="font-display font-bold text-base text-ink group-hover:text-brand transition-colors line-clamp-1">
-                {prevPost.title}
-              </p>
-            </div>
-          </Link>
-
-          <Link
-            href={`/${nextPost.slug}/`}
-            className="p-5 rounded-2xl bg-surface-light border border-surface-mid hover:border-brand/40 transition-all flex items-center justify-end gap-3 text-right group"
-          >
-            <div>
-              <span className="text-[11px] font-bold text-ink-muted uppercase">Next Campaign</span>
-              <p className="font-display font-bold text-base text-ink group-hover:text-brand transition-colors line-clamp-1">
-                {nextPost.title}
-              </p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-brand group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-      </section>
-
-      {/* 7. AFTER ALL CAMPAIGN CONTENT & IMAGES ARE DONE: Related Campaigns Grid */}
-      <section className="max-w-5xl mx-auto px-4 space-y-6">
-        <div className="flex items-center justify-between border-b border-surface-mid pb-3">
-          <h2 className="font-display text-2xl font-bold text-ink">Related Campaigns</h2>
-          <Link href="/campaigns/" className="text-xs font-bold text-brand hover:underline">
-            View All Campaigns →
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {relatedPosts.map((rPost) => (
-            <Link
-              key={rPost.slug}
-              href={`/${rPost.slug}/`}
-              className="group rounded-2xl bg-white border border-surface-mid hover:border-brand/40 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col justify-between"
-            >
-              <div className="relative h-48 w-full bg-surface-light">
-                <Image
-                  src={rPost.image}
-                  alt={rPost.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform"
-                />
+            {/* Social Share */}
+            <div className="flex items-center justify-between py-4 border-y border-slate-200">
+              <span className="text-xs font-bold text-[#0B1220] uppercase tracking-wider flex items-center gap-2">
+                <Share2 className="w-4 h-4 text-[#0080CB]" /> Share this campaign:
+              </span>
+              <div className="flex items-center gap-3">
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=https://praaroop.com/${post.slug}/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-full bg-slate-100 border border-slate-200 text-[#0B1220] font-semibold text-xs hover:bg-[#0080CB] hover:text-white transition-all"
+                >
+                  Facebook
+                </a>
               </div>
-              <div className="p-4 space-y-1">
-                <span className="text-[11px] font-bold text-brand">{rPost.date}</span>
-                <h3 className="font-display font-bold text-sm text-ink group-hover:text-brand transition-colors line-clamp-2">
-                  {rPost.title}
-                </h3>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+            </div>
+          </section>
 
-    </article>
+          {/* Additional Gallery */}
+          {additionalGallery.length > 0 && (
+            <section className="max-w-5xl mx-auto px-4 space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-extrabold text-[#0B1220] flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-[#0C9DA8]" /> Campaign Creatives
+                </h2>
+                <span className="text-xs text-slate-500 font-mono">{additionalGallery.length} Additional Creatives</span>
+              </div>
+
+              <div className="space-y-8">
+                {additionalGallery.map((imgSrc, i) => (
+                  <div
+                    key={i}
+                    className="relative w-full rounded-3xl overflow-hidden border border-slate-200 bg-slate-50 shadow-md"
+                  >
+                    <Image
+                      src={imgSrc}
+                      alt={`${post.title} creative asset ${i + 2}`}
+                      width={1400}
+                      height={900}
+                      className="w-full h-auto object-contain max-h-[850px] mx-auto"
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Prev/Next Switcher */}
+          <section className="max-w-5xl mx-auto px-4 pt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-200 pt-8">
+              <Link
+                href={`/${prevPost.slug}/`}
+                className="p-5 rounded-2xl bg-white border border-slate-200/80 hover:border-slate-300 transition-all flex items-center gap-3 group shadow-xs"
+              >
+                <ArrowLeft className="w-5 h-5 text-[#0080CB] group-hover:-translate-x-1 transition-transform" />
+                <div>
+                  <span className="text-[11px] font-bold text-slate-400 uppercase">Previous Campaign</span>
+                  <p className="font-bold text-base text-[#0B1220] group-hover:text-[#0080CB] transition-colors line-clamp-1">
+                    {prevPost.title}
+                  </p>
+                </div>
+              </Link>
+
+              <Link
+                href={`/${nextPost.slug}/`}
+                className="p-5 rounded-2xl bg-white border border-slate-200/80 hover:border-slate-300 transition-all flex items-center justify-end gap-3 text-right group shadow-xs"
+              >
+                <div>
+                  <span className="text-[11px] font-bold text-slate-400 uppercase">Next Campaign</span>
+                  <p className="font-bold text-base text-[#0B1220] group-hover:text-[#0080CB] transition-colors line-clamp-1">
+                    {nextPost.title}
+                  </p>
+                </div>
+                <ArrowRight className="w-5 h-5 text-[#0080CB] group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </section>
+        </article>
+
+        <Footer />
+      </div>
+    </main>
   );
 }

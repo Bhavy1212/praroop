@@ -1,234 +1,124 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Star, Quote, ExternalLink, ChevronLeft, ChevronRight, CheckCircle } from "lucide-react";
-import Image from "next/image";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 import { TESTIMONIALS } from "@/lib/data";
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import Section from "@/components/ui/Section";
 
 export default function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
-  const nextTestimonial = () => {
-    const nextIdx = (activeIndex + 1) % TESTIMONIALS.length;
-    setActiveIndex(nextIdx);
-    scrollToCard(nextIdx);
+  useEffect(() => {
+    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev === 0 ? TESTIMONIALS.length - 1 : prev - 1));
   };
 
-  const prevTestimonial = () => {
-    const prevIdx = (activeIndex - 1 + TESTIMONIALS.length) % TESTIMONIALS.length;
-    setActiveIndex(prevIdx);
-    scrollToCard(prevIdx);
-  };
-
-  const scrollToCard = (index: number) => {
-    if (containerRef.current) {
-      const cardWidth = containerRef.current.clientWidth;
-      containerRef.current.scrollTo({
-        left: index * cardWidth,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const renderAvatar = (avatar: string, name: string, sizeClass = "w-14 h-14", textClass = "text-lg") => {
-    if (avatar.startsWith("/") || avatar.startsWith("http")) {
-      return (
-        <div className={`relative ${sizeClass} rounded-full overflow-hidden shrink-0 border-2 border-brand/30 shadow-md`}>
-          <Image src={avatar} alt={name} fill className="object-cover" />
-        </div>
-      );
-    }
-    return (
-      <div className={`relative ${sizeClass} rounded-full bg-brand text-white flex items-center justify-center font-display font-bold ${textClass} shrink-0 shadow-md border-2 border-brand/30`}>
-        {avatar}
-      </div>
-    );
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev === TESTIMONIALS.length - 1 ? 0 : prev + 1));
   };
 
   return (
-    <Section id="testimonials" className="bg-surface-light border-b border-surface-mid overflow-hidden relative">
-      
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 right-0 -translate-y-1/2 w-96 h-96 bg-brand/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-brand/5 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
-        
+    <section id="testimonials" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto relative z-10 space-y-16">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <ScrollReveal className="space-y-3 max-w-2xl">
-            <div className="flex items-center gap-3">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white text-brand text-xs font-bold shadow-sm border border-surface-mid">
-                <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
-                <span>Rated 4.9 of 5</span>
-              </span>
-              <span className="inline-flex items-center gap-1 text-xs text-ink-muted font-medium">
-                <CheckCircle className="w-3.5 h-3.5 text-green-500" /> Verified Reviews
-              </span>
+        <div className="text-center max-w-3xl mx-auto space-y-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-bold uppercase tracking-wider text-[#D10B6A] shadow-xs">
+            Client Endorsements & Reviews
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#0B1220] tracking-tight">
+            What Our <span className="text-gradient-tri">Clients Say</span>
+          </h2>
+
+          {/* 4.9/5 Rating Badge */}
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 mt-2 shadow-xs">
+            <div className="flex items-center text-amber-500">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
+              ))}
             </div>
-
-            {/* Verbatim Section Heading */}
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-              Here's what our clients say.
-            </h2>
-          </ScrollReveal>
-
-          {/* Verbatim "View all reviews" link -> Google Maps Listing */}
-          <ScrollReveal direction="left" className="shrink-0">
-            <a
-              href="https://g.co/kgs/fpcAL9V"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-brand hover:text-white border border-surface-mid text-ink font-semibold text-sm shadow-sm transition-all duration-300 group"
-            >
-              <span>View all reviews</span>
-              <ExternalLink className="w-4 h-4 text-brand group-hover:text-white transition-colors" />
-            </a>
-          </ScrollReveal>
+            <span className="text-sm font-extrabold text-[#0B1220]">4.9 / 5.0 Rating</span>
+            <span className="text-xs text-slate-500 border-l border-slate-200 pl-3">Over 100+ Brands</span>
+          </div>
         </div>
 
-        {/* Horizontal Drag/Swipe Snap Carousel — One Testimonial Per Snap Point */}
-        <ScrollReveal className="relative">
-          <div className="bg-white rounded-3xl border border-surface-mid p-8 sm:p-12 shadow-xl relative overflow-hidden">
-            
-            <Quote className="absolute -top-4 -right-4 w-40 h-40 text-brand/5 pointer-events-none" />
+        {/* Carousel Container */}
+        <div className="relative max-w-4xl mx-auto">
+          {/* Active Card */}
+          <motion.div
+            key={TESTIMONIALS[activeIndex].id}
+            initial={reducedMotion ? { opacity: 1 } : { opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={reducedMotion ? { opacity: 1 } : { opacity: 0, x: -20 }}
+            transition={{ duration: 0.4 }}
+            className="relative rounded-3xl bg-white border border-slate-200 p-8 sm:p-12 shadow-[0_15px_40px_rgba(0,128,203,0.08)]"
+          >
+            <Quote className="w-12 h-12 text-[#0080CB]/20 mb-6" />
 
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, x: 30, scale: 0.98 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: -30, scale: 0.98 }}
-                transition={{ duration: 0.4 }}
-                className="space-y-6 max-w-3xl"
-              >
-                {/* 5 Star Rating */}
-                <div className="flex items-center gap-1">
-                  {[...Array(TESTIMONIALS[activeIndex].rating)].map((_, index) => (
-                    <Star
-                      key={index}
-                      className="w-5 h-5 fill-yellow-400 text-yellow-400 drop-shadow-sm"
-                    />
-                  ))}
+            <p className="text-lg sm:text-xl text-slate-700 font-normal leading-relaxed mb-8 italic">
+              "{TESTIMONIALS[activeIndex].content}"
+            </p>
+
+            <div className="flex items-center justify-between border-t border-slate-100 pt-6">
+              <div className="flex items-center gap-4">
+                {/* Initials Badge Avatar */}
+                <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#0080CB] to-[#0C9DA8] flex items-center justify-center text-white font-extrabold text-base shadow-md">
+                  {TESTIMONIALS[activeIndex].avatar}
                 </div>
-
-                {/* Verbatim Review Quote */}
-                <blockquote className="text-ink text-xl sm:text-2xl font-medium leading-relaxed italic">
-                  "{TESTIMONIALS[activeIndex].content}"
-                </blockquote>
-
-                {/* Reviewer Details */}
-                <div className="flex items-center gap-4 pt-4">
-                  {renderAvatar(TESTIMONIALS[activeIndex].avatar, TESTIMONIALS[activeIndex].name, "w-14 h-14", "text-lg")}
-                  <div>
-                    <h3 className="font-display font-bold text-lg text-ink">
-                      {TESTIMONIALS[activeIndex].name}
-                    </h3>
-                    <p className="text-xs text-brand font-semibold">
-                      Verified Client Review
-                    </p>
-                  </div>
+                <div>
+                  <h4 className="text-base font-bold text-[#0B1220]">
+                    {TESTIMONIALS[activeIndex].name}
+                  </h4>
+                  <p className="text-xs text-slate-500 font-medium">Verified Partner Client</p>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+              </div>
 
-            {/* Carousel Navigation Indicators & Snap Controls */}
-            <div className="flex items-center justify-between pt-8 mt-8 border-t border-surface-light">
-              <div className="flex items-center gap-2">
-                {TESTIMONIALS.map((t, idx) => (
-                  <button
-                    key={t.id}
-                    onClick={() => {
-                      setActiveIndex(idx);
-                      scrollToCard(idx);
-                    }}
-                    aria-label={`Go to review ${idx + 1}`}
-                    className={`h-2.5 rounded-full transition-all duration-300 ${
-                      activeIndex === idx
-                        ? "w-8 bg-brand"
-                        : "w-2.5 bg-surface-mid hover:bg-brand/40"
-                    }`}
-                  />
+              {/* Star Rating */}
+              <div className="flex items-center text-amber-500 gap-1">
+                {[...Array(TESTIMONIALS[activeIndex].rating)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
                 ))}
               </div>
+            </div>
+          </motion.div>
 
-              <div className="flex items-center gap-3">
+          {/* Navigation Controls */}
+          <div className="flex items-center justify-between mt-8 px-2">
+            <div className="flex items-center gap-2">
+              {TESTIMONIALS.map((_, i) => (
                 <button
-                  onClick={prevTestimonial}
-                  aria-label="Previous review"
-                  className="w-10 h-10 rounded-full bg-surface-light hover:bg-brand hover:text-white border border-surface-mid text-ink flex items-center justify-center transition-colors shadow-sm"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={nextTestimonial}
-                  aria-label="Next review"
-                  className="w-10 h-10 rounded-full bg-surface-light hover:bg-brand hover:text-white border border-surface-mid text-ink flex items-center justify-center transition-colors shadow-sm"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
+                  key={i}
+                  onClick={() => setActiveIndex(i)}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    activeIndex === i ? "w-8 bg-[#0080CB]" : "w-2 bg-slate-300 hover:bg-slate-400"
+                  }`}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              ))}
             </div>
 
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handlePrev}
+                className="p-3 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 transition-colors"
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={handleNext}
+                className="p-3 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 transition-colors"
+                aria-label="Next testimonial"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
           </div>
-        </ScrollReveal>
-
-        {/* 4 Interactive Testimonial Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {TESTIMONIALS.map((t, i) => (
-            <motion.div
-              key={t.id}
-              onClick={() => {
-                setActiveIndex(i);
-                scrollToCard(i);
-              }}
-              whileHover={{ y: -4 }}
-              animate={{
-                scale: activeIndex === i ? 1.03 : 1,
-                opacity: activeIndex === i ? 1 : 0.85,
-              }}
-              transition={{ duration: 0.3 }}
-              className={`p-6 rounded-3xl border transition-all duration-300 cursor-pointer flex flex-col justify-between ${
-                activeIndex === i
-                  ? "bg-white border-brand shadow-lg ring-2 ring-brand/20"
-                  : "bg-white/80 border-surface-mid hover:border-brand/40 shadow-sm"
-              }`}
-            >
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-0.5">
-                    {[...Array(t.rating)].map((_, index) => (
-                      <Star
-                        key={index}
-                        className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400"
-                      />
-                    ))}
-                  </div>
-                  <span className="text-[11px] font-bold text-brand font-mono">0{i + 1}</span>
-                </div>
-
-                <p className="text-ink-body text-xs leading-relaxed line-clamp-3 italic">
-                  "{t.content}"
-                </p>
-              </div>
-
-              <div className="flex items-center gap-3 pt-4 mt-4 border-t border-surface-light">
-                {renderAvatar(t.avatar, t.name, "w-9 h-9", "text-xs")}
-                <div>
-                  <h3 className="font-display font-bold text-xs text-ink">
-                    {t.name}
-                  </h3>
-                </div>
-              </div>
-            </motion.div>
-          ))}
         </div>
-
       </div>
-    </Section>
+    </section>
   );
 }

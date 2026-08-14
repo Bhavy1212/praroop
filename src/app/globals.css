@@ -1,109 +1,194 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand: #345995;
-  --color-brand-dark: #27426f;
-  --color-brand-darker: #1e3150;
-  --color-brand-light: #668cc9;
-  --color-brand-tint: rgba(52, 89, 149, 0.12);
-  --color-brand-faint: rgba(52, 89, 149, 0.06);
+  /* === PRAAROOP OFFICIAL LOGO PALETTE (VIBRANT LIGHT DESIGN SYSTEM) === */
+  --color-brand-blue: #0080CB;     /* Primary Blue */
+  --color-brand-teal: #0C9DA8;     /* Secondary Teal */
+  --color-brand-magenta: #D10B6A;  /* Highlight Magenta */
 
-  --color-surface: #ffffff;
-  --color-surface-light: #f8f9fa;
-  --color-surface-mid: #e9ecef;
-  --color-surface-muted: #dee2e6;
+  --color-light-bg: #FFFFFF;       /* Clean White Background */
+  --color-light-surface: #F8FAFC;  /* Soft Surface Background */
+  --color-light-glass: #FFFFFF;    /* Crisp White Glass Card Surface */
 
-  --color-ink: #212529;
-  --color-ink-body: #495057;
-  --color-ink-muted: #6c757d;
-  --color-ink-faint: #adb5bd;
+  --color-text-dark: #0B1220;      /* Deep Charcoal Headings & High Contrast Text */
+  --color-text-body: #334155;      /* Primary Body Text (WCAG AAA Compliant on #FFFFFF) */
+  --color-text-muted: #64748B;     /* Secondary Muted Copy */
 
   --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-display: var(--font-syne), system-ui, sans-serif;
+  --font-display: var(--font-display), "Plus Jakarta Sans", system-ui, sans-serif;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #212529;
+  --background: #FFFFFF;
+  --foreground: #0B1220;
 }
 
-/* Lenis smooth scroll owns the document window scroll */
-html,
-body {
-  background-color: var(--background);
-  color: var(--foreground);
+html {
+  scroll-behavior: smooth;
+  background-color: #FFFFFF;
+  color: #0B1220;
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
-/* Custom premium scrollbar */
+body {
+  background-color: #FFFFFF;
+  color: #0B1220;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Custom premium light scrollbar */
 ::-webkit-scrollbar {
-  width: 9px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f8f9fa;
+  background: #F8FAFC;
 }
 ::-webkit-scrollbar-thumb {
-  background: #345995;
-  border-radius: 4px;
+  background: rgba(0, 128, 203, 0.4);
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #27426f;
+  background: rgba(12, 157, 168, 0.8);
 }
 
-/* Horizontal Snap Scroll Utilities for Carousels */
-.snap-x-container {
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
+/* Tri-Color Animated Gradient Text Sweep */
+@keyframes tri-gradient-sweep {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-.snap-x-item {
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
+.text-gradient-tri {
+  background: linear-gradient(135deg, #0080CB 0%, #0C9DA8 50%, #D10B6A 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: tri-gradient-sweep 8s ease infinite;
+  will-change: background-position;
 }
 
-/* Marquee Animations */
+/* Floating Ambient Blobs - Vibrant & Soft on Light BG */
+@keyframes blob-float-1 {
+  0%, 100% { transform: translate3d(0px, 0px, 0px) scale(1); opacity: 0.35; }
+  50% { transform: translate3d(40px, -60px, 0px) scale(1.1); opacity: 0.55; }
+}
+
+@keyframes blob-float-2 {
+  0%, 100% { transform: translate3d(0px, 0px, 0px) scale(1.05); opacity: 0.4; }
+  50% { transform: translate3d(-50px, 50px, 0px) scale(0.95); opacity: 0.2; }
+}
+
+@keyframes blob-float-3 {
+  0%, 100% { transform: translate3d(0px, 0px, 0px) scale(1); opacity: 0.3; }
+  50% { transform: translate3d(30px, 40px, 0px) scale(1.15); opacity: 0.5; }
+}
+
+.animate-blob-1 {
+  animation: blob-float-1 16s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-blob-2 {
+  animation: blob-float-2 20s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-blob-3 {
+  animation: blob-float-3 18s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Infinite Marquee */
 @keyframes marquee-left {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translate3d(0%, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 .animate-marquee-left {
+  display: flex;
+  width: max-content;
   animation: marquee-left 35s linear infinite;
+  will-change: transform;
 }
 
 .animate-marquee-left:hover {
   animation-play-state: paused;
 }
 
-/* Pulse ring effect for WhatsApp CTA */
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
-  }
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 16px rgba(37, 211, 102, 0);
-  }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-  }
+/* WhatsApp Pulse Ring Animation */
+@keyframes pulse-ring-glow {
+  0% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(0, 128, 203, 0.4); }
+  70% { transform: scale(1.02); box-shadow: 0 0 0 16px rgba(0, 128, 203, 0); }
+  100% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(0, 128, 203, 0); }
 }
 
-.whatsapp-pulse {
-  animation: pulse-ring 2s infinite;
+.whatsapp-pulse-ring {
+  animation: pulse-ring-glow 2.5s ease-out infinite;
+  will-change: transform, box-shadow;
 }
 
-/* Respect prefers-reduced-motion */
+/* Glassmorphic Light Card */
+.glass-card-light {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 128, 203, 0.12);
+  box-shadow: 0 10px 30px -10px rgba(0, 128, 203, 0.08);
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-hover:hover {
+  background: #FFFFFF;
+  border-color: rgba(12, 157, 168, 0.4);
+  box-shadow: 0 15px 35px -10px rgba(0, 128, 203, 0.15);
+  transform: translate3d(0, -4px, 0);
+}
+
+/* Hide scrollbars for snap/overflow rows on mobile */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* MANDATORY PREFERS-REDUCED-MOTION SUPPORT */
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee-left,
-  .whatsapp-pulse {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .text-gradient-tri {
     animation: none !important;
+    background-position: 0% 50% !important;
+  }
+
+  .animate-blob-1,
+  .animate-blob-2,
+  .animate-blob-3,
+  .animate-marquee-left,
+  .whatsapp-pulse-ring {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .animate-marquee-left {
+    width: 100% !important;
+    overflow-x: auto !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
   }
 }
+
+

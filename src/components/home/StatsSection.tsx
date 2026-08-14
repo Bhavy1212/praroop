@@ -1,35 +1,94 @@
 "use client";
 
-import AnimatedCounter from "@/components/ui/AnimatedCounter";
-import ScrollReveal from "@/components/ui/ScrollReveal";
+import { useEffect, useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { Trophy, Users, Coffee } from "lucide-react";
 import { STATS } from "@/lib/data";
 
-export default function StatsSection() {
-  return (
-    <section className="py-16 sm:py-20 bg-brand text-white relative overflow-hidden">
-      <div className="absolute -left-12 -top-12 w-64 h-64 rounded-full bg-white/5 blur-2xl" />
-      <div className="absolute -right-12 -bottom-12 w-64 h-64 rounded-full bg-white/5 blur-2xl" />
+const STAT_ICONS = [Trophy, Users, Coffee];
+const STAT_COLORS = ["#0080CB", "#0C9DA8", "#D10B6A"];
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 text-center divider-y md:divider-y-0 md:divider-x divider-white/10">
-          {STATS.map((stat, i) => (
-            <ScrollReveal
-              key={stat.label}
-              delay={i * 0.15}
-              className="py-4 space-y-2"
-            >
-              <div className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white flex items-center justify-center">
-                <AnimatedCounter
-                  value={stat.value}
-                  suffix={stat.suffix}
-                  duration={2.5}
-                />
-              </div>
-              <p className="text-white/85 text-base sm:text-lg font-medium tracking-wide uppercase">
-                {stat.label}
-              </p>
-            </ScrollReveal>
-          ))}
+function CountUpNumber({ target, suffix, reducedMotion }: { target: number; suffix: string; reducedMotion: boolean }) {
+  const [count, setCount] = useState(reducedMotion ? target : 0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setCount(target);
+      return;
+    }
+
+    if (!isInView) return;
+
+    let start = 0;
+    const duration = 2000; // 2s
+    const steps = 60;
+    const increment = target / steps;
+    const stepTime = duration / steps;
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, stepTime);
+
+    return () => clearInterval(timer);
+  }, [isInView, target, reducedMotion]);
+
+  return (
+    <span ref={ref} className="font-black">
+      {count.toLocaleString()}
+      {suffix}
+    </span>
+  );
+}
+
+export default function StatsSection() {
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
+  return (
+    <section id="stats" className="relative py-20 px-4 sm:px-6 lg:px-8 bg-slate-50/50 overflow-hidden border-t border-b border-slate-100">
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {STATS.map((stat, idx) => {
+            const IconComp = STAT_ICONS[idx % STAT_ICONS.length];
+            const color = STAT_COLORS[idx % STAT_COLORS.length];
+
+            return (
+              <motion.div
+                key={stat.label}
+                initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="group relative rounded-3xl bg-white border border-slate-200/80 p-8 text-center flex flex-col items-center justify-center space-y-4 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-300"
+              >
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center border border-slate-100 transition-transform duration-300 group-hover:scale-110"
+                  style={{ backgroundColor: `${color}12` }}
+                >
+                  <IconComp className="w-8 h-8" style={{ color }} />
+                </div>
+
+                <div className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0B1220] tracking-tight">
+                  <CountUpNumber target={stat.value} suffix={stat.suffix} reducedMotion={reducedMotion} />
+                </div>
+
+                <p className="text-base font-bold text-slate-600 uppercase tracking-wider">
+                  {stat.label}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

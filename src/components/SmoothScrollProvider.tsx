@@ -1,63 +1,45 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import Lenis from "lenis";
+import { useEffect } from "react";
 
 export default function SmoothScrollProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const lenisRef = useRef<Lenis | null>(null);
-
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReducedMotion) return;
-
-    const lenis = new Lenis({
-      duration: 1.0,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.5,
-      infinite: false,
-    });
-    lenisRef.current = lenis;
-
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    // Fix anchor links (#services, #client) so they use Lenis, not native jump
+    // Smooth anchor link click interception (#services, #outdoor, #client, etc.)
     const handleAnchorClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest('a[href*="#"]');
       if (!target) return;
       const href = target.getAttribute("href");
       if (!href) return;
 
-      // Extract section hash (e.g. /#services -> #services, #client -> #client)
       const hashIndex = href.indexOf("#");
       if (hashIndex === -1) return;
       const hash = href.substring(hashIndex);
       if (hash === "#") return;
 
-      const el = document.querySelector(hash);
+      const el = document.querySelector(hash) as HTMLElement;
       if (el) {
         e.preventDefault();
-        lenis.scrollTo(el as HTMLElement, { offset: -100 }); // -100 = sticky header height
+        const container = document.querySelector(".snap-container") as HTMLElement;
+        if (container) {
+          // Scroll the snap container to the element's top position within it
+          const top = el.offsetTop;
+          container.scrollTo({ top, behavior: "smooth" });
+        } else {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       }
     };
     document.addEventListener("click", handleAnchorClick);
 
     return () => {
-      lenis.destroy();
       document.removeEventListener("click", handleAnchorClick);
     };
   }, []);
 
   return <>{children}</>;
 }
+

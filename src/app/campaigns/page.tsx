@@ -1,102 +1,113 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CAMPAIGN_POSTS } from "@/lib/data";
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import { Calendar, Tag, ArrowUpRight } from "lucide-react";
+import { CAMPAIGN_POSTS, BRAND } from "@/lib/data";
+import { Calendar, Tag, ArrowUpRight, Sparkles, MessageSquare } from "lucide-react";
+import Footer from "@/components/layout/Footer";
+import AmbientBackground from "@/components/ui/AmbientBackground";
 
 export const metadata = {
-  title: "Campaigns | Praaroop Media — Creative Branding & Digital Agency in Udaipur",
+  title: "Campaigns Portfolio | Praaroop Media — 360° Marketing Agency in Udaipur",
   description:
     "Explore our campaign portfolio in Udaipur, Rajasthan. Event branding, outdoor advertising, and marketing showcases.",
 };
 
 export default function CampaignsPage() {
   return (
-    <div className="space-y-16 pb-20">
-      
-      {/* Header */}
-      <section className="py-16 bg-surface-light border-b border-surface-mid">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-brand-tint text-brand text-xs font-bold uppercase tracking-wider">
-            Praaroop Media Portfolio
-          </span>
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-ink tracking-tight">
-            Campaigns
-          </h1>
-        </div>
-      </section>
+    <main className="relative bg-white text-[#0B1220] min-h-screen pt-24 selection:bg-[#0080CB] selection:text-white">
+      <AmbientBackground />
 
-      {/* Grid of 8 Real Linked Campaign Cards */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {CAMPAIGN_POSTS.map((post, i) => (
-            <ScrollReveal key={post.slug} delay={i * 0.08}>
+      <div className="space-y-20 pb-0 relative z-10">
+        {/* Header Hero Banner */}
+        <section className="py-20 bg-slate-50/60 border-b border-slate-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-bold uppercase tracking-wider text-[#0080CB] shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#0080CB]" />
+              <span>Agency Portfolio</span>
+            </span>
+            <h1 className="text-4xl sm:text-6xl font-black text-[#0B1220] tracking-tight">
+              Campaigns <span className="text-gradient-tri">Showcase</span>
+            </h1>
+          </div>
+        </section>
+
+        {/* Grid List of All Campaigns */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {CAMPAIGN_POSTS.map((post) => (
               <Link
+                key={post.slug}
                 href={`/${post.slug}/`}
-                className="group rounded-3xl bg-white border border-surface-mid hover:border-brand/40 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between h-full cursor-pointer block"
+                className="group flex flex-col justify-between h-[460px] rounded-3xl bg-white border border-slate-200/80 hover:border-slate-300 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-[0_15px_30px_-10px_rgba(0,128,203,0.15)] hover:-translate-y-1"
               >
-                <div>
-                  {/* Thumbnail */}
-                  <div className="relative h-60 w-full bg-surface-light overflow-hidden border-b border-surface-mid">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      fill
-                      className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
-                    />
-                    <span className="absolute top-4 left-4 text-xs font-bold px-3 py-1 rounded-full bg-brand text-white shadow-md flex items-center gap-1">
-                      <Tag className="w-3 h-3" /> {post.category}
+                {/* Photo Canvas */}
+                <div className="relative h-60 w-full bg-slate-100 overflow-hidden">
+                  <Image
+                    src={post.image}
+                    alt={post.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                    sizes="(max-width: 768px) 100vw, 30vw"
+                  />
+
+                  {/* Category & Date Badges */}
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="px-3 py-1 rounded-full bg-[#0080CB] text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-md">
+                      <Tag className="w-2.5 h-2.5" /> {post.category}
                     </span>
                   </div>
+                  <div className="absolute top-4 right-4 z-10">
+                    <span className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-slate-700 text-[10px] font-bold border border-slate-200 flex items-center gap-1 shadow-xs">
+                      <Calendar className="w-3 h-3 text-[#0C9DA8]" /> {post.date}
+                    </span>
+                  </div>
+                </div>
 
-                  {/* Body Content */}
-                  <div className="p-6 space-y-3">
-                    <div className="flex items-center gap-2 text-xs font-medium text-ink-muted">
-                      <Calendar className="w-3.5 h-3.5 text-brand" />
-                      <span>{post.date}</span>
-                    </div>
-
-                    <h2 className="font-display font-bold text-xl text-ink group-hover:text-brand transition-colors">
+                {/* Content */}
+                <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
+                  <div className="space-y-2">
+                    <h2 className="text-xl font-extrabold text-[#0B1220] group-hover:text-[#0080CB] transition-colors line-clamp-2">
                       {post.title}
                     </h2>
-
-                    <p className="text-ink-body text-xs sm:text-sm leading-relaxed line-clamp-3">
+                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
                       {post.description}
                     </p>
                   </div>
-                </div>
 
-                {/* Footer Link Indicator */}
-                <div className="p-6 pt-0">
-                  <div className="pt-3 border-t border-surface-light flex items-center justify-between text-xs font-semibold text-brand">
-                    <span>Read Campaign Story</span>
-                    <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                    <span className="text-[11px] font-bold text-[#0080CB] uppercase tracking-wider">
+                      Read Showcase →
+                    </span>
+                    <div className="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center group-hover:bg-[#0080CB] group-hover:text-white transition-all">
+                      <ArrowUpRight className="w-4 h-4" />
+                    </div>
                   </div>
                 </div>
               </Link>
-            </ScrollReveal>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
 
-      {/* CTA Strip */}
-      <section className="max-w-4xl mx-auto text-center px-4 pt-6">
-        <div className="p-8 sm:p-12 rounded-3xl bg-brand text-white space-y-4 shadow-xl">
-          <h2 className="font-display text-3xl font-bold">Have a Campaign in Mind?</h2>
-          <p className="text-white/80 text-sm max-w-xl mx-auto">
-            Book a campaign strategy session with Praaroop Media in Udaipur.
-          </p>
-          <a
-            href="https://api.whatsapp.com/send?phone=918696940199&text=Hello"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white text-brand font-bold px-8 py-3.5 rounded-full hover:bg-surface-light transition-all shadow-md"
-          >
-            <span>Get in touch</span>
-          </a>
-        </div>
-      </section>
+        {/* CTA Section */}
+        <section className="max-w-4xl mx-auto px-4">
+          <div className="p-10 sm:p-12 rounded-3xl bg-gradient-to-r from-[#0080CB] via-[#0C9DA8] to-[#D10B6A] text-white text-center space-y-6 shadow-2xl">
+            <h2 className="text-3xl font-extrabold text-white">Have a Campaign in Mind?</h2>
+            <p className="text-white/90 text-base max-w-xl mx-auto">
+              Book a campaign strategy session with Praaroop Media in Udaipur.
+            </p>
+            <a
+              href={BRAND.whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-white text-[#0B1220] font-extrabold px-8 py-3.5 rounded-full hover:bg-slate-100 transition-all shadow-xl"
+            >
+              <MessageSquare className="w-5 h-5 text-[#0080CB]" />
+              <span>Get in touch on WhatsApp</span>
+            </a>
+          </div>
+        </section>
 
-    </div>
+        <Footer />
+      </div>
+    </main>
   );
 }

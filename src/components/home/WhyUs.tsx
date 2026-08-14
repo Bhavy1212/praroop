@@ -1,101 +1,108 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Compass, Lightbulb, Cpu, HeartHandshake, CheckCircle2 } from "lucide-react";
 import { WHY_CHOOSE_US } from "@/lib/data";
-import ScrollReveal from "@/components/ui/ScrollReveal";
-import Section from "@/components/ui/Section";
-import { ShieldCheck, Sparkles, Cpu, HeartHandshake } from "lucide-react";
 
-const PILLAR_ICONS = [ShieldCheck, Sparkles, Cpu, HeartHandshake];
+const PILLAR_ICONS = [Compass, Lightbulb, Cpu, HeartHandshake];
+const PILLAR_COLORS = ["#0080CB", "#0C9DA8", "#D10B6A", "#0080CB"];
 
 export default function WhyUs() {
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
   return (
-    <Section id="why-us" className="bg-white border-b border-surface-mid">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-        
-        {/* Section Header */}
-        <ScrollReveal className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="inline-block px-3.5 py-1 rounded-full bg-brand-tint text-brand text-xs font-bold uppercase tracking-wider">
+    <section id="why-us" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-slate-50/50 overflow-hidden border-t border-slate-100">
+      <div className="max-w-7xl mx-auto relative z-10 space-y-16">
+        {/* Section Intro */}
+        <div className="text-center max-w-3xl mx-auto space-y-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-bold uppercase tracking-wider text-[#0080CB] shadow-xs">
             {WHY_CHOOSE_US.label}
-          </span>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink tracking-tight">
-            {WHY_CHOOSE_US.h2}
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#0B1220] tracking-tight">
+            Why Choose <span className="text-gradient-tri">Praaroop Media</span>?
           </h2>
-          <p className="text-ink-body text-base leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
             {WHY_CHOOSE_US.body}
           </p>
-        </ScrollReveal>
-
-        {/* 2-Column Grid: Feature Cards Staggered from Left + Sticky About Us Card */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          
-          {/* Left Column: 4 Feature Cards Staggering in from Left */}
-          <div className="lg:col-span-7 space-y-6">
-            <h3 className="font-display text-2xl font-bold text-ink border-l-4 border-brand pl-3 mb-6">
-              {WHY_CHOOSE_US.subheading}
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {WHY_CHOOSE_US.pillars.map((pillar, i) => {
-                const Icon = PILLAR_ICONS[i] || ShieldCheck;
-                return (
-                  <motion.div
-                    key={pillar.title}
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                    whileHover={{ y: -4 }}
-                    className="p-6 rounded-3xl bg-surface-light border border-surface-mid hover:border-brand/40 shadow-sm hover:shadow-lg transition-all duration-300 space-y-3 group"
-                  >
-                    <div className="w-12 h-12 rounded-2xl bg-white text-brand flex items-center justify-center shadow-sm group-hover:bg-brand group-hover:text-white transition-colors duration-300">
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <h4 className="font-display font-bold text-lg text-ink group-hover:text-brand transition-colors">
-                      {pillar.title}
-                    </h4>
-                    <p className="text-xs text-ink-body leading-relaxed">
-                      {pillar.description}
-                    </p>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Right Column: Sticky About Us Card with Fade-In Photo */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-5 sticky top-28"
-          >
-            <div className="p-8 rounded-3xl bg-surface-light border border-surface-mid space-y-6 shadow-xl relative overflow-hidden">
-              <span className="inline-block px-3 py-1 rounded-full bg-brand text-white text-xs font-bold uppercase tracking-wider">
-                {WHY_CHOOSE_US.aboutCard.label}
-              </span>
-
-              <p className="text-ink-body text-sm leading-relaxed">
-                {WHY_CHOOSE_US.aboutCard.body}
-              </p>
-
-              {/* Office Photo Fade-In */}
-              <div className="relative h-64 w-full rounded-2xl overflow-hidden shadow-md border border-surface-mid">
-                <Image
-                  src={WHY_CHOOSE_US.aboutCard.image}
-                  alt="Praaroop Media Office"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-            </div>
-          </motion.div>
-
         </div>
 
+        {/* 4 Pillars Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {WHY_CHOOSE_US.pillars.map((pillar, idx) => {
+            const IconComp = PILLAR_ICONS[idx % PILLAR_ICONS.length];
+            const color = PILLAR_COLORS[idx % PILLAR_COLORS.length];
+
+            return (
+              <motion.div
+                key={pillar.title}
+                initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="group relative rounded-3xl bg-white border border-slate-200/80 p-8 flex flex-col justify-between transition-all duration-300 hover:border-slate-300 hover:shadow-[0_15px_30px_-10px_rgba(0,128,203,0.12)] hover:-translate-y-1"
+              >
+                <div>
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center border border-slate-100 mb-6 transition-transform duration-300 group-hover:scale-110"
+                    style={{ backgroundColor: `${color}12` }}
+                  >
+                    <IconComp className="w-7 h-7" style={{ color }} />
+                  </div>
+
+                  <h3 className="text-xl font-bold text-[#0B1220] mb-3 leading-snug group-hover:text-[#0080CB] transition-colors">
+                    {pillar.title}
+                  </h3>
+
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    {pillar.description}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* About Us Featured Card */}
+        <motion.div
+          initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative rounded-3xl bg-white border border-slate-200/80 p-8 sm:p-12 overflow-hidden shadow-md"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-7 space-y-6">
+              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#0C9DA8] bg-slate-100 border border-slate-200 px-3.5 py-1.5 rounded-full">
+                <CheckCircle2 className="w-4 h-4 text-[#0C9DA8]" />
+                <span>{WHY_CHOOSE_US.aboutCard.label}</span>
+              </span>
+
+              <h3 className="text-2xl sm:text-4xl font-extrabold text-[#0B1220] leading-tight">
+                Transforming Ideas into <span className="text-gradient-tri">Impactful Stories</span>
+              </h3>
+
+              <p className="text-base text-slate-600 leading-relaxed">
+                {WHY_CHOOSE_US.aboutCard.body}
+              </p>
+            </div>
+
+            <div className="lg:col-span-5 relative h-64 sm:h-80 rounded-2xl overflow-hidden border border-slate-200">
+              <Image
+                src={WHY_CHOOSE_US.aboutCard.image}
+                alt="Praaroop Media Agency Team Udaipur"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </motion.div>
       </div>
-    </Section>
+    </section>
   );
 }

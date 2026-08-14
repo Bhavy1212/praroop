@@ -1,5 +1,5 @@
-import ScrollProgress from "@/components/ui/ScrollProgress";
-import ScrollTransition from "@/components/ui/ScrollTransition";
+import SideDotNav from "@/components/ui/SideDotNav";
+import AmbientBackground from "@/components/ui/AmbientBackground";
 import Hero from "@/components/home/Hero";
 import DigitalMarketingSection from "@/components/home/DigitalMarketingSection";
 import SectionIntro from "@/components/home/SectionIntro";
@@ -11,56 +11,53 @@ import ClientMarquee from "@/components/home/ClientMarquee";
 import WhyUs from "@/components/home/WhyUs";
 import Testimonials from "@/components/home/Testimonials";
 import FooterCtaCards from "@/components/home/FooterCtaCards";
+import Footer from "@/components/layout/Footer";
 
 export default function HomePage() {
   return (
-    <main className="relative bg-white text-ink">
-      {/* Top Reading Progress Bar */}
-      <ScrollProgress />
+    <main className="relative bg-white text-[#0B1220] min-h-screen selection:bg-[#0080CB] selection:text-white">
+      {/* Drifting Ambient Background Glowing Orbs */}
+      <AmbientBackground />
 
-      {/* Sequential Homepage Sections with Scroll-Triggered Entrance Animations */}
-      <div className="space-y-4">
+      {/* Side Dot Navigation indicator for desktop natural section scroll */}
+      <SideDotNav />
+
+      {/* Section 0 — Hero Banner Page */}
+      <div id="hero">
         <Hero />
+      </div>
 
-        <ScrollTransition id="services">
-          <DigitalMarketingSection />
-        </ScrollTransition>
+      {/* Section 1 — Digital Marketing Services */}
+      <DigitalMarketingSection />
 
-        <ScrollTransition>
-          <SectionIntro />
-        </ScrollTransition>
+      {/* Section 2 — Section Intro (360° Marketing expertise) */}
+      <SectionIntro />
 
-        <ScrollTransition id="outdoor">
-          <OutdoorMarketingSection />
-        </ScrollTransition>
+      {/* Section 3 — Outdoor Marketing */}
+      <OutdoorMarketingSection />
 
-        <ScrollTransition id="activations">
-          <ActivationsSection />
-        </ScrollTransition>
+      {/* Section 4 — Activations */}
+      <ActivationsSection />
 
-        <ScrollTransition>
-          <CtaBanner />
-        </ScrollTransition>
+      {/* Section 5 — CTA Banner */}
+      <CtaBanner />
 
-        <ScrollTransition>
-          <StatsSection />
-        </ScrollTransition>
+      {/* Section 6 — Stats Counter */}
+      <StatsSection />
 
-        <ScrollTransition id="client">
-          <ClientMarquee />
-        </ScrollTransition>
+      {/* Section 7 — Client Logo Marquee */}
+      <ClientMarquee />
 
-        <ScrollTransition id="why-us">
-          <WhyUs />
-        </ScrollTransition>
+      {/* Section 8 — Why Choose Us & About Us */}
+      <WhyUs />
 
-        <ScrollTransition id="testimonials">
-          <Testimonials />
-        </ScrollTransition>
+      {/* Section 9 — Testimonials */}
+      <Testimonials />
 
-        <ScrollTransition>
-          <FooterCtaCards />
-        </ScrollTransition>
+      {/* Section 10 — Footer CTA & Footer */}
+      <div id="footer">
+        <FooterCtaCards />
+        <Footer />
       </div>
     </main>
   );

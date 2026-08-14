@@ -1,151 +1,139 @@
 import Link from "next/link";
 import Image from "next/image";
-import { BRAND } from "@/lib/data";
-import ObfuscatedEmail from "@/components/ui/ObfuscatedEmail";
-
-function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-    </svg>
-  );
-}
-
-function FacebookIcon({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-    </svg>
-  );
-}
-
-function LinkedinIcon({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-      <rect x="2" y="9" width="4" height="12"/>
-      <circle cx="4" cy="4" r="2"/>
-    </svg>
-  );
-}
+import { Phone, Mail, MapPin, ArrowUpRight } from "lucide-react";
+import { InstagramIcon, FacebookIcon, LinkedinIcon } from "@/components/ui/SocialIcons";
+import { BRAND, NAV_LINKS } from "@/lib/data";
 
 export default function Footer() {
   return (
-    <footer className="bg-white text-ink pt-16 pb-8 border-t border-surface-mid">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 border-b border-surface-mid">
-          
-          {/* Column 1: Logo, Tagline & Follow us on */}
-          <div className="space-y-4">
-            <div className="relative h-12 w-48">
-              <Image
-                src="/praaroop-Media-and-Adv-1.png"
-                alt="Praaroop Media"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <p className="text-ink-body text-sm leading-relaxed">
+    <footer className="relative bg-[#0B1220] text-white pt-16 pb-12 border-t border-slate-800 overflow-hidden">
+      {/* Background Subtle Gradient Glow */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-48 bg-gradient-to-r from-[#0080CB]/15 via-[#0C9DA8]/15 to-[#D10B6A]/15 blur-[100px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 mb-16">
+          {/* Col 1 — Brand info & Tagline (5 cols) */}
+          <div className="lg:col-span-5 space-y-6">
+            <Link href="/" className="inline-block">
+              <div className="relative h-12 w-48">
+                <Image
+                  src="/praaroop-Media-and-Adv-1.png"
+                  alt="Praaroop Media — 360° Marketing Agency in Udaipur"
+                  fill
+                  className="object-contain filter brightness-110 drop-shadow-[0_0_12px_rgba(0,128,203,0.3)]"
+                />
+              </div>
+            </Link>
+
+            <p className="text-base text-slate-300 leading-relaxed max-w-md font-medium">
               {BRAND.tagline}
             </p>
-            <div className="space-y-2 pt-2">
-              <p className="text-xs font-bold text-brand uppercase tracking-wider">
-                Follow us on
-              </p>
-              <div className="flex items-center gap-3">
-                <a
-                  href={BRAND.socials.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-surface-light border border-surface-mid flex items-center justify-center text-ink hover:bg-brand hover:text-white transition-all"
-                  aria-label="Instagram"
-                >
-                  <InstagramIcon className="w-4 h-4" />
-                </a>
-                <a
-                  href={BRAND.socials.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-surface-light border border-surface-mid flex items-center justify-center text-ink hover:bg-brand hover:text-white transition-all"
-                  aria-label="Facebook"
-                >
-                  <FacebookIcon className="w-4 h-4" />
-                </a>
-                <a
-                  href={BRAND.socials.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-surface-light border border-surface-mid flex items-center justify-center text-ink hover:bg-brand hover:text-white transition-all"
-                  aria-label="LinkedIn"
-                >
-                  <LinkedinIcon className="w-4 h-4" />
-                </a>
-              </div>
+
+            {/* Social Icons */}
+            <div className="flex items-center gap-3 pt-2">
+              <a
+                href={BRAND.socials.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-white/5 hover:bg-[#D10B6A]/20 border border-white/10 hover:border-[#D10B6A]/50 rounded-xl text-white transition-all duration-300 group"
+                aria-label="Instagram"
+              >
+                <InstagramIcon className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-300 group-hover:text-white" />
+              </a>
+              <a
+                href={BRAND.socials.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-white/5 hover:bg-[#0080CB]/20 border border-white/10 hover:border-[#0080CB]/50 rounded-xl text-white transition-all duration-300 group"
+                aria-label="Facebook"
+              >
+                <FacebookIcon className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-300 group-hover:text-white" />
+              </a>
+              <a
+                href={BRAND.socials.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-white/5 hover:bg-[#0C9DA8]/20 border border-white/10 hover:border-[#0C9DA8]/50 rounded-xl text-white transition-all duration-300 group"
+                aria-label="LinkedIn"
+              >
+                <LinkedinIcon className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-300 group-hover:text-white" />
+              </a>
             </div>
           </div>
 
-          {/* Column 2: Useful links */}
-          <div className="space-y-4">
-            <h3 className="font-display font-bold text-base text-ink uppercase tracking-wider">
-              Useful links
+          {/* Col 2 — Quick Links (3 cols) */}
+          <div className="lg:col-span-3 space-y-4">
+            <h3 className="text-sm font-bold tracking-wider text-white uppercase border-b border-slate-800 pb-2">
+              Quick Links
             </h3>
-            <ul className="space-y-2 text-sm text-ink-body font-medium">
-              <li>
-                <Link href="/" className="hover:text-brand transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/about-us/" className="hover:text-brand transition-colors">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link href="/#services" className="hover:text-brand transition-colors">
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link href="/campaigns/" className="hover:text-brand transition-colors">
-                  Campaigns
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact-us/" className="hover:text-brand transition-colors">
-                  Contact
-                </Link>
-              </li>
+            <ul className="space-y-3">
+              {NAV_LINKS.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="group inline-flex items-center gap-1.5 text-sm font-medium text-slate-300 hover:text-white transition-colors duration-200"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0C9DA8] group-hover:scale-150 transition-transform" />
+                    <span>{link.name}</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-[#0080CB]" />
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Column 3: Company information */}
-          <div className="space-y-4">
-            <h3 className="font-display font-bold text-base text-ink uppercase tracking-wider">
-              Company information
+          {/* Col 3 — Contact Information (4 cols) */}
+          <div className="lg:col-span-4 space-y-4">
+            <h3 className="text-sm font-bold tracking-wider text-white uppercase border-b border-slate-800 pb-2">
+              Contact Agency
             </h3>
-            <ul className="space-y-3 text-sm text-ink-body font-medium">
-              <li>
-                📞 <a href={`tel:${BRAND.phone}`} className="hover:text-brand">{BRAND.phone}</a>
+            <ul className="space-y-4 text-sm text-slate-300">
+              <li className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-[#0080CB] shrink-0 mt-0.5" />
+                <span className="leading-snug">{BRAND.address}</span>
               </li>
-              <li>
-                📍 {BRAND.address}
+              <li className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-[#0C9DA8] shrink-0" />
+                <a
+                  href={`tel:${BRAND.phone.replace(/[^0-9+]/g, "")}`}
+                  className="hover:text-white transition-colors font-semibold"
+                >
+                  {BRAND.phone}
+                </a>
               </li>
-              <li className="flex items-center gap-1.5">
-                ✉️ <ObfuscatedEmail className="font-mono text-xs text-ink-body" />
+              <li className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-[#D10B6A] shrink-0" />
+                <a
+                  href={`mailto:${BRAND.email}`}
+                  className="hover:text-white transition-colors"
+                >
+                  {BRAND.email}
+                </a>
               </li>
             </ul>
-          </div>
 
+            {/* Google Maps link button */}
+            <div className="pt-2">
+              <a
+                href={BRAND.googleMapsLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-xs font-bold text-white bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2.5 rounded-xl transition-all"
+              >
+                <span>Find us on Google Maps</span>
+                <ArrowUpRight className="w-4 h-4 text-[#0080CB]" />
+              </a>
+            </div>
+          </div>
         </div>
 
-        {/* Bottom Copyright */}
-        <div className="text-center text-xs text-ink-muted font-medium">
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <p>{BRAND.copyright}</p>
+          <p className="flex items-center gap-2">
+            <span>Designed for Praaroop Media — 360° Marketing Agency, Udaipur</span>
+          </p>
         </div>
-
       </div>
     </footer>
   );
