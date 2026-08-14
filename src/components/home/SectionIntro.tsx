@@ -5,37 +5,41 @@ import { SECTION_INTRO } from "@/lib/data";
 
 export default function SectionIntro() {
   return (
-    <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden border-t border-b border-slate-100">
+    <section className="relative min-h-[85vh] flex flex-col items-center justify-center py-28 px-4 sm:px-6 lg:px-8 bg-[#FAFAFC] bg-noise overflow-hidden border-t border-b border-slate-200/80">
       {/* Background Subtle Gradient Glow */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0080CB]/5 via-[#0C9DA8]/5 to-[#D10B6A]/5 opacity-60 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0080CB]/10 via-[#0C9DA8]/10 to-[#D10B6A]/10 opacity-70 pointer-events-none" />
 
-      <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
+      <div className="max-w-5xl mx-auto text-center relative z-10 space-y-8 my-auto">
+        {/* Eyebrow Tag */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-bold uppercase tracking-widest text-[#0C9DA8]"
+          className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white border border-slate-200 shadow-sm text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[#0C9DA8]"
         >
-          {SECTION_INTRO.eyebrow}
+          <span className="w-2.5 h-2.5 rounded-full bg-[#0C9DA8] animate-ping" />
+          <span>{SECTION_INTRO.eyebrow}</span>
         </motion.div>
 
+        {/* Full-Page Headline */}
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-[#0B1220] tracking-tight leading-tight"
+          className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-900 tracking-tight leading-tight font-display"
         >
           {SECTION_INTRO.h1}
         </motion.h2>
 
+        {/* Body Copy */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-lg sm:text-xl text-slate-600 leading-relaxed max-w-4xl mx-auto font-normal"
+          className="text-lg sm:text-2xl text-slate-600 leading-relaxed max-w-4xl mx-auto font-medium"
         >
           {SECTION_INTRO.body}
         </motion.p>

@@ -59,50 +59,50 @@ const OUTDOOR_ITEMS_DATA = [
   {
     title: OUTDOOR_MARKETING_ITEMS[5],
     icon: Newspaper,
-    desc: "Front page display ads, jacket wraps, and targeted insert campaigns in Rajasthan's highest-circulated dailies.",
-    bullets: ["Immediate Mass Awareness", "Front-Page Impact Jackets", "High Credibility Print Reader Base"],
+    desc: "Front page newspaper jacket ads, inserts, and magazine spread features in leading regional dailies.",
+    bullets: ["Mass Household Reach", "High Editorial Trust", "Targeted Geographic Print Runs"],
     color: "#D10B6A",
   },
   {
     title: OUTDOOR_MARKETING_ITEMS[6],
     icon: Bike,
-    desc: "Eco-friendly mobile tri-cycle branding for hyper-local market promotions and crowded bazaar corridors.",
-    bullets: ["Crowded Bazaar Access", "Pedestrian-Eye-Level Display", "High Street Engagement"],
+    desc: "Branded delivery fleet wraps and e-commerce delivery box branding traversing high-density urban areas.",
+    bullets: ["Continuous Mobile Visibility", "High-Impression Urban Density", "Targeted E-Commerce Audience"],
     color: "#0080CB",
   },
   {
     title: OUTDOOR_MARKETING_ITEMS[7],
     icon: ShieldAlert,
-    desc: "Residential and commercial no-parking board branding across high-density neighborhoods and market gates.",
-    bullets: ["Permanent Neighborhood Presence", "Continuous Daily Sightlines", "High ROI Micro-Targeting"],
+    desc: "Branded traffic police barricades at strategic highway check-points and city roundabouts.",
+    bullets: ["Commanding Road Visibility", "24/7 Vehicle Stop-Line Placement", "High Civic Authority Recall"],
     color: "#0C9DA8",
   },
   {
     title: OUTDOOR_MARKETING_ITEMS[8],
-    icon: Compass,
-    desc: "Street light pole kiosks and avenue banners along main commercial avenues and heritage tourist routes.",
-    bullets: ["Sequential Brand Repeating", "Avenue-Long Visual Domination", "Heritage Corridor Presence"],
+    icon: Radio,
+    desc: "Prime-time FM radio audio ads, RJ mentions, and station sponsorship tags across 93.5 RED FM & 94.3 MY FM.",
+    bullets: ["High Morning/Evening Listenership", "Influential RJ Endorsements", "Frequency-Driven Brand Recall"],
     color: "#D10B6A",
   },
   {
     title: OUTDOOR_MARKETING_ITEMS[9],
-    icon: Radio,
-    desc: "Catchy radio jingles, RJ mentions, and sponsored shows on leading FM channels across Rajasthan.",
-    bullets: ["High Prime-Time FM Frequency", "Popular RJ Endorsements", "Sonic Brand Recall"],
+    icon: Truck,
+    desc: "High-definition mobile LED display trucks equipped with surround sound for high-impact city roadshows.",
+    bullets: ["Dynamic Video Content", "Flexible Route Scheduling", "Interactive On-Road Engagement"],
     color: "#0080CB",
   },
   {
     title: OUTDOOR_MARKETING_ITEMS[10],
-    icon: Truck,
-    desc: "LED screen mobile vans and campaign floats for live broadcasting, product unveils, and political rallies.",
-    bullets: ["On-Demand Location Setup", "Live Broadcast LED Screens", "Stage Sound System Mobile Unit"],
+    icon: FileText,
+    desc: "Targeted direct mailers, door-to-door pamphlet drops, and localized promotional flyer distributions.",
+    bullets: ["Direct Household Delivery", "High Local Footfall Conversion", "Targeted Pin-Code Mapping"],
     color: "#0C9DA8",
   },
   {
     title: OUTDOOR_MARKETING_ITEMS[11],
-    icon: FileText,
-    desc: "Direct door-to-door newspaper pamphlet insertion reaching targeted residential pin-codes overnight.",
-    bullets: ["Targeted Household Delivery", "Direct Consumer Handset", "Custom Promotion Coupons"],
+    icon: Compass,
+    desc: "Strategic railway station platform hoardings, entry gate arches, and train coach panel branding.",
+    bullets: ["Heavy Commuter Footfall", "Regional Transit Reach", "Long Dwell-Time Impressions"],
     color: "#D10B6A",
   },
 ];
@@ -110,10 +110,10 @@ const OUTDOOR_ITEMS_DATA = [
 export default function OutdoorMarketingSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const mobileScrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const [isMobile, setIsMobile] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const checkViewport = () => {
@@ -126,13 +126,11 @@ export default function OutdoorMarketingSection() {
     return () => window.removeEventListener("resize", checkViewport);
   }, []);
 
-  // Desktop Scroll-Jacking (Framer Motion useScroll + useTransform)
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
-  // Translate horizontal row from 0% to -84% as user scrolls tall container
   const xTransform = useTransform(scrollYProgress, [0, 1], ["0%", "-84%"]);
 
   const handleMobileScroll = () => {
@@ -143,20 +141,19 @@ export default function OutdoorMarketingSection() {
   };
 
   return (
-    <section id="outdoor" className="relative bg-[#0A0A0A] text-white">
-      {/* Reduced Motion or Mobile Mode: Standard Static/Snap Layout */}
+    <section id="outdoor" className="relative bg-[#FAFAFC] text-[#0F172A] border-t border-slate-200/80">
       {reducedMotion || isMobile ? (
         <div className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto space-y-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-wider text-[#0080CB]">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm text-xs font-bold uppercase tracking-wider text-[#0080CB]">
               <Sparkles className="w-3.5 h-3.5 text-[#0080CB]" />
               <span>360° Media Placement Engine</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
               Outdoor <span className="text-gradient-tri">Marketing</span>
             </h2>
-            <p className="text-base sm:text-lg text-[#CBD5E1]">
+            <p className="text-base sm:text-lg text-slate-600">
               Strategic physical media placements designed to dominate urban landscapes and connect with audiences on the move.
             </p>
           </div>
@@ -169,18 +166,18 @@ export default function OutdoorMarketingSection() {
                 return (
                   <div
                     key={item.title}
-                    className="rounded-3xl bg-[#111111] border border-white/10 p-6 flex flex-col justify-between"
+                    className="rounded-3xl bg-white border border-slate-200/90 p-6 flex flex-col justify-between shadow-md hover:shadow-xl transition-shadow duration-300"
                   >
                     <div>
                       <div
-                        className="w-12 h-12 rounded-2xl flex items-center justify-center border border-white/10 bg-white/5 mb-4"
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center border border-slate-200 bg-slate-50 mb-4"
                         style={{ boxShadow: `0 0 20px ${item.color}25` }}
                       >
                         <IconComp className="w-6 h-6" style={{ color: item.color }} />
                       </div>
-                      <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
-                      <p className="text-xs text-[#CBD5E1] mb-4">{item.desc}</p>
-                      <ul className="space-y-1.5 text-xs text-[#94A3B8]">
+                      <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                      <p className="text-xs text-slate-600 mb-4 leading-relaxed">{item.desc}</p>
+                      <ul className="space-y-2 text-xs text-slate-600">
                         {item.bullets.map((b) => (
                           <li key={b} className="flex items-center gap-2">
                             <CheckCircle2 className="w-3.5 h-3.5 text-[#0C9DA8] shrink-0" />
@@ -194,8 +191,8 @@ export default function OutdoorMarketingSection() {
               })}
             </div>
           ) : (
-            /* Mobile Horizontal Scroll-Snap Row (No scroll-jacking on touch) */
-            <div>
+            /* Mobile Horizontal Scroll Carousel */
+            <div className="space-y-6">
               <div
                 ref={mobileScrollRef}
                 onScroll={handleMobileScroll}
@@ -206,18 +203,18 @@ export default function OutdoorMarketingSection() {
                   return (
                     <div
                       key={item.title}
-                      className="snap-center shrink-0 w-[84vw] max-w-[340px] rounded-3xl bg-[#111111] border border-white/10 p-6 flex flex-col justify-between shadow-xl"
+                      className="snap-center shrink-0 w-[84vw] max-w-[340px] rounded-3xl bg-white border border-slate-200/90 p-6 flex flex-col justify-between shadow-lg"
                     >
                       <div>
                         <div
-                          className="w-12 h-12 rounded-2xl flex items-center justify-center border border-white/10 bg-white/5 mb-4"
+                          className="w-12 h-12 rounded-2xl flex items-center justify-center border border-slate-200 bg-slate-50 mb-4"
                           style={{ boxShadow: `0 0 20px ${item.color}25` }}
                         >
                           <IconComp className="w-6 h-6" style={{ color: item.color }} />
                         </div>
-                        <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
-                        <p className="text-xs text-[#CBD5E1] mb-4 leading-relaxed">{item.desc}</p>
-                        <ul className="space-y-2 text-xs text-[#CBD5E1]">
+                        <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                        <p className="text-xs text-slate-600 mb-4 leading-relaxed">{item.desc}</p>
+                        <ul className="space-y-2 text-xs text-slate-600">
                           {item.bullets.map((b) => (
                             <li key={b} className="flex items-center gap-2">
                               <CheckCircle2 className="w-3.5 h-3.5 text-[#0C9DA8] shrink-0" />
@@ -237,7 +234,7 @@ export default function OutdoorMarketingSection() {
                   <span
                     key={i}
                     className={`h-1.5 rounded-full transition-all duration-300 ${
-                      activeIndex === i ? "w-6 bg-[#0080CB]" : "w-1.5 bg-white/20"
+                      activeIndex === i ? "w-6 bg-[#0080CB]" : "w-1.5 bg-slate-300"
                     }`}
                   />
                 ))}
@@ -246,65 +243,64 @@ export default function OutdoorMarketingSection() {
           )}
         </div>
       ) : (
-        /* DESKTOP PINNED HORIZONTAL SCROLL-JACKED SHOWCASE SECTION */
+        /* DESKTOP PINNED HORIZONTAL SHOWCASE SECTION */
         <div ref={containerRef} className="relative h-[380vh]">
           <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center py-8">
             {/* Header */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3 mb-8">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-wider text-[#0080CB]">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm text-xs font-bold uppercase tracking-wider text-[#0080CB]">
                 <Sparkles className="w-3.5 h-3.5 text-[#0080CB]" />
                 <span>Our 360° Outdoor Media Engine</span>
               </div>
-              <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight">
+              <h2 className="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight">
                 Outdoor & Transit <span className="text-gradient-tri">Advertising Showcase</span>
               </h2>
-              <p className="text-base text-[#CBD5E1] max-w-2xl mx-auto">
-                Scroll vertically to explore our 12 signature physical media formats across Rajasthan & India.
+              <p className="text-base sm:text-xl text-slate-600 max-w-2xl mx-auto">
+                Scroll to explore our full spectrum of strategic physical advertising formats across Udaipur & Rajasthan.
               </p>
             </div>
 
-            {/* Sideways Sliding Track */}
-            <div className="w-full px-8 overflow-hidden">
-              <motion.div style={{ x: xTransform }} className="flex gap-8 w-max">
-                {OUTDOOR_ITEMS_DATA.map((item, idx) => {
+            {/* Horizontal Track Container */}
+            <div className="w-full overflow-hidden px-8">
+              <motion.div style={{ x: xTransform }} className="flex gap-6 w-max">
+                {OUTDOOR_ITEMS_DATA.map((item, index) => {
                   const IconComp = item.icon;
                   return (
                     <div
                       key={item.title}
-                      className="w-[420px] shrink-0 rounded-3xl bg-[#111111]/90 border border-white/10 p-8 flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-xl border-gradient-glow hover:border-white/30 transition-colors"
+                      className="w-[360px] lg:w-[400px] h-[390px] rounded-3xl bg-white border border-slate-200/90 p-8 flex flex-col justify-between shadow-md hover:shadow-2xl hover:border-slate-300 transition-all duration-300 group"
                     >
                       <div>
                         <div className="flex items-center justify-between mb-6">
                           <div
-                            className="w-16 h-16 rounded-2xl flex items-center justify-center border border-white/10 bg-white/5"
-                            style={{ boxShadow: `0 0 25px ${item.color}30` }}
+                            className="w-14 h-14 rounded-2xl flex items-center justify-center border border-slate-200 bg-slate-50 group-hover:scale-110 transition-transform duration-300"
+                            style={{ boxShadow: `0 0 25px ${item.color}20` }}
                           >
-                            <IconComp className="w-8 h-8" style={{ color: item.color }} />
+                            <IconComp className="w-7 h-7" style={{ color: item.color }} />
                           </div>
-                          <span className="text-xs font-extrabold font-mono text-white/40 border border-white/10 px-3 py-1 rounded-full">
-                            FORMAT {idx + 1} / 12
+                          <span className="text-xs font-mono font-bold text-slate-400">
+                            0{index + 1} / 12
                           </span>
                         </div>
 
-                        <h3 className="text-2xl font-extrabold text-white mb-3 leading-tight">
+                        <h3 className="text-2xl font-black text-slate-900 mb-3 group-hover:text-[#0080CB] transition-colors duration-200 font-display">
                           {item.title}
                         </h3>
 
-                        <p className="text-sm text-[#CBD5E1] leading-relaxed mb-6">
+                        <p className="text-sm text-slate-600 mb-6 leading-relaxed font-normal">
                           {item.desc}
                         </p>
                       </div>
 
-                      <div className="pt-6 border-t border-white/10 space-y-2.5">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#0C9DA8] block mb-1">
-                          Key Capabilities
-                        </span>
-                        {item.bullets.map((bullet) => (
-                          <div key={bullet} className="flex items-center gap-2.5 text-xs text-[#CBD5E1]">
-                            <CheckCircle2 className="w-4 h-4 text-[#0080CB] shrink-0" />
-                            <span>{bullet}</span>
-                          </div>
-                        ))}
+                      <div className="border-t border-slate-100 pt-4">
+                        <ul className="space-y-2 text-xs font-semibold text-slate-600">
+                          {item.bullets.map((b) => (
+                            <li key={b} className="flex items-center gap-2">
+                              <CheckCircle2 className="w-4 h-4 text-[#0C9DA8] shrink-0" />
+                              <span>{b}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                   );

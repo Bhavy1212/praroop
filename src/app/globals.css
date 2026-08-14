@@ -6,13 +6,13 @@
   --color-brand-teal: #0C9DA8;     /* Secondary Teal */
   --color-brand-magenta: #D10B6A;  /* Highlight Magenta */
 
-  --color-dark-bg: #0A0A0A;        /* Near-Black Background */
-  --color-dark-surface: #111111;   /* Card Surface Background */
-  --color-dark-glass: rgba(255, 255, 255, 0.03);
+  --color-light-bg: #FAFAFC;       /* Clean Light Background */
+  --color-light-surface: #FFFFFF;  /* Card Surface Background */
+  --color-light-glass: rgba(255, 255, 255, 0.7);
 
-  --color-text-white: #FFFFFF;     /* Headings & High Contrast Text */
-  --color-text-body: #CBD5E1;      /* Slate Body Text */
-  --color-text-muted: #94A3B8;     /* Secondary Muted Copy */
+  --color-text-[#0F172A]: #0F172A;  /* Headings & High Contrast Text */
+  --color-text-body: #334155;      /* Slate Body Text */
+  --color-text-muted: #64748B;     /* Secondary Muted Copy */
 
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-display: var(--font-display), "Plus Jakarta Sans", system-ui, sans-serif;
@@ -20,20 +20,20 @@
 }
 
 :root {
-  --background: #0A0A0A;
-  --foreground: #FFFFFF;
+  --background: #FAFAFC;
+  --foreground: #0F172A;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: #0A0A0A;
-  color: #FFFFFF;
+  background-color: #FAFAFC;
+  color: #0F172A;
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
 body {
-  background-color: #0A0A0A;
-  color: #FFFFFF;
+  background-color: #FAFAFC;
+  color: #0F172A;
   overflow-x: hidden;
   min-height: 100vh;
 }
@@ -42,19 +42,19 @@ body {
   font-family: var(--font-script), "Caveat", cursive;
 }
 
-/* Fast, zero-lag CSS dot mesh pattern instead of expensive SVG feTurbulence filters */
+/* Fast, zero-lag CSS dot mesh pattern for Light Mode */
 .bg-noise {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
-/* Custom premium dark scrollbar */
+/* Custom premium light scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0A0A0A;
+  background: #F1F5F9;
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(0, 128, 203, 0.5);
@@ -94,86 +94,4 @@ body {
 
 .whatsapp-pulse-ring {
   animation: whatsapp-ring 2.5s infinite;
-}
-
-/* Ambient Floating Blob Keyframe Animations */
-@keyframes float-blob-1 {
-  0%, 100% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.08); }
-  66% { transform: translate(-20px, 20px) scale(0.95); }
-}
-
-@keyframes float-blob-2 {
-  0%, 100% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(-40px, 30px) scale(0.92); }
-  66% { transform: translate(25px, -35px) scale(1.05); }
-}
-
-@keyframes float-blob-3 {
-  0%, 100% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(20px, 40px) scale(1.05); }
-  66% { transform: translate(-30px, -20px) scale(0.98); }
-}
-
-.animate-blob-1 {
-  animation: float-blob-1 18s ease-in-out infinite;
-}
-.animate-blob-2 {
-  animation: float-blob-2 22s ease-in-out infinite;
-}
-.animate-blob-3 {
-  animation: float-blob-3 20s ease-in-out infinite;
-}
-
-/* Infinite Marquee Animation */
-@keyframes marquee-left {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
-}
-
-.animate-marquee-left {
-  display: flex;
-  width: max-content;
-  animation: marquee-left 35s linear infinite;
-}
-
-.animate-marquee-left:hover {
-  animation-play-state: paused;
-}
-
-/* Glassmorphism Card Utility */
-.glass-card-dark {
-  background: rgba(20, 20, 20, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-}
-
-.border-gradient-glow {
-  position: relative;
-}
-.border-gradient-glow::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(0, 128, 203, 0.4), rgba(12, 157, 168, 0.3), rgba(209, 11, 106, 0.4));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-/* Accessibility & Reduced Motion overrides */
-@media (prefers-reduced-motion: reduce) {
-  .text-gradient-tri,
-  .whatsapp-pulse-ring,
-  .animate-blob-1,
-  .animate-blob-2,
-  .animate-blob-3,
-  .animate-marquee-left {
-    animation: none !important;
-  }
 }

@@ -1,8 +1,8 @@
 import SideDotNav from "@/components/ui/SideDotNav";
 import AmbientBackground from "@/components/ui/AmbientBackground";
 import Hero from "@/components/home/Hero";
-import HeroScrollCoverflow from "@/components/home/HeroScrollCoverflow";
 import SectionIntro from "@/components/home/SectionIntro";
+import DigitalServicesSection from "@/components/home/DigitalServicesSection";
 import OutdoorMarketingSection from "@/components/home/OutdoorMarketingSection";
 import ActivationsSection from "@/components/home/ActivationsSection";
 import CtaBanner from "@/components/home/CtaBanner";
@@ -15,7 +15,7 @@ import Footer from "@/components/layout/Footer";
 
 export default function HomePage() {
   return (
-    <main className="relative bg-[#0A0A0A] text-white min-h-screen selection:bg-[#0080CB] selection:text-white">
+    <main className="relative bg-[#FAFAFC] text-[#0F172A] min-h-screen selection:bg-[#0080CB] selection:text-white">
       {/* Drifting Ambient Background Glowing Orbs */}
       <AmbientBackground />
 
@@ -27,11 +27,11 @@ export default function HomePage() {
         <Hero />
       </div>
 
-      {/* Section 1 — Pinned Scroll-Jacked 3D Coverflow Section */}
-      <HeroScrollCoverflow />
-
-      {/* Section 2 — Section Intro (360° Marketing expertise) */}
+      {/* Section 1 — Full-Page Agency Intro Header */}
       <SectionIntro />
+
+      {/* Section 2 — Pinned 3D Digital Services Tiles Carousel */}
+      <DigitalServicesSection />
 
       {/* Section 3 — Outdoor Marketing */}
       <OutdoorMarketingSection />
