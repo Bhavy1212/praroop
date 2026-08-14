@@ -1,0 +1,324 @@
+/* CSS Module for ServicesHeroSlider */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-w: 1200px;
+  margin: 0 auto;
+}
+
+.cardWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 16 / 10;
+  min-height: 440px;
+  border-radius: 2rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: #111111;
+  box-shadow: 0 20px 50px rgba(0, 128, 203, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .cardWrapper {
+    aspect-ratio: 4 / 3;
+    min-height: 480px;
+    border-radius: 1.5rem;
+  }
+}
+
+.bgImage {
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.6) contrast(1.1);
+  transition: transform 0.6s ease;
+}
+
+.scrimOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 10, 0.4) 0%,
+    rgba(10, 10, 10, 0.75) 50%,
+    rgba(10, 10, 10, 0.95) 100%
+  );
+  z-index: 1;
+}
+
+/* Floating Pill Badges */
+.floatingBadge {
+  position: absolute;
+  z-index: 3;
+  background-color: #ffffff;
+  color: #0b1220;
+  font-weight: 800;
+  font-size: 0.75rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 9999px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: floatBob 3.5s ease-in-out infinite;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.badgeTopLeft {
+  top: 8%;
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.badgeTopRight {
+  top: 12%;
+  right: 5%;
+  animation-delay: 0.8s;
+}
+
+.badgeBottomLeft {
+  bottom: 14%;
+  left: 6%;
+  animation-delay: 1.6s;
+}
+
+.badgeBottomRight {
+  bottom: 12%;
+  right: 6%;
+  animation-delay: 2.4s;
+}
+
+@media (max-width: 640px) {
+  .floatingBadge {
+    font-size: 0.68rem;
+    padding: 0.4rem 0.85rem;
+  }
+  .badgeTopLeft {
+    top: 6%;
+    left: 4%;
+  }
+  .badgeTopRight {
+    top: 6%;
+    right: 4%;
+  }
+  .badgeBottomLeft {
+    bottom: 18%;
+    left: 4%;
+  }
+  .badgeBottomRight {
+    bottom: 18%;
+    right: 4%;
+  }
+}
+
+@keyframes floatBob {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Centered Text Overlay */
+.contentOverlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 680px;
+  padding: 2rem 1.5rem;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 1rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #0c9da8;
+  backdrop-filter: blur(8px);
+}
+
+.heading {
+  font-size: 2.25rem;
+  line-height: 1.15;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+@media (min-width: 640px) {
+  .heading {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heading {
+    font-size: 3.5rem;
+  }
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+  font-weight: 400;
+  max-width: 580px;
+}
+
+@media (min-width: 640px) {
+  .subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+/* Directional Slide + Fade Animation */
+.slideEnterNext {
+  animation: slideInFromRight 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.slideEnterPrev {
+  animation: slideInFromLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(45px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-45px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Controls Bar Below Card */
+.controlsBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.navButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.navButton:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.navButton:focus-visible {
+  outline: 2px solid #0080cb;
+  outline-offset: 3px;
+}
+
+.centerCtaPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #0080cb 0%, #0c9da8 50%, #d10b6a 100%);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.9rem;
+  padding: 0.85rem 2rem;
+  border-radius: 9999px;
+  box-shadow: 0 10px 30px rgba(0, 128, 203, 0.4);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.centerCtaPill:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 15px 40px rgba(12, 157, 168, 0.6);
+}
+
+/* Indicators Dots */
+.dotsWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.activeDot {
+  width: 1.75rem;
+  background-color: #0080cb;
+  box-shadow: 0 0 10px #0080cb;
+}
+
+/* Prefers Reduced Motion Overrides */
+@media (prefers-reduced-motion: reduce) {
+  .floatingBadge {
+    animation: none !important;
+  }
+  .slideEnterNext,
+  .slideEnterPrev {
+    animation: none !important;
+  }
+  .bgImage {
+    transition: none !important;
+  }
+  .centerCtaPill:hover,
+  .navButton:hover {
+    transform: none !important;
+  }
+}
