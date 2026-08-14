@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const SECTIONS = [
   { id: "hero", label: "Hero" },
   { id: "services", label: "Digital Services" },
+  { id: "growth-engine", label: "Growth Engine" },
   { id: "outdoor", label: "Outdoor Advertising" },
   { id: "activations", label: "Activations" },
-  { id: "growth", label: "Campaign Planning" },
   { id: "stats", label: "Agency Impact" },
   { id: "client", label: "Our Clients" },
   { id: "why-us", label: "Why Praaroop" },
@@ -16,26 +16,33 @@ const SECTIONS = [
 
 export default function SideDotNav() {
   const [activeId, setActiveId] = useState("hero");
+  const tickingRef = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 300;
+      if (tickingRef.current) return;
+      tickingRef.current = true;
 
-      for (const sec of SECTIONS) {
-        const el = document.getElementById(sec.id);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
+      requestAnimationFrame(() => {
+        const scrollPosition = window.scrollY + 300;
 
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveId(sec.id);
-            break;
+        for (const sec of SECTIONS) {
+          const el = document.getElementById(sec.id);
+          if (el) {
+            const top = el.offsetTop;
+            const height = el.offsetHeight;
+
+            if (scrollPosition >= top && scrollPosition < top + height) {
+              setActiveId(sec.id);
+              break;
+            }
           }
         }
-      }
+        tickingRef.current = false;
+      });
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -48,7 +55,7 @@ export default function SideDotNav() {
 
   return (
     <nav
-      className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col items-center gap-3 bg-white/90 backdrop-blur-md p-3 rounded-full border border-slate-200 shadow-xl pointer-events-auto"
+      className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col items-center gap-3 bg-black/60 backdrop-blur-md p-3 rounded-full border border-white/15 shadow-2xl pointer-events-auto"
       aria-label="Homepage scroll navigation"
     >
       {SECTIONS.map((sec) => {
@@ -63,12 +70,12 @@ export default function SideDotNav() {
             <span
               className={`block rounded-full transition-all duration-300 ${
                 isActive
-                  ? "w-3 h-3 bg-[#0080CB] shadow-[0_0_10px_#0080CB] scale-110"
-                  : "w-2 h-2 bg-slate-300 hover:bg-slate-500"
+                  ? "w-3 h-3 bg-[#0C9DA8] shadow-[0_0_10px_#0C9DA8] scale-110"
+                  : "w-2 h-2 bg-white/40 group-hover:bg-white group-hover:scale-125"
               }`}
             />
-            {/* Tooltip Label on Hover */}
-            <span className="absolute right-9 px-3 py-1.5 rounded-lg bg-[#0B1220] border border-slate-800 text-white text-xs font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none shadow-xl">
+            {/* Tooltip Label */}
+            <span className="absolute right-8 px-2.5 py-1 rounded-md bg-black/90 border border-white/15 text-[11px] font-bold text-white whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 shadow-xl">
               {sec.label}
             </span>
           </button>
