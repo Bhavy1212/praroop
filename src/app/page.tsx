@@ -1,7 +1,8 @@
 import SideDotNav from "@/components/ui/SideDotNav";
 import AmbientBackground from "@/components/ui/AmbientBackground";
 import Hero from "@/components/home/Hero";
-import DigitalMarketingSection from "@/components/home/DigitalMarketingSection";
+import OversizedTypographyHero from "@/components/home/OversizedTypographyHero";
+import GrowthEngineSection from "@/components/home/GrowthEngineSection";
 import SectionIntro from "@/components/home/SectionIntro";
 import OutdoorMarketingSection from "@/components/home/OutdoorMarketingSection";
 import ActivationsSection from "@/components/home/ActivationsSection";
@@ -15,7 +16,7 @@ import Footer from "@/components/layout/Footer";
 
 export default function HomePage() {
   return (
-    <main className="relative bg-white text-[#0B1220] min-h-screen selection:bg-[#0080CB] selection:text-white">
+    <main className="relative bg-[#0A0A0A] text-white min-h-screen selection:bg-[#0080CB] selection:text-white">
       {/* Drifting Ambient Background Glowing Orbs */}
       <AmbientBackground />
 
@@ -27,8 +28,13 @@ export default function HomePage() {
         <Hero />
       </div>
 
-      {/* Section 1 — Digital Marketing Services */}
-      <DigitalMarketingSection />
+      {/* Viewport 1 — Oversized Typography Hero ("Digital Marketing Solutions") */}
+      <div id="services">
+        <OversizedTypographyHero />
+      </div>
+
+      {/* Viewport 2 — Pinned 3D Coverflow Carousel ("our 360° growth engine") */}
+      <GrowthEngineSection />
 
       {/* Section 2 — Section Intro (360° Marketing expertise) */}
       <SectionIntro />

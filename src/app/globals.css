@@ -1,52 +1,63 @@
 @import "tailwindcss";
 
 @theme {
-  /* === PRAAROOP OFFICIAL LOGO PALETTE (VIBRANT LIGHT DESIGN SYSTEM) === */
+  /* === PRAAROOP OFFICIAL LOGO PALETTE === */
   --color-brand-blue: #0080CB;     /* Primary Blue */
   --color-brand-teal: #0C9DA8;     /* Secondary Teal */
   --color-brand-magenta: #D10B6A;  /* Highlight Magenta */
 
-  --color-light-bg: #FFFFFF;       /* Clean White Background */
-  --color-light-surface: #F8FAFC;  /* Soft Surface Background */
-  --color-light-glass: #FFFFFF;    /* Crisp White Glass Card Surface */
+  --color-dark-bg: #0A0A0A;        /* Near-Black Background */
+  --color-dark-surface: #111111;   /* Card Surface Background */
+  --color-dark-glass: rgba(255, 255, 255, 0.03);
 
-  --color-text-dark: #0B1220;      /* Deep Charcoal Headings & High Contrast Text */
-  --color-text-body: #334155;      /* Primary Body Text (WCAG AAA Compliant on #FFFFFF) */
-  --color-text-muted: #64748B;     /* Secondary Muted Copy */
+  --color-text-white: #FFFFFF;     /* Headings & High Contrast Text */
+  --color-text-body: #CBD5E1;      /* Slate Body Text */
+  --color-text-muted: #94A3B8;     /* Secondary Muted Copy */
 
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-display: var(--font-display), "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-script: var(--font-script), "Caveat", cursive;
 }
 
 :root {
-  --background: #FFFFFF;
-  --foreground: #0B1220;
+  --background: #0A0A0A;
+  --foreground: #FFFFFF;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: #FFFFFF;
-  color: #0B1220;
+  background-color: #0A0A0A;
+  color: #FFFFFF;
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
 body {
-  background-color: #FFFFFF;
-  color: #0B1220;
+  background-color: #0A0A0A;
+  color: #FFFFFF;
   overflow-x: hidden;
   min-height: 100vh;
 }
 
-/* Custom premium light scrollbar */
+.font-script {
+  font-family: var(--font-script), "Caveat", cursive;
+}
+
+/* Fast, zero-lag CSS dot mesh pattern instead of expensive SVG feTurbulence filters */
+.bg-noise {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Custom premium dark scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F8FAFC;
+  background: #0A0A0A;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 128, 203, 0.4);
+  background: rgba(0, 128, 203, 0.5);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -61,48 +72,62 @@ body {
 }
 
 .text-gradient-tri {
-  background: linear-gradient(135deg, #0080CB 0%, #0C9DA8 50%, #D10B6A 100%);
-  background-size: 200% 200%;
+  background: linear-gradient(
+    135deg,
+    #0080CB 0%,
+    #0C9DA8 35%,
+    #D10B6A 70%,
+    #0080CB 100%
+  );
+  background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: tri-gradient-sweep 8s ease infinite;
-  will-change: background-position;
 }
 
-/* Floating Ambient Blobs - Vibrant & Soft on Light BG */
-@keyframes blob-float-1 {
-  0%, 100% { transform: translate3d(0px, 0px, 0px) scale(1); opacity: 0.35; }
-  50% { transform: translate3d(40px, -60px, 0px) scale(1.1); opacity: 0.55; }
+/* Pulsing Ring Glow for WhatsApp CTA */
+@keyframes whatsapp-ring {
+  0% { box-shadow: 0 0 0 0 rgba(0, 128, 203, 0.6); }
+  70% { box-shadow: 0 0 0 15px rgba(0, 128, 203, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 128, 203, 0); }
 }
 
-@keyframes blob-float-2 {
-  0%, 100% { transform: translate3d(0px, 0px, 0px) scale(1.05); opacity: 0.4; }
-  50% { transform: translate3d(-50px, 50px, 0px) scale(0.95); opacity: 0.2; }
+.whatsapp-pulse-ring {
+  animation: whatsapp-ring 2.5s infinite;
 }
 
-@keyframes blob-float-3 {
-  0%, 100% { transform: translate3d(0px, 0px, 0px) scale(1); opacity: 0.3; }
-  50% { transform: translate3d(30px, 40px, 0px) scale(1.15); opacity: 0.5; }
+/* Ambient Floating Blob Keyframe Animations */
+@keyframes float-blob-1 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.08); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+@keyframes float-blob-2 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(-40px, 30px) scale(0.92); }
+  66% { transform: translate(25px, -35px) scale(1.05); }
+}
+
+@keyframes float-blob-3 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(20px, 40px) scale(1.05); }
+  66% { transform: translate(-30px, -20px) scale(0.98); }
 }
 
 .animate-blob-1 {
-  animation: blob-float-1 16s ease-in-out infinite;
-  will-change: transform, opacity;
+  animation: float-blob-1 18s ease-in-out infinite;
 }
-
 .animate-blob-2 {
-  animation: blob-float-2 20s ease-in-out infinite;
-  will-change: transform, opacity;
+  animation: float-blob-2 22s ease-in-out infinite;
 }
-
 .animate-blob-3 {
-  animation: blob-float-3 18s ease-in-out infinite;
-  will-change: transform, opacity;
+  animation: float-blob-3 20s ease-in-out infinite;
 }
 
-/* Infinite Marquee */
+/* Infinite Marquee Animation */
 @keyframes marquee-left {
-  0% { transform: translate3d(0%, 0, 0); }
+  0% { transform: translate3d(0, 0, 0); }
   100% { transform: translate3d(-50%, 0, 0); }
 }
 
@@ -110,85 +135,45 @@ body {
   display: flex;
   width: max-content;
   animation: marquee-left 35s linear infinite;
-  will-change: transform;
 }
 
 .animate-marquee-left:hover {
   animation-play-state: paused;
 }
 
-/* WhatsApp Pulse Ring Animation */
-@keyframes pulse-ring-glow {
-  0% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(0, 128, 203, 0.4); }
-  70% { transform: scale(1.02); box-shadow: 0 0 0 16px rgba(0, 128, 203, 0); }
-  100% { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(0, 128, 203, 0); }
-}
-
-.whatsapp-pulse-ring {
-  animation: pulse-ring-glow 2.5s ease-out infinite;
-  will-change: transform, box-shadow;
-}
-
-/* Glassmorphic Light Card */
-.glass-card-light {
-  background: rgba(255, 255, 255, 0.85);
+/* Glassmorphism Card Utility */
+.glass-card-dark {
+  background: rgba(20, 20, 20, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 128, 203, 0.12);
-  box-shadow: 0 10px 30px -10px rgba(0, 128, 203, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
-.glass-card-hover {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+.border-gradient-glow {
+  position: relative;
+}
+.border-gradient-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(0, 128, 203, 0.4), rgba(12, 157, 168, 0.3), rgba(209, 11, 106, 0.4));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
-.glass-card-hover:hover {
-  background: #FFFFFF;
-  border-color: rgba(12, 157, 168, 0.4);
-  box-shadow: 0 15px 35px -10px rgba(0, 128, 203, 0.15);
-  transform: translate3d(0, -4px, 0);
-}
-
-/* Hide scrollbars for snap/overflow rows on mobile */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* MANDATORY PREFERS-REDUCED-MOTION SUPPORT */
+/* Accessibility & Reduced Motion overrides */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  .text-gradient-tri {
-    animation: none !important;
-    background-position: 0% 50% !important;
-  }
-
+  .text-gradient-tri,
+  .whatsapp-pulse-ring,
   .animate-blob-1,
   .animate-blob-2,
   .animate-blob-3,
-  .animate-marquee-left,
-  .whatsapp-pulse-ring {
-    animation: none !important;
-    transform: none !important;
-  }
-
   .animate-marquee-left {
-    width: 100% !important;
-    overflow-x: auto !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
+    animation: none !important;
   }
 }
-
-

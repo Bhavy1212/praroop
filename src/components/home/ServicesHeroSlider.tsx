@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Sparkles } from "lucide-react";
 import { DIGITAL_MARKETING_ITEMS, BRAND } from "@/lib/data";
 import styles from "./ServicesHeroSlider.module.css";
@@ -11,7 +12,7 @@ const SERVICES_DATA = [
     number: "01",
     title: DIGITAL_MARKETING_ITEMS[0], // Brand strategy / Performance marketing
     subtitle:
-      "Data-driven performance campaigns and long-term brand positioning built to capture market share and maximize return on ad spend.",
+      "We help you dominate market positioning, ROI, and brand authority with data-driven performance campaigns tailored to elevate brand value.",
     image: "/services/analysis.webp",
     badges: [
       "Market Analysis",
@@ -24,7 +25,7 @@ const SERVICES_DATA = [
     number: "02",
     title: DIGITAL_MARKETING_ITEMS[1], // Digital marketing / Social media marketing
     subtitle:
-      "Comprehensive social media management, organic viral growth, and targeted multi-platform digital ad strategies.",
+      "Comprehensive social media management, organic viral growth, and targeted multi-platform digital ad strategies built for maximum conversion.",
     image: "/services/social-media.webp",
     badges: [
       "Social Media",
@@ -37,7 +38,7 @@ const SERVICES_DATA = [
     number: "03",
     title: DIGITAL_MARKETING_ITEMS[2], // Website Development
     subtitle:
-      "High-converting, fast-loading digital web platforms designed with modern aesthetics, animations, and seamless UX.",
+      "High-converting, fast-loading digital web platforms designed with modern aesthetics, smooth scrollytelling animations, and seamless UX.",
     image: "/services/app-development.webp",
     badges: [
       "Modern Web",
@@ -88,36 +89,49 @@ const SERVICES_DATA = [
 ];
 
 export default function ServicesHeroSlider() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [slideDirection, setSlideDirection] = useState<"next" | "prev">("next");
-  const [animatingKey, setAnimatingKey] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
+  // Check screen size & reduced motion
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setReducedMotion(e.matches);
+    const checkSettings = () => {
+      setIsMobile(window.innerWidth < 1024);
+      setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     };
 
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
+    checkSettings();
+    window.addEventListener("resize", checkSettings);
+    return () => window.removeEventListener("resize", checkSettings);
   }, []);
 
+  // Track vertical scroll progress inside tall 500vh container
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Calculate active tile index smoothly as user scrolls down the locked pinned viewport
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (reducedMotion || isMobile) return;
+    
+    // Map 0 -> 1 progress into 0 -> 5 index range
+    const clampedProgress = Math.max(0, Math.min(0.999, latest));
+    const newIdx = Math.floor(clampedProgress * SERVICES_DATA.length);
+
+    if (newIdx !== activeIndex && newIdx >= 0 && newIdx < SERVICES_DATA.length) {
+      setActiveIndex(newIdx);
+    }
+  });
+
   const handleNext = () => {
-    setSlideDirection("next");
-    setCurrentIndex((prev) => (prev === SERVICES_DATA.length - 1 ? 0 : prev + 1));
-    setAnimatingKey((prev) => prev + 1);
+    setActiveIndex((prev) => (prev === SERVICES_DATA.length - 1 ? 0 : prev + 1));
   };
 
   const handlePrev = () => {
-    setSlideDirection("prev");
-    setCurrentIndex((prev) => (prev === 0 ? SERVICES_DATA.length - 1 : prev - 1));
-    setAnimatingKey((prev) => prev + 1);
+    setActiveIndex((prev) => (prev === 0 ? SERVICES_DATA.length - 1 : prev - 1));
   };
-
-  const activeService = SERVICES_DATA[currentIndex];
 
   const badgePositions = [
     styles.badgeTopLeft,
@@ -127,104 +141,159 @@ export default function ServicesHeroSlider() {
   ];
 
   return (
-    <div className={styles.container}>
-      {/* 1. Large Animated Hero-Style Rounded Card */}
-      <div className={styles.cardWrapper}>
-        {/* Full-Bleed Background Image */}
-        <Image
-          key={activeService.image}
-          src={activeService.image}
-          alt={activeService.title}
-          fill
-          priority
-          sizes="(max-width: 900px) 100vw, 900px"
-          className={styles.bgImage}
-        />
+    <div ref={containerRef} className={styles.sectionWrapper}>
+      <div className={styles.stickyViewport}>
+        
+        {/* 3D Pinned Deck Container (Appinventiv Style) */}
+        <div className={styles.deckContainer}>
+          {SERVICES_DATA.map((service, i) => {
+            // Calculate relative offset from active card
+            let diff = i - activeIndex;
 
-        {/* Dark Gradient Scrim Overlay */}
-        <div className={styles.scrimOverlay} />
+            // Compute 3D Card Animation Properties
+            let x = "0%";
+            let scale = 1;
+            let opacity = 1;
+            let zIndex = 30;
+            let rotateY = 0;
+            let blur = "blur(0px)";
 
-        {/* 4 Floating Pill Badges around card edges */}
-        {activeService.badges.map((badgeText, idx) => (
-          <div
-            key={`${badgeText}-${currentIndex}`}
-            className={`${styles.floatingBadge} ${badgePositions[idx % badgePositions.length]}`}
-          >
-            <Sparkles className="w-3 h-3 text-[#0080CB]" />
-            <span>{badgeText}</span>
-          </div>
-        ))}
+            if (diff === 0) {
+              // Active Center Card
+              x = "0%";
+              scale = 1;
+              opacity = 1;
+              zIndex = 30;
+              rotateY = 0;
+              blur = "blur(0px)";
+            } else if (diff === -1 || (activeIndex === 0 && i === SERVICES_DATA.length - 1)) {
+              // Peeking Left Card
+              x = "-65%";
+              scale = 0.78;
+              opacity = 0.45;
+              zIndex = 10;
+              rotateY = 12;
+              blur = "blur(2px)";
+            } else if (diff === 1 || (activeIndex === SERVICES_DATA.length - 1 && i === 0)) {
+              // Peeking Right Card
+              x = "65%";
+              scale = 0.78;
+              opacity = 0.45;
+              zIndex = 10;
+              rotateY = -12;
+              blur = "blur(2px)";
+            } else {
+              // Hidden offscreen cards
+              x = diff < 0 ? "-130%" : "130%";
+              scale = 0.6;
+              opacity = 0;
+              zIndex = 1;
+              rotateY = 0;
+              blur = "blur(4px)";
+            }
 
-        {/* Centered Text Overlay with Directional Slide + Fade */}
-        <div
-          key={animatingKey}
-          className={`${styles.contentOverlay} ${
-            reducedMotion
-              ? ""
-              : slideDirection === "next"
-              ? styles.slideEnterNext
-              : styles.slideEnterPrev
-          }`}
-        >
-          {/* Eyebrow Label */}
-          <div className={styles.eyebrow}>
-            <span>SERVICE {activeService.number} / 06</span>
-          </div>
+            const isActive = diff === 0;
 
-          {/* Large Bold Heading */}
-          <h3 className={styles.heading}>{activeService.title}</h3>
+            return (
+              <motion.div
+                key={service.number}
+                onClick={() => setActiveIndex(i)}
+                animate={
+                  reducedMotion
+                    ? { opacity: isActive ? 1 : 0 }
+                    : { x, scale, opacity, zIndex, rotateY, filter: blur }
+                }
+                transition={{
+                  type: "spring",
+                  stiffness: 260,
+                  damping: 28,
+                  mass: 0.8,
+                }}
+                className={styles.cardFrame}
+              >
+                {/* Full Bleed Background Image */}
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  fill
+                  priority={i === 0}
+                  className={styles.bgImage}
+                />
 
-          {/* Subtitle */}
-          <p className={styles.subtitle}>{activeService.subtitle}</p>
+                {/* Dark Gradient Scrim */}
+                <div className={styles.scrimOverlay} />
+
+                {/* 4 Floating Badges around Card Edges (Shown on Active Center Card) */}
+                {isActive &&
+                  service.badges.map((badgeText, idx) => (
+                    <div
+                      key={badgeText}
+                      className={`${styles.floatingBadge} ${badgePositions[idx % badgePositions.length]}`}
+                    >
+                      <Sparkles className="w-3 h-3 text-[#0080CB]" />
+                      <span>{badgeText}</span>
+                    </div>
+                  ))}
+
+                {/* Centered Content */}
+                <div className={styles.cardContent}>
+                  <div className={styles.eyebrow}>
+                    <span>SERVICE {service.number} / 06</span>
+                  </div>
+
+                  <h3 className={styles.heading}>{service.title}</h3>
+
+                  <p className={styles.subtitle}>{service.subtitle}</p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
-      </div>
 
-      {/* 2. Controls Bar Below Card */}
-      <div className={styles.controlsBar}>
-        {/* Left Arrow Button */}
-        <button
-          onClick={handlePrev}
-          className={styles.navButton}
-          aria-label="Previous Service"
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-
-        {/* Center CTA Pill */}
-        <a
-          href={BRAND.whatsappLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.centerCtaPill}
-        >
-          <span>Explore Our Services</span>
-          <ArrowUpRight className="w-4 h-4" />
-        </a>
-
-        {/* Right Arrow Button */}
-        <button
-          onClick={handleNext}
-          className={styles.navButton}
-          aria-label="Next Service"
-        >
-          <ArrowRight className="w-5 h-5" />
-        </button>
-      </div>
-
-      {/* 3. Indicator Dots */}
-      <div className={styles.dotsWrapper} aria-label="Service Selector">
-        {SERVICES_DATA.map((service, idx) => (
+        {/* Navigation Controls Bar Below 3D Deck (Exact Appinventiv Reference Match) */}
+        <div className={styles.controlsBar}>
+          {/* Left Arrow Button */}
           <button
-            key={service.number}
-            onClick={() => {
-              setSlideDirection(idx > currentIndex ? "next" : "prev");
-              setCurrentIndex(idx);
-              setAnimatingKey((prev) => prev + 1);
-            }}
-            className={`${styles.dot} ${currentIndex === idx ? styles.activeDot : ""}`}
-            aria-label={`Go to service ${service.number}: ${service.title}`}
-          />
-        ))}
+            onClick={handlePrev}
+            className={styles.navButton}
+            aria-label="Previous Service"
+          >
+            <ArrowLeft className="w-6 h-6 text-[#0B1220]" />
+          </button>
+
+          {/* Center Pill Button */}
+          <a
+            href={BRAND.whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.centerCtaPill}
+          >
+            <span>Tell Us What You're Looking For</span>
+            <ArrowUpRight className="w-4 h-4 text-[#FFE600]" />
+          </a>
+
+          {/* Right Arrow Button */}
+          <button
+            onClick={handleNext}
+            className={styles.navButton}
+            aria-label="Next Service"
+          >
+            <ArrowRight className="w-6 h-6 text-[#0B1220]" />
+          </button>
+        </div>
+
+        {/* Indicator Dots */}
+        <div className={styles.dotsWrapper}>
+          {SERVICES_DATA.map((service, idx) => (
+            <button
+              key={service.number}
+              onClick={() => setActiveIndex(idx)}
+              className={`${styles.dot} ${activeIndex === idx ? styles.activeDot : ""}`}
+              aria-label={`Go to service ${service.number}`}
+            />
+          ))}
+        </div>
+
       </div>
     </div>
   );

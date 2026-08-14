@@ -1,34 +1,77 @@
-/* CSS Module for ServicesHeroSlider */
+/* CSS Module for Appinventiv 3D Deck Services Slider with Scroll Lock */
 
-.container {
+.sectionWrapper {
+  position: relative;
+  width: 100%;
+  /* 500vh guarantees the viewport stays pinned while scrolling through all 6 tiles */
+  height: 500vh;
+}
+
+@media (max-width: 1024px) {
+  .sectionWrapper {
+    height: auto;
+  }
+}
+
+.stickyViewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 680px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  max-w: 1200px;
-  margin: 0 auto;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #0a0a0a;
+  padding: 1.5rem 1rem;
 }
 
-.cardWrapper {
+@media (max-width: 1024px) {
+  .stickyViewport {
+    position: relative;
+    height: auto;
+    min-height: auto;
+    padding: 3rem 1rem;
+  }
+}
+
+.deckContainer {
   position: relative;
   width: 100%;
-  max-width: 900px;
-  aspect-ratio: 16 / 10;
-  min-height: 440px;
-  border-radius: 2rem;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background-color: #111111;
-  box-shadow: 0 20px 50px rgba(0, 128, 203, 0.2);
+  max-width: 1280px;
+  height: 520px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 1rem 0;
+  perspective: 1200px;
+}
+
+@media (max-width: 768px) {
+  .deckContainer {
+    height: 440px;
+  }
+}
+
+/* Individual Card Frame in the 3D Deck */
+.cardFrame {
+  position: absolute;
+  width: 90%;
+  max-width: 880px;
+  height: 100%;
+  border-radius: 2.25rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background-color: #111111;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 40px rgba(0, 128, 203, 0.15);
+  cursor: pointer;
+  user-select: none;
 }
 
 @media (max-width: 640px) {
-  .cardWrapper {
-    aspect-ratio: 4 / 3;
-    min-height: 480px;
+  .cardFrame {
+    width: 94%;
     border-radius: 1.5rem;
   }
 }
@@ -36,23 +79,27 @@
 .bgImage {
   object-fit: cover;
   object-position: center;
-  filter: brightness(0.6) contrast(1.1);
-  transition: transform 0.6s ease;
+  filter: brightness(0.65) contrast(1.1);
 }
 
 .scrimOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 10, 10, 0.4) 0%,
-    rgba(10, 10, 10, 0.75) 50%,
-    rgba(10, 10, 10, 0.95) 100%
-  );
+  background: radial-gradient(
+      circle at center,
+      transparent 20%,
+      rgba(10, 10, 10, 0.85) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(10, 10, 10, 0.3) 0%,
+      rgba(10, 10, 10, 0.7) 60%,
+      rgba(10, 10, 10, 0.95) 100%
+    );
   z-index: 1;
 }
 
-/* Floating Pill Badges */
+/* Floating Pill Badges around Card Edges */
 .floatingBadge {
   position: absolute;
   z-index: 3;
@@ -62,7 +109,7 @@
   font-size: 0.75rem;
   padding: 0.5rem 1.1rem;
   border-radius: 9999px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
   letter-spacing: 0.02em;
   white-space: nowrap;
   pointer-events: none;
@@ -73,49 +120,33 @@
 }
 
 .badgeTopLeft {
-  top: 8%;
-  left: 5%;
+  top: 10%;
+  left: 6%;
   animation-delay: 0s;
 }
 
 .badgeTopRight {
   top: 12%;
-  right: 5%;
-  animation-delay: 0.8s;
+  right: 6%;
+  animation-delay: 0.9s;
 }
 
 .badgeBottomLeft {
   bottom: 14%;
   left: 6%;
-  animation-delay: 1.6s;
+  animation-delay: 1.8s;
 }
 
 .badgeBottomRight {
   bottom: 12%;
   right: 6%;
-  animation-delay: 2.4s;
+  animation-delay: 2.7s;
 }
 
 @media (max-width: 640px) {
   .floatingBadge {
-    font-size: 0.68rem;
-    padding: 0.4rem 0.85rem;
-  }
-  .badgeTopLeft {
-    top: 6%;
-    left: 4%;
-  }
-  .badgeTopRight {
-    top: 6%;
-    right: 4%;
-  }
-  .badgeBottomLeft {
-    bottom: 18%;
-    left: 4%;
-  }
-  .badgeBottomRight {
-    bottom: 18%;
-    right: 4%;
+    font-size: 0.65rem;
+    padding: 0.35rem 0.75rem;
   }
 }
 
@@ -125,58 +156,62 @@
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-9px);
   }
 }
 
-/* Centered Text Overlay */
-.contentOverlay {
+/* Centered Card Content */
+.cardContent {
   position: relative;
   z-index: 2;
-  text-align: center;
-  max-width: 680px;
-  padding: 2rem 1.5rem;
-  color: #ffffff;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  text-align: center;
+  padding: 2.5rem 2rem;
+  color: #ffffff;
 }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.35rem 1rem;
+  padding: 0.35rem 1.1rem;
   border-radius: 9999px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #0c9da8;
   backdrop-filter: blur(8px);
+  margin-bottom: 1rem;
 }
 
 .heading {
-  font-size: 2.25rem;
-  line-height: 1.15;
+  font-size: 2.5rem;
+  line-height: 1.1;
   font-weight: 900;
   color: #ffffff;
   letter-spacing: -0.02em;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  max-width: 720px;
+  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
+  margin-bottom: 1rem;
+  font-family: var(--font-display), sans-serif;
 }
 
 @media (min-width: 640px) {
   .heading {
-    font-size: 3rem;
+    font-size: 3.25rem;
   }
 }
 
 @media (min-width: 1024px) {
   .heading {
-    font-size: 3.5rem;
+    font-size: 3.75rem;
   }
 }
 
@@ -185,7 +220,7 @@
   line-height: 1.6;
   color: #cbd5e1;
   font-weight: 400;
-  max-width: 580px;
+  max-width: 600px;
 }
 
 @media (min-width: 640px) {
@@ -194,90 +229,60 @@
   }
 }
 
-/* Directional Slide + Fade Animation */
-.slideEnterNext {
-  animation: slideInFromRight 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.slideEnterPrev {
-  animation: slideInFromLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes slideInFromRight {
-  from {
-    opacity: 0;
-    transform: translateX(45px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInFromLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-45px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Controls Bar Below Card */
+/* Controls Bar Below 3D Deck (Exact Appinventiv Style) */
 .controlsBar {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1.25rem;
-  margin-top: 2rem;
-  width: 100%;
+  margin-top: 0.5rem;
+  z-index: 40;
 }
 
 .navButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 3.25rem;
-  height: 3.25rem;
+  width: 3.5rem;
+  height: 3.5rem;
   border-radius: 9999px;
-  background-color: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  transition: all 0.25s ease;
+  background-color: #ffffff;
+  color: #0b1220;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
   cursor: pointer;
 }
 
 .navButton:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: scale(1.05);
-}
-
-.navButton:focus-visible {
-  outline: 2px solid #0080cb;
-  outline-offset: 3px;
+  background-color: #ffe600;
+  transform: scale(1.08);
+  box-shadow: 0 15px 35px rgba(255, 230, 0, 0.4);
 }
 
 .centerCtaPill {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  background: linear-gradient(135deg, #0080cb 0%, #0c9da8 50%, #d10b6a 100%);
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #ffffff;
   font-weight: 800;
-  font-size: 0.9rem;
-  padding: 0.85rem 2rem;
+  font-size: 0.85rem;
+  padding: 0.9rem 2.25rem;
   border-radius: 9999px;
-  box-shadow: 0 10px 30px rgba(0, 128, 203, 0.4);
+  backdrop-filter: blur(12px);
   transition: all 0.3s ease;
   text-decoration: none;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .centerCtaPill:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 15px 40px rgba(12, 157, 168, 0.6);
+  background-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 128, 203, 0.35);
 }
 
 /* Indicators Dots */
@@ -285,14 +290,15 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 1.25rem;
+  margin-top: 0.75rem;
+  z-index: 40;
 }
 
 .dot {
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 9999px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.25);
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
@@ -300,9 +306,9 @@
 }
 
 .activeDot {
-  width: 1.75rem;
+  width: 2rem;
   background-color: #0080cb;
-  box-shadow: 0 0 10px #0080cb;
+  box-shadow: 0 0 12px #0080cb;
 }
 
 /* Prefers Reduced Motion Overrides */
@@ -310,11 +316,7 @@
   .floatingBadge {
     animation: none !important;
   }
-  .slideEnterNext,
-  .slideEnterPrev {
-    animation: none !important;
-  }
-  .bgImage {
+  .cardFrame {
     transition: none !important;
   }
   .centerCtaPill:hover,

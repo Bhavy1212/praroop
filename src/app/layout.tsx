@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, Caveat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import WhatsAppFAB from "@/components/ui/WhatsAppFAB";
@@ -18,6 +18,12 @@ const displayFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-display",
   weight: ["500", "600", "700", "800"],
+  display: "swap",
+});
+
+const scriptFont = Caveat({
+  subsets: ["latin"],
+  variable: "--font-script",
   display: "swap",
 });
 
@@ -62,7 +68,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-US" className={`${inter.variable} ${displayFont.variable}`}>
+    <html lang="en-US" className={`${inter.variable} ${displayFont.variable} ${scriptFont.variable}`}>
       <head>
         {/* JSON-LD Schema for LocalBusiness */}
         <script
@@ -112,7 +118,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen flex flex-col font-sans bg-white text-[#0B1220] antialiased selection:bg-[#0080CB] selection:text-white">
+      <body className="min-h-screen flex flex-col font-sans bg-[#0A0A0A] text-white antialiased selection:bg-[#0080CB] selection:text-white">
         <SmoothScrollProvider>
           <ScrollProgressBar />
           <CustomCursor />

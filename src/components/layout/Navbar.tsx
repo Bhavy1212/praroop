@@ -15,7 +15,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
+      if (window.scrollY > 40) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -29,7 +29,7 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-white/90 backdrop-blur-xl border-b border-slate-200/80 py-3 shadow-[0_4px_25px_rgba(0,128,203,0.06)]"
+          ? "bg-[#0B1220]/90 backdrop-blur-xl border-b border-white/10 py-3 shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
           : "bg-transparent py-5 border-b border-transparent"
       }`}
     >
@@ -43,7 +43,7 @@ export default function Navbar() {
                 alt="Praaroop Media — 360° Marketing Agency in Udaipur"
                 fill
                 priority
-                className="object-contain"
+                className="object-contain filter brightness-120 drop-shadow-[0_0_12px_rgba(0,128,203,0.4)]"
               />
             </div>
           </Link>
@@ -58,8 +58,8 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`relative text-sm font-semibold transition-colors duration-200 py-1 ${
-                    isActive ? "text-[#0080CB] font-bold" : "text-slate-700 hover:text-[#0080CB]"
+                  className={`relative text-sm font-bold transition-colors duration-200 py-1 ${
+                    isActive ? "text-[#0C9DA8]" : "text-white/90 hover:text-[#0C9DA8]"
                   }`}
                 >
                   {link.name}
@@ -76,12 +76,12 @@ export default function Navbar() {
           {/* Social Icons & CTA Button */}
           <div className="hidden sm:flex items-center gap-4">
             {/* Social Icons */}
-            <div className="flex items-center gap-2 pr-2 border-r border-slate-200">
+            <div className="flex items-center gap-2 pr-2 border-r border-white/15">
               <a
                 href={BRAND.socials.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 text-slate-600 hover:text-[#D10B6A] hover:bg-slate-100 rounded-full transition-all duration-200"
+                className="p-1.5 text-white/80 hover:text-[#D10B6A] hover:bg-white/10 rounded-full transition-all duration-200"
                 aria-label="Instagram"
               >
                 <InstagramIcon className="w-4 h-4" />
@@ -90,7 +90,7 @@ export default function Navbar() {
                 href={BRAND.socials.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 text-slate-600 hover:text-[#0080CB] hover:bg-slate-100 rounded-full transition-all duration-200"
+                className="p-1.5 text-white/80 hover:text-[#0080CB] hover:bg-white/10 rounded-full transition-all duration-200"
                 aria-label="Facebook"
               >
                 <FacebookIcon className="w-4 h-4" />
@@ -99,7 +99,7 @@ export default function Navbar() {
                 href={BRAND.socials.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 text-slate-600 hover:text-[#0C9DA8] hover:bg-slate-100 rounded-full transition-all duration-200"
+                className="p-1.5 text-white/80 hover:text-[#0C9DA8] hover:bg-white/10 rounded-full transition-all duration-200"
                 aria-label="LinkedIn"
               >
                 <LinkedinIcon className="w-4 h-4" />
@@ -111,7 +111,7 @@ export default function Navbar() {
               href={BRAND.whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative group inline-flex items-center gap-2 bg-gradient-to-r from-[#0080CB] to-[#0C9DA8] hover:from-[#0066A3] hover:to-[#0A828B] text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_15px_rgba(0,128,203,0.3)] hover:shadow-[0_6px_20px_rgba(12,157,168,0.5)] whatsapp-pulse-ring"
+              className="relative group inline-flex items-center gap-2 bg-gradient-to-r from-[#0080CB] to-[#0C9DA8] hover:from-[#0066A3] hover:to-[#0A828B] text-white text-xs sm:text-sm font-extrabold px-5 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_15px_rgba(0,128,203,0.4)] hover:shadow-[0_6px_20px_rgba(12,157,168,0.6)]"
             >
               <MessageSquare className="w-4 h-4 text-white" />
               <span>Get in touch</span>
@@ -122,13 +122,13 @@ export default function Navbar() {
           <div className="lg:hidden flex items-center gap-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-xl text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-200 focus:outline-none transition-colors"
+              className="p-2 rounded-xl text-white bg-white/10 hover:bg-white/20 border border-white/15 focus:outline-none transition-colors"
               aria-label="Toggle navigation menu"
             >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6 text-[#D10B6A]" />
               ) : (
-                <Menu className="w-6 h-6 text-slate-800" />
+                <Menu className="w-6 h-6 text-white" />
               )}
             </button>
           </div>
@@ -137,14 +137,14 @@ export default function Navbar() {
 
       {/* Mobile Animated Drawer Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-full bg-white/95 backdrop-blur-2xl border-b border-slate-200 px-6 pt-6 pb-8 shadow-2xl transition-all duration-300">
+        <div className="lg:hidden fixed inset-x-0 top-full bg-[#0B1220]/95 backdrop-blur-2xl border-b border-white/15 px-6 pt-6 pb-8 shadow-2xl transition-all duration-300">
           <nav className="flex flex-col gap-5">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-lg font-bold text-slate-800 hover:text-[#0080CB] transition-colors py-2 border-b border-slate-100 flex items-center justify-between"
+                className="text-lg font-bold text-white hover:text-[#0C9DA8] transition-colors py-2 border-b border-white/10 flex items-center justify-between"
               >
                 <span>{link.name}</span>
                 <span className="text-xs text-[#0C9DA8]">→</span>
@@ -157,7 +157,7 @@ export default function Navbar() {
                 href={BRAND.socials.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 text-slate-700 hover:text-[#D10B6A] bg-slate-100 rounded-xl border border-slate-200"
+                className="p-2.5 text-white hover:text-[#D10B6A] bg-white/10 rounded-xl border border-white/15"
                 aria-label="Instagram"
               >
                 <InstagramIcon className="w-5 h-5" />
@@ -166,7 +166,7 @@ export default function Navbar() {
                 href={BRAND.socials.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 text-slate-700 hover:text-[#0080CB] bg-slate-100 rounded-xl border border-slate-200"
+                className="p-2.5 text-white hover:text-[#0080CB] bg-white/10 rounded-xl border border-white/15"
                 aria-label="Facebook"
               >
                 <FacebookIcon className="w-5 h-5" />
@@ -175,7 +175,7 @@ export default function Navbar() {
                 href={BRAND.socials.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 text-slate-700 hover:text-[#0C9DA8] bg-slate-100 rounded-xl border border-slate-200"
+                className="p-2.5 text-white hover:text-[#0C9DA8] bg-white/10 rounded-xl border border-white/15"
                 aria-label="LinkedIn"
               >
                 <LinkedinIcon className="w-5 h-5" />
