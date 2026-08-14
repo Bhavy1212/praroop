@@ -1,7 +1,7 @@
 import SideDotNav from "@/components/ui/SideDotNav";
 import AmbientBackground from "@/components/ui/AmbientBackground";
 import Hero from "@/components/home/Hero";
-import HeroCoverflowSlider from "@/components/home/HeroCoverflowSlider";
+import HeroScrollCoverflow from "@/components/home/HeroScrollCoverflow";
 import SectionIntro from "@/components/home/SectionIntro";
 import OutdoorMarketingSection from "@/components/home/OutdoorMarketingSection";
 import ActivationsSection from "@/components/home/ActivationsSection";
@@ -27,8 +27,8 @@ export default function HomePage() {
         <Hero />
       </div>
 
-      {/* Section 1 — Digital Marketing 3D Coverflow Slider */}
-      <HeroCoverflowSlider />
+      {/* Section 1 — Pinned Scroll-Jacked 3D Coverflow Section */}
+      <HeroScrollCoverflow />
 
       {/* Section 2 — Section Intro (360° Marketing expertise) */}
       <SectionIntro />
