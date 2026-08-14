@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Target, Megaphone, Globe, Vote, PenTool, Share2, ArrowUpRight } from "lucide-react";
+import { Target, Megaphone, Globe, Vote, PenTool, Share2, ArrowUpRight, Sparkles } from "lucide-react";
 import { DIGITAL_MARKETING_ITEMS } from "@/lib/data";
 
 const SERVICE_DETAILS = [
   {
-    title: DIGITAL_MARKETING_ITEMS[0], // Brand strategy / Performance marketing
+    title: DIGITAL_MARKETING_ITEMS[0],
     icon: Target,
     accent: "#0080CB",
     description:
@@ -15,7 +15,7 @@ const SERVICE_DETAILS = [
     tags: ["Market Analysis", "ROI Optimization", "Brand Positioning"],
   },
   {
-    title: DIGITAL_MARKETING_ITEMS[1], // Digital marketing / Social media marketing
+    title: DIGITAL_MARKETING_ITEMS[1],
     icon: Megaphone,
     accent: "#0C9DA8",
     description:
@@ -23,7 +23,7 @@ const SERVICE_DETAILS = [
     tags: ["Social Media", "Paid Ads", "Audience Growth"],
   },
   {
-    title: DIGITAL_MARKETING_ITEMS[2], // Website Development
+    title: DIGITAL_MARKETING_ITEMS[2],
     icon: Globe,
     accent: "#D10B6A",
     description:
@@ -31,7 +31,7 @@ const SERVICE_DETAILS = [
     tags: ["Modern Web", "SEO Ready", "Interactive UX"],
   },
   {
-    title: DIGITAL_MARKETING_ITEMS[3], // Political Campaign/ Narrative Building
+    title: DIGITAL_MARKETING_ITEMS[3],
     icon: Vote,
     accent: "#0080CB",
     description:
@@ -39,7 +39,7 @@ const SERVICE_DETAILS = [
     tags: ["Constituency Outreach", "Public Relations", "Narrative Building"],
   },
   {
-    title: DIGITAL_MARKETING_ITEMS[4], // Content Marketing / Content Creation
+    title: DIGITAL_MARKETING_ITEMS[4],
     icon: PenTool,
     accent: "#0C9DA8",
     description:
@@ -47,7 +47,7 @@ const SERVICE_DETAILS = [
     tags: ["Video Production", "Copywriting", "Visual Assets"],
   },
   {
-    title: DIGITAL_MARKETING_ITEMS[5], // Influencer Marketing
+    title: DIGITAL_MARKETING_ITEMS[5],
     icon: Share2,
     accent: "#D10B6A",
     description:
@@ -64,65 +64,68 @@ export default function DigitalMarketingSection() {
   }, []);
 
   return (
-    <section id="services" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-slate-50/50 overflow-hidden border-t border-slate-100">
+    <section id="services" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-[#0A0A0A] overflow-hidden border-t border-white/5">
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-bold uppercase tracking-wider text-[#0C9DA8] shadow-xs">
-            Core Digital Services
+        <motion.div
+          initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-wider text-[#0C9DA8]">
+            <Sparkles className="w-3.5 h-3.5 text-[#0C9DA8]" />
+            <span>Core Digital Capabilities</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#0B1220] tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
             Digital Marketing <span className="text-gradient-tri">Solutions</span>
           </h2>
-          <p className="text-base sm:text-lg text-slate-600 font-normal">
+          <p className="text-base sm:text-lg text-[#CBD5E1] font-normal">
             Strategic digital capabilities engineered to elevate your brand presence and deliver measurable growth across every channel.
           </p>
-        </div>
+        </motion.div>
 
-        {/* 6 Grid Cards */}
+        {/* 6 Grid Cards with Staggered Entrance */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {SERVICE_DETAILS.map((service, idx) => {
             const IconComp = service.icon;
             return (
               <motion.div
                 key={service.title}
-                initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+                initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
+                viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group relative rounded-3xl bg-white border border-slate-200/80 p-8 flex flex-col justify-between transition-all duration-300 hover:border-slate-300 hover:shadow-[0_15px_35px_-10px_rgba(0,128,203,0.12)] hover:-translate-y-1"
+                className="group relative rounded-3xl bg-[#111111]/90 border border-white/10 p-8 flex flex-col justify-between transition-all duration-300 hover:border-white/30 hover:bg-[#141414] hover:shadow-[0_15px_35px_-10px_rgba(0,128,203,0.25)] border-gradient-glow"
               >
                 <div>
-                  {/* Top Row: Icon & Tag */}
                   <div className="flex items-center justify-between mb-6">
                     <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center border border-slate-100 transition-transform duration-300 group-hover:scale-110"
-                      style={{ backgroundColor: `${service.accent}12` }}
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center border border-white/10 bg-white/5 transition-transform duration-300 group-hover:scale-110"
+                      style={{ boxShadow: `0 0 20px ${service.accent}20` }}
                     >
                       <IconComp className="w-7 h-7" style={{ color: service.accent }} />
                     </div>
-                    <div className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:text-[#0080CB] group-hover:bg-[#0080CB]/10 transition-colors">
+                    <div className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/50 group-hover:text-white group-hover:bg-white/10 transition-colors">
                       <ArrowUpRight className="w-5 h-5" />
                     </div>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="text-xl font-bold text-[#0B1220] mb-3 group-hover:text-[#0080CB] transition-colors leading-snug">
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#0C9DA8] transition-colors leading-snug">
                     {service.title}
                   </h3>
 
-                  {/* Description */}
-                  <p className="text-sm text-slate-600 leading-relaxed mb-6">
+                  <p className="text-sm text-[#CBD5E1] leading-relaxed mb-6">
                     {service.description}
                   </p>
                 </div>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-100">
+                <div className="flex flex-wrap gap-2 pt-4 border-t border-white/5">
                   {service.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200/60"
+                      className="text-xs font-semibold px-3 py-1 rounded-full bg-white/5 text-[#CBD5E1] border border-white/5"
                     >
                       {tag}
                     </span>
