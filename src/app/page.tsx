@@ -2,7 +2,7 @@ import SideDotNav from "@/components/ui/SideDotNav";
 import AmbientBackground from "@/components/ui/AmbientBackground";
 import Hero from "@/components/home/Hero";
 import SectionIntro from "@/components/home/SectionIntro";
-import DigitalServicesSection from "@/components/home/DigitalServicesSection";
+import GrowthEngine3DCarousel from "@/components/home/GrowthEngine3DCarousel";
 import OutdoorMarketingSection from "@/components/home/OutdoorMarketingSection";
 import ActivationsSection from "@/components/home/ActivationsSection";
 import CtaBanner from "@/components/home/CtaBanner";
@@ -30,8 +30,8 @@ export default function HomePage() {
       {/* Section 1 — Full-Page Agency Intro Header */}
       <SectionIntro />
 
-      {/* Section 2 — Pinned 3D Digital Services Tiles Carousel */}
-      <DigitalServicesSection />
+      {/* Section 2 — 3D Coverflow Digital Services Carousel */}
+      <GrowthEngine3DCarousel />
 
       {/* Section 3 — Outdoor Marketing */}
       <OutdoorMarketingSection />
