@@ -27,6 +27,16 @@ scrape_images.py
 get_campaign_imgs.py
 campaign_images_map.json
 campaign_imgs.json
+scratch/
+find_all_service_tile_imgs_on_site.py
+download_original_service_tile_images.py
+download_all_service_videos.py
+download_outdoor_images.py
+download_activations_images.py
+download_service_videos.py
+download_all_8_campaign_pages_clean.py
+scrape_all_campaign_real_images.py
+fetch_winter_carnival.py
 
 # debug
 npm-debug.log*

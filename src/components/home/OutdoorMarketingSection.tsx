@@ -293,7 +293,9 @@ export default function OutdoorMarketingSection() {
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase text-white leading-[0.95] tracking-tight font-display">
                   THE ENGINE
                   <br />
-                  <span className="text-[#CCFF00]">FOR GROWTH</span>
+                  <span className="text-[#0080CB]">
+                    FOR GROWTH
+                  </span>
                 </h2>
               </div>
 

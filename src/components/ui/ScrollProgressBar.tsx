@@ -7,7 +7,7 @@ export default function ScrollProgressBar() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#0080CB] via-[#0C9DA8] to-[#D10B6A] z-50 origin-left shadow-[0_0_10px_#0080CB]"
+      className="fixed top-0 left-0 right-0 h-1 bg-[#0C9DA8] z-50 origin-left shadow-[0_0_10px_#0C9DA8]"
       style={{ scaleX: scrollYProgress }}
       aria-hidden="true"
     />

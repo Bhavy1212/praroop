@@ -269,7 +269,7 @@ export default function ServicesHeroSlider() {
             className={styles.centerCtaPill}
           >
             <span>Tell Us What You're Looking For</span>
-            <ArrowUpRight className="w-4 h-4 text-[#FFE600]" />
+            <ArrowUpRight className="w-4 h-4 text-[#0C9DA8]" />
           </a>
 
           {/* Right Arrow Button */}

@@ -89,7 +89,7 @@ export default function CampaignsPage() {
 
         {/* CTA Section */}
         <section className="max-w-4xl mx-auto px-4">
-          <div className="p-10 sm:p-12 rounded-3xl bg-gradient-to-r from-[#0080CB] via-[#0C9DA8] to-[#D10B6A] text-white text-center space-y-6 shadow-2xl">
+          <div className="p-10 sm:p-12 rounded-3xl bg-[#0C9DA8] text-white text-center space-y-6 shadow-2xl">
             <h2 className="text-3xl font-extrabold text-white">Have a Campaign in Mind?</h2>
             <p className="text-white/90 text-base max-w-xl mx-auto">
               Book a campaign strategy session with Praaroop Media in Udaipur.

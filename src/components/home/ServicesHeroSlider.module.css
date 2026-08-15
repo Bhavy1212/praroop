@@ -255,9 +255,10 @@
 }
 
 .navButton:hover {
-  background-color: #ffe600;
+  background-color: #0C9DA8;
+  color: #ffffff;
   transform: scale(1.08);
-  box-shadow: 0 15px 35px rgba(255, 230, 0, 0.4);
+  box-shadow: 0 15px 35px rgba(12, 157, 168, 0.4);
 }
 
 .centerCtaPill {

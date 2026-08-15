@@ -96,7 +96,7 @@ export default function AboutPage() {
 
         {/* Closing CTA */}
         <section className="max-w-4xl mx-auto text-center px-4">
-          <div className="p-10 sm:p-14 rounded-3xl bg-gradient-to-r from-[#0080CB] via-[#0C9DA8] to-[#D10B6A] text-white space-y-6 shadow-2xl">
+          <div className="p-10 sm:p-14 rounded-3xl bg-[#0C9DA8] text-white space-y-6 shadow-2xl">
             <p className="text-2xl sm:text-3xl font-extrabold text-white">
               {ABOUT_US_PAGE.closing}
             </p>

@@ -4,127 +4,140 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { CLIENT_LOGOS } from "@/lib/data";
 
+import { motion } from "framer-motion";
+
 // ── Brand colours ──────────────────────────────────────────────────────────
 const PINK = "#D10B6A";
 const TEAL = "#0C9DA8";
 
 // ── Single source of truth for ring geometry ──────────────────────────────
-// Change DIAMETER or STROKE_RATIO here — everything else is derived.
-const DIAMETER     = 420;
-const STROKE_RATIO = 0.18;  // ring band as fraction of diameter (tune to taste)
+const DIAMETER = 540;
+const OFFSET   = Math.round(DIAMETER * 0.50); // center-to-center ≈ 50% of diameter
+const DURATION = 26; // seconds per full revolution
 
-function getRingConfig(diameter: number, strokeRatio: number) {
-  const strokeWidth       = diameter * strokeRatio;
-  const outerRadius       = diameter / 2;
-  const centerlineRadius  = outerRadius - strokeWidth / 2; // logos orbit exactly HERE
-  const logoSize          = Math.round(strokeWidth * 0.80); // logos fill ~80% of band
-  return { strokeWidth, outerRadius, centerlineRadius, logoSize };
-}
-
-// ── Overlap geometry (measured from the actual Praaroop logo) ─────────────
-const OFFSET   = Math.round(DIAMETER * 0.518); // center-to-center ≈ 51.8% of diameter
-const DURATION = 22; // seconds per full revolution
-
-// ── Ring element ──────────────────────────────────────────────────────────
-// Outer wrapper is the positioning context (no border, no offset math).
-// The visual ring is a separate absolutely-positioned child — purely decorative.
-// This keeps pivot top/left calculations clean (always diameter/2 from wrapper corner).
+// ── OrbitCircle: Mathematically locked center and orbit ──────────────────────
 function OrbitCircle({
   logos,
   diameter,
   color,
   style,
+  direction = 1,
 }: {
-  logos:    typeof CLIENT_LOGOS;
+  logos: typeof CLIENT_LOGOS;
   diameter: number;
-  color:    string;
-  style:    React.CSSProperties;
+  color: string;
+  style: React.CSSProperties;
+  direction?: number;
 }) {
-  const { strokeWidth, centerlineRadius, logoSize } = getRingConfig(diameter, STROKE_RATIO);
+  const strokeWidth = diameter * 0.17; // ~92px band width
+  const radius = (diameter - strokeWidth) / 2;
+  const center = diameter / 2;
+  const logoSize = Math.round(strokeWidth * 0.95); // ~88px badge size
 
   return (
-    /* Outer wrapper — positioning context, exactly diameter × diameter, no border */
     <div style={{ ...style, position: "absolute", width: diameter, height: diameter }}>
+      {/* 1. Exact SVG Ring Circle (center is precisely cx, cy) */}
+      <svg
+        width={diameter}
+        height={diameter}
+        viewBox={`0 0 ${diameter} ${diameter}`}
+        className="absolute inset-0 pointer-events-none drop-shadow-[0_0_30px_rgba(0,0,0,0.6)]"
+      >
+        <circle
+          cx={center}
+          cy={center}
+          r={radius}
+          fill="none"
+          stroke={color}
+          strokeWidth={strokeWidth}
+          strokeOpacity={0.92}
+        />
+        {/* Subtle decorative dashed center line */}
+        <circle
+          cx={center}
+          cy={center}
+          r={radius}
+          fill="none"
+          stroke="rgba(255,255,255,0.3)"
+          strokeWidth={1.5}
+          strokeDasharray="5 7"
+        />
+      </svg>
 
-      {/* Visual ring — purely decorative, pointer-events:none so it doesn't interfere */}
-      <div
+      {/* 2. Rotating container centered EXACTLY on the same (center, center) */}
+      <motion.div
+        animate={{ rotate: direction * 360 }}
+        transition={{ duration: DURATION, repeat: Infinity, ease: "linear" }}
         style={{
-          position:    "absolute",
-          inset:       0,
-          borderRadius:"50%",
-          border:      `${strokeWidth}px solid ${color}`,
-          boxSizing:   "border-box",
-          pointerEvents:"none",
+          position: "absolute",
+          inset: 0,
+          transformOrigin: `${center}px ${center}px`,
         }}
-      />
+      >
+        {logos.map((logo, i) => {
+          const angle = (2 * Math.PI * i) / logos.length;
+          // Exact coordinates along the exact center radius of the circle
+          const x = center + radius * Math.cos(angle);
+          const y = center + radius * Math.sin(angle);
 
-      {/* Pivot elements — top/left are exact pixels from wrapper corner, no border math */}
-      {logos.map((logo, i) => {
-        const angleOffset = (360 / logos.length) * i;
-        const delay       = -((DURATION / logos.length) * i);
-
-        return (
-          <div
-            key={logo.id}
-            className="orbit-pivot"
-            style={{
-              position:          "absolute",
-              top:               diameter / 2,   // exact pixel center of wrapper
-              left:              diameter / 2,   // exact pixel center of wrapper
-              width:             0,
-              height:            0,
-              transform:         `rotate(${angleOffset}deg)`,
-              animationDuration: `${DURATION}s`,
-              animationDelay:    `${delay}s`,
-            }}
-          >
-            {/* centerlineRadius is derived from the same config as the ring stroke */}
-            <div style={{ transform: `translateX(${centerlineRadius}px)` }}>
-              <div
-                className="orbit-logo-counter-spin"
-                style={{ animationDuration: `${DURATION}s`, animationDelay: `${delay}s` }}
+          return (
+            <div
+              key={logo.id}
+              style={{
+                position: "absolute",
+                left: `${x}px`,
+                top: `${y}px`,
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              {/* Counter-rotation to keep logo upright */}
+              <motion.div
+                animate={{ rotate: -direction * 360 }}
+                transition={{ duration: DURATION, repeat: Infinity, ease: "linear" }}
+                style={{
+                  width: logoSize,
+                  height: logoSize,
+                  transformOrigin: "center center",
+                }}
+                className="flex items-center justify-center p-2.5 rounded-full bg-white shadow-2xl border-2 border-white/80 transition-transform hover:scale-110"
               >
-                <div
-                  style={{ width: logoSize, height: logoSize }}
-                  className="-translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
-                >
+                <div className="relative w-full h-full">
                   <Image
                     src={logo.logo}
                     alt={logo.name}
-                    width={logoSize}
-                    height={logoSize}
-                    className="object-contain w-full h-full"
+                    fill
+                    sizes={`${logoSize}px`}
+                    className="object-contain filter contrast-105"
                   />
                 </div>
-              </div>
+              </motion.div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </motion.div>
     </div>
   );
 }
-
 
 // ── Mobile marquee fallback ────────────────────────────────────────────────
 function MobileMarquee() {
   const marqueeLogos = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
   return (
-    <div className="relative w-full overflow-hidden py-4">
-      <div className="absolute top-0 bottom-0 left-0 w-20 bg-gradient-to-r from-[#0A0A0A] to-transparent z-10 pointer-events-none" />
-      <div className="absolute top-0 bottom-0 right-0 w-20 bg-gradient-to-l from-[#0A0A0A] to-transparent z-10 pointer-events-none" />
+    <div className="relative w-full overflow-hidden py-6">
+      <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-[#0A0A0A] to-transparent z-10 pointer-events-none" />
+      <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-[#0A0A0A] to-transparent z-10 pointer-events-none" />
       <div className="animate-marquee-left items-center gap-6">
         {marqueeLogos.map((client, idx) => (
           <div
             key={`${client.id}-${idx}`}
-            className="shrink-0 w-36 h-20 rounded-xl bg-[#111] border border-white/10 p-3 flex items-center justify-center"
+            className="shrink-0 w-44 h-24 rounded-2xl bg-[#141414] border border-white/15 p-3.5 flex items-center justify-center shadow-lg"
           >
             <div className="relative w-full h-full">
               <Image
                 src={client.logo}
                 alt={client.name}
                 fill
-                className="object-contain opacity-80"
+                className="object-contain opacity-95"
               />
             </div>
           </div>
@@ -133,6 +146,7 @@ function MobileMarquee() {
     </div>
   );
 }
+
 
 // ── Main section ───────────────────────────────────────────────────────────
 export default function ClientMarquee() {

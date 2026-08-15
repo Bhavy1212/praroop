@@ -267,7 +267,7 @@ export default function DigitalMarketingEngine() {
 
                 {/* Decorative Floating Icon Stickers (Top Corner Chips) */}
                 <div className="absolute top-6 left-6 z-20 flex items-center gap-2 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-xs font-bold text-white shadow-lg">
-                  <IconComp className="w-4 h-4 text-[#FFE600]" />
+                  <IconComp className="w-4 h-4 text-[#0C9DA8]" />
                   <span>{cat.chip}</span>
                 </div>
 
@@ -310,7 +310,7 @@ export default function DigitalMarketingEngine() {
             className="inline-flex items-center gap-2.5 bg-transparent border border-white/40 hover:bg-white/15 text-white font-extrabold text-xs sm:text-sm px-6 sm:px-8 py-3.5 rounded-full transition-all duration-300 backdrop-blur-md shadow-xl uppercase tracking-wider"
           >
             <span>Tell Us What You're Looking For</span>
-            <ArrowUpRight className="w-4 h-4 text-[#FFE600]" />
+            <ArrowUpRight className="w-4 h-4 text-[#0C9DA8]" />
           </a>
 
           {/* Next Arrow Button */}

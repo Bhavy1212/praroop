@@ -105,7 +105,7 @@ const ANGLE_STEP = 360 / N; // 60° per card for 6 cards
    For cardWidth ≈ 420px and N = 6:
      radius = 210 / tan(30°) = 210 / 0.5774 ≈ 364px
    We'll use 380px for a slightly tighter look.              */
-const DRUM_RADIUS = 720;
+const DRUM_RADIUS = 760;
 
 /* ── Single Ring Card ─────────────────────────────────────── */
 interface RingCardProps {
@@ -137,15 +137,15 @@ function RingCard({
     return angle;
   });
 
-  // Text opacity: legible only when nearly front-facing (±25°)
+  // Text opacity: legible only when nearly front-facing (±30°)
   const textOpacity = useTransform(facingAngle, (a) =>
-    Math.max(0, 1 - Math.abs(a) / 25)
+    Math.max(0, 1 - Math.abs(a) / 30)
   );
 
   return (
     <div
       onClick={() => onCardClick(index)}
-      className="absolute top-1/2 left-1/2 w-[320px] h-[250px] sm:w-[380px] sm:h-[290px] md:w-[430px] md:h-[320px] lg:w-[470px] lg:h-[350px] -ml-[160px] sm:-ml-[190px] md:-ml-[215px] lg:-ml-[235px] -mt-[125px] sm:-mt-[145px] md:-mt-[160px] lg:-mt-[175px] rounded-[24px] overflow-hidden cursor-pointer select-none will-change-transform transform-gpu"
+      className="absolute top-1/2 left-1/2 w-[260px] h-[190px] sm:w-[300px] sm:h-[220px] md:w-[340px] md:h-[250px] lg:w-[370px] lg:h-[270px] -ml-[130px] sm:-ml-[150px] md:-ml-[170px] lg:-ml-[185px] -mt-[95px] sm:-mt-[110px] md:-mt-[125px] lg:-mt-[135px] rounded-[20px] overflow-hidden cursor-pointer select-none will-change-transform transform-gpu"
       style={{
         /* Each card is placed on the ring by:
            1. Rotating to its slot angle on the ring
@@ -153,11 +153,10 @@ function RingCard({
            The parent drum div rotates the whole ring. */
         transform: `rotateY(${cardAngle}deg) translateZ(${DRUM_RADIUS}px)`,
         transformStyle: "preserve-3d",
-
       }}
     >
       {/* Card inner wrapper with glassmorphism border */}
-      <div className="relative w-full h-full rounded-[20px] overflow-hidden bg-white/[0.06] backdrop-blur-sm border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+      <div className="relative w-full h-full rounded-[18px] overflow-hidden bg-white/[0.08] backdrop-blur-md border border-white/20 shadow-[0_12px_36px_rgba(0,0,0,0.6)]">
         {/* Background Media */}
         {!reducedMotion && card.videoSrc ? (
           <video
@@ -183,18 +182,18 @@ function RingCard({
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/5 pointer-events-none z-10" />
 
         {/* Top floating icons row */}
-        <div className="relative z-20 p-4 md:p-5 flex items-center justify-between w-full pointer-events-none">
+        <div className="relative z-20 p-3 md:p-3.5 flex items-center justify-between w-full pointer-events-none">
           <div className="flex gap-1.5">
             {card.icons.map((IconComp, idx) => (
               <div
                 key={idx}
-                className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white"
+                className="w-6 h-6 md:w-7 md:h-7 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-sm"
               >
-                <IconComp className="w-3.5 h-3.5 md:w-4 md:h-4 text-white/90" />
+                <IconComp className="w-3 h-3 md:w-3.5 md:h-3.5 text-white/90" />
               </div>
             ))}
           </div>
-          <div className="px-2.5 py-0.5 rounded-full bg-black/50 backdrop-blur-md border border-white/15 text-[10px] font-mono text-white/80">
+          <div className="px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[9px] font-mono text-white/90">
             0{index + 1} / 0{N}
           </div>
         </div>
@@ -202,15 +201,15 @@ function RingCard({
         {/* Card text content — fades sharply when card rotates away */}
         <motion.div
           style={{ opacity: textOpacity }}
-          className="absolute inset-x-0 bottom-5 md:bottom-7 px-5 md:px-6 text-center z-20 pointer-events-none space-y-1.5"
+          className="absolute inset-x-0 bottom-3.5 md:bottom-4 px-3.5 md:px-4 text-center z-20 pointer-events-none space-y-1"
         >
-          <div className="inline-block px-2.5 py-0.5 rounded-full bg-[#0080CB]/30 border border-[#0080CB]/50 text-[10px] md:text-xs font-bold uppercase tracking-wider text-[#38BDF8] mb-1">
+          <div className="inline-block px-2.5 py-0.5 rounded-full bg-[#0080CB]/40 border border-[#0080CB]/60 text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-[#38BDF8] mb-0.5">
             {card.chip}
           </div>
-          <h3 className="text-lg sm:text-xl md:text-2xl font-black text-white leading-tight drop-shadow-md whitespace-pre-line">
+          <h3 className="text-base sm:text-lg md:text-xl font-black text-white leading-tight drop-shadow-md whitespace-pre-line">
             {card.title}
           </h3>
-          <p className="text-[11px] sm:text-xs text-white/85 font-light max-w-[280px] mx-auto line-clamp-2 leading-relaxed">
+          <p className="text-[10px] sm:text-[11px] text-white/85 font-light max-w-[260px] mx-auto line-clamp-2 leading-tight">
             {card.description}
           </p>
         </motion.div>
@@ -386,18 +385,6 @@ export default function GrowthEngine3DCarousel() {
             </div>
           ))}
         </div>
-
-        <div className="flex justify-center mt-6">
-          <a
-            href={BRAND.whatsappLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white text-black font-semibold text-xs px-8 py-3.5 rounded-full shadow-lg uppercase tracking-wide"
-          >
-            <span>Explore Our Services</span>
-            <ArrowUpRight className="w-3.5 h-3.5" />
-          </a>
-        </div>
       </section>
     );
   }
@@ -410,40 +397,49 @@ export default function GrowthEngine3DCarousel() {
       className="relative w-full bg-[#050505] text-white border-t border-white/5"
       style={{ height: `${N * 100}vh` }}
     >
-      {/* Sticky viewport — pins for the entire scroll budget */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-between items-center py-8 md:py-10 px-4 z-20">
+      {/* Sticky viewport — pins for the entire scroll budget with perfect 50% vertical centering */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center px-4 z-20">
         {/* Ambient glow behind the ring */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[700px] bg-[radial-gradient(ellipse_at_center,_rgba(0,128,203,0.14),_transparent_65%)] pointer-events-none z-0" />
 
-        {/* Spacer to maintain vertical alignment balance */}
-        <div className="h-6 md:h-8 w-full select-none pointer-events-none" />
-
-        {/* 3D Perspective Stage */}
+        {/* 3D Perspective Stage — balanced optical center */}
         <div
-          className="relative w-full max-w-[1400px] flex-1 flex items-center justify-center my-auto z-10"
+          className="relative w-full max-w-[1400px] h-full flex items-center justify-center translate-y-6 sm:translate-y-8 md:translate-y-10"
           style={{
-            perspective: "1800px",
+            perspective: "1600px",
             perspectiveOrigin: "50% 50%",
+            transformStyle: "preserve-3d",
           }}
         >
-          {/* Centered Heading inside the Carousel Ring */}
+          {/* Centered Heading at Z = 0: Behind front cards (+Z), in front of back cards (-Z) */}
           <div
-            className="absolute pointer-events-none select-none text-center z-0 flex flex-col items-center justify-center transform-gpu"
-            style={{ transform: "translateZ(0)" }}
+            className="absolute pointer-events-none select-none text-center flex flex-col items-center justify-center"
+            style={{
+              transform: "translateZ(0px)",
+              transformStyle: "preserve-3d",
+            }}
           >
-            <span className="block text-[10px] sm:text-xs md:text-sm font-semibold uppercase tracking-widest text-[#0080CB] mb-2 drop-shadow-[0_0_10px_rgba(0,128,203,0.5)]">
+            <div
+              className="absolute inset-0 -m-16 rounded-full bg-[radial-gradient(circle,_rgba(0,128,203,0.3)_0%,_transparent_70%)] blur-2xl pointer-events-none"
+              style={{ transform: "translateZ(-5px)" }}
+            />
+            <span className="block font-mono text-xs sm:text-sm font-bold uppercase tracking-[0.3em] text-[#0C9DA8] mb-2 drop-shadow-[0_0_10px_rgba(12,157,168,0.6)]">
               OUR CORE
             </span>
             <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight text-white leading-none font-display">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0080CB] to-[#38BDF8] drop-shadow-[0_0_20px_rgba(0,128,203,0.4)]">360°</span>
+              <span className="text-[#0080CB] drop-shadow-[0_0_25px_rgba(0,128,203,0.5)]">
+                360°
+              </span>
               <br />
-              <span className="text-white/90">Digital</span>
+              <span className="text-white drop-shadow-md">Digital</span>
               <br />
-              <span className="text-slate-400 text-3xl sm:text-5xl md:text-6xl lg:text-7xl">Capabilities</span>
+              <span className="text-[#D10B6A] text-3xl sm:text-5xl md:text-6xl lg:text-7xl drop-shadow-[0_0_25px_rgba(209,11,106,0.6)]">
+                Services
+              </span>
             </h2>
           </div>
 
-          {/* The Drum — a single div that rotates, carrying all cards */}
+          {/* The Drum — 3D orbital ring rotating around Z=0 */}
           <motion.div
             className="relative w-0 h-0"
             style={{
@@ -464,10 +460,10 @@ export default function GrowthEngine3DCarousel() {
           </motion.div>
         </div>
 
-        {/* Progress Dots & CTA */}
-        <div className="flex flex-col items-center gap-4 pb-2 relative z-30 select-none">
-          {/* Dot indicator row */}
-          <div className="flex items-center gap-2.5">
+
+        {/* Progress Dots Navigation — absolutely anchored at bottom without pushing stage */}
+        <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-30 select-none pointer-events-auto">
+          <div className="flex items-center gap-2.5 bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 shadow-lg">
             {SERVICES.map((_, idx) => (
               <button
                 key={idx}
@@ -475,25 +471,16 @@ export default function GrowthEngine3DCarousel() {
                 aria-label={`Jump to service ${idx + 1}`}
                 className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                   activeDot === idx
-                    ? "w-8 bg-[#0080CB] shadow-[0_0_12px_rgba(0,128,203,0.8)]"
-                    : "w-2 bg-white/25 hover:bg-white/50"
+                    ? "w-7 bg-[#0080CB] shadow-[0_0_12px_rgba(0,128,203,0.8)]"
+                    : "w-2 bg-white/30 hover:bg-white/60"
                 }`}
               />
             ))}
           </div>
-
-          {/* Static CTA link */}
-          <a
-            href={BRAND.whatsappLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white hover:bg-slate-100 text-black font-semibold text-xs md:text-sm px-9 py-3.5 rounded-full transition-all duration-300 hover:scale-105 shadow-xl uppercase tracking-wide cursor-pointer"
-          >
-            <span>Explore Our Services</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </a>
         </div>
       </div>
     </section>
   );
 }
+
+

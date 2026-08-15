@@ -1,11 +1,9 @@
 import SideDotNav from "@/components/ui/SideDotNav";
 import AmbientBackground from "@/components/ui/AmbientBackground";
 import Hero from "@/components/home/Hero";
-import SectionIntro from "@/components/home/SectionIntro";
 import GrowthEngine3DCarousel from "@/components/home/GrowthEngine3DCarousel";
 import OutdoorMarketingSection from "@/components/home/OutdoorMarketingSection";
 import ActivationsSection from "@/components/home/ActivationsSection";
-import CtaBanner from "@/components/home/CtaBanner";
 import StatsSection from "@/components/home/StatsSection";
 import ClientMarquee from "@/components/home/ClientMarquee";
 import WhyUs from "@/components/home/WhyUs";
@@ -22,27 +20,21 @@ export default function HomePage() {
       {/* Side Dot Navigation indicator for desktop natural section scroll */}
       <SideDotNav />
 
-      {/* Section 0 — Hero Banner Page */}
+      {/* Section 0 — Hero Banner Page (Horizontal Scroll: Banner → We Are The Best 360° Agency in Udaipur) */}
       <div id="hero">
         <Hero />
       </div>
 
-      {/* Section 1 — Full-Page Agency Intro Header */}
-      <SectionIntro />
-
-      {/* Section 2 — 3D Coverflow Digital Services Carousel */}
+      {/* Section 1 — 3D Coverflow Digital Services Carousel */}
       <GrowthEngine3DCarousel />
 
-      {/* Section 3 — Outdoor Marketing */}
+      {/* Section 2 — Outdoor Marketing */}
       <OutdoorMarketingSection />
 
-      {/* Section 4 — Activations */}
+      {/* Section 3 — Activations */}
       <ActivationsSection />
 
-      {/* Section 5 — CTA Banner */}
-      <CtaBanner />
-
-      {/* Section 6 — Stats Counter */}
+      {/* Section 4 — Stats Counter */}
       <StatsSection />
 
       {/* Section 7 — Client Logo Marquee */}

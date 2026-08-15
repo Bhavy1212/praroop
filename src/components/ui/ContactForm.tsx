@@ -54,7 +54,7 @@ export default function ContactForm() {
 
       <button
         type="submit"
-        className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#0080CB] via-[#0C9DA8] to-[#D10B6A] hover:opacity-90 text-white font-extrabold py-4 px-6 rounded-xl transition-all shadow-xl"
+        className="w-full inline-flex items-center justify-center gap-2 bg-[#0C9DA8] hover:bg-[#0080CB] text-white font-extrabold py-4 px-6 rounded-xl transition-all shadow-xl"
       >
         <Send className="w-4 h-4" />
         <span>Get in touch</span>
