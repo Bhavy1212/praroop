@@ -1,207 +1,68 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Award, Star, Trophy, Sparkles, CheckCircle2, ShieldCheck, Zap, TrendingUp } from "lucide-react";
+import { Compass, Lightbulb, Cpu, HeartHandshake, Sparkles, CheckCircle2 } from "lucide-react";
+import { WHY_CHOOSE_US } from "@/lib/data";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-// 8 Benchmark & Excellence cards matching the exact layout from Appinventiv Digital
-const BENCHMARK_CARDS = [
+const PILLARS_CONFIG = [
   {
-    id: "card-1",
-    type: "red",
-    title: "Strategic Excellence",
-    category: "360° CAMPAIGNS",
-    badge: "Top Growth Agency",
-    year: "2026",
-    bg: "bg-[#991B1B] text-white border-red-700/60 shadow-[0_20px_50px_rgba(153,27,27,0.3)]",
-    start: { x: "-36vw", y: "30vh", rotateY: 15, rotateX: 10, rotateZ: -6 },
-    end:   { x: "-38vw", y: "-35vh", rotateY: 195, rotateX: -12, rotateZ: 8 },
+    title:       WHY_CHOOSE_US.pillars[0].title,
+    desc:        WHY_CHOOSE_US.pillars[0].description,
+    Icon:        Compass,
+    badge:       "TAILORED STRATEGY",
+    year:        "PILLAR 01",
+    bg:          "bg-[#991B1B] text-white border-red-700/60 shadow-[0_20px_50px_rgba(153,27,27,0.35)]",
+    iconBg:      "bg-white/20 text-white",
+    duration:    "8.2s",
+    delay:       "0s",
+    // Organic scattered desktop positioning (around center text)
+    desktopPos:  "top-[12%] left-[4%] lg:left-[7%] max-w-[290px] lg:max-w-[310px]",
   },
   {
-    id: "card-2",
-    type: "sand",
-    title: "Clutch 100",
-    category: "TOP RATED AGENCY",
-    badge: "5.0 ★ VERIFIED",
-    year: "2026",
-    bg: "bg-[#E6DCBA] text-[#1E293B] border-[#CFC39B] shadow-[0_20px_50px_rgba(0,0,0,0.4)]",
-    start: { x: "-28vw", y: "-15vh", rotateY: 175, rotateX: -8, rotateZ: 5 },
-    end:   { x: "-26vw", y: "32vh", rotateY: -10, rotateX: 14, rotateZ: -6 },
+    title:       WHY_CHOOSE_US.pillars[1].title,
+    desc:        WHY_CHOOSE_US.pillars[1].description,
+    Icon:        Lightbulb,
+    badge:       "CREATIVE BOUNDARIES",
+    year:        "PILLAR 02",
+    bg:          "bg-[#FACC15] text-black border-yellow-300 shadow-[0_20px_50px_rgba(250,204,21,0.3)]",
+    iconBg:      "bg-black/10 text-black",
+    duration:    "10.8s",
+    delay:       "-3.6s",
+    desktopPos:  "top-[15%] right-[4%] lg:right-[7%] max-w-[290px] lg:max-w-[310px]",
   },
   {
-    id: "card-3",
-    type: "white-laurel",
-    title: "ET Leadership",
-    category: "EXCELLENCE AWARDS",
-    badge: "Media & Advertising",
-    year: "2026",
-    bg: "bg-white text-slate-900 border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.5)]",
-    start: { x: "-4vw", y: "-30vh", rotateY: 180, rotateX: -12, rotateZ: -4 },
-    end:   { x: "-6vw", y: "24vh", rotateY: 5, rotateX: 10, rotateZ: 6 },
+    title:       WHY_CHOOSE_US.pillars[2].title,
+    desc:        WHY_CHOOSE_US.pillars[2].description,
+    Icon:        Cpu,
+    badge:       "FUTURE-READY TECH",
+    year:        "PILLAR 03",
+    bg:          "bg-[#0C9DA8] text-white border-teal-300/50 shadow-[0_20px_50px_rgba(12,157,168,0.35)]",
+    iconBg:      "bg-white/20 text-white",
+    duration:    "9.4s",
+    delay:       "-6.2s",
+    desktopPos:  "bottom-[12%] right-[5%] lg:right-[8%] max-w-[290px] lg:max-w-[320px]",
   },
   {
-    id: "card-4",
-    type: "yellow",
-    title: "Creative Brilliance",
-    category: "OUTLOOK BUSINESS",
-    badge: "SPOTLIGHT 2026",
-    year: "SPECIAL FEATURE",
-    bg: "bg-[#FACC15] text-black border-yellow-300 font-bold shadow-[0_20px_50px_rgba(250,204,21,0.25)]",
-    start: { x: "24vw", y: "-22vh", rotateY: 170, rotateX: 12, rotateZ: -6 },
-    end:   { x: "26vw", y: "30vh", rotateY: -15, rotateX: -10, rotateZ: 8 },
-  },
-  {
-    id: "card-5",
-    type: "green",
-    title: "Tech-Driven Solutions",
-    category: "INNOVATION & AI",
-    badge: "Future-Ready Media",
-    year: "2026",
-    bg: "bg-[#86EFAC] text-[#064E3B] border-emerald-300 shadow-[0_20px_50px_rgba(134,239,172,0.3)]",
-    start: { x: "38vw", y: "-6vh", rotateY: 78, rotateX: -5, rotateZ: 8 },
-    end:   { x: "36vw", y: "34vh", rotateY: -85, rotateX: 10, rotateZ: -10 },
-  },
-  {
-    id: "card-6",
-    type: "gold-seal",
-    title: "India 5000",
-    category: "BEST MSME AWARDS",
-    badge: "Client Trust Leader",
-    year: "WINNER",
-    bg: "bg-[#FEF3C7] text-[#78350F] border-amber-300 shadow-[0_20px_50px_rgba(0,0,0,0.4)]",
-    start: { x: "30vw", y: "24vh", rotateY: 10, rotateX: -10, rotateZ: 6 },
-    end:   { x: "28vw", y: "-28vh", rotateY: 185, rotateX: 14, rotateZ: -6 },
-  },
-  {
-    id: "card-7",
-    type: "white-ft",
-    title: "High-Growth Leader",
-    category: "ASIA-PACIFIC 2026",
-    badge: "Financial Times Ranking",
-    year: "FT 100",
-    bg: "bg-white text-slate-900 border-slate-200 shadow-[0_25px_60px_rgba(0,0,0,0.5)]",
-    start: { x: "5vw", y: "32vh", rotateY: 5, rotateX: 8, rotateZ: -5 },
-    end:   { x: "7vw", y: "-30vh", rotateY: 180, rotateX: -10, rotateZ: 7 },
-  },
-  {
-    id: "card-8",
-    type: "teal",
-    title: "Client-Centric Focus",
-    category: "UDAIPUR #1 AGENCY",
-    badge: "99.4% Client Retention",
-    year: "PROVEN IMPACT",
-    bg: "bg-[#0C9DA8] text-white border-teal-300/50 shadow-[0_20px_50px_rgba(12,157,168,0.3)]",
-    start: { x: "-20vw", y: "34vh", rotateY: -165, rotateX: -8, rotateZ: 6 },
-    end:   { x: "-18vw", y: "-22vh", rotateY: 15, rotateX: 12, rotateZ: -6 },
+    title:       WHY_CHOOSE_US.pillars[3].title,
+    desc:        WHY_CHOOSE_US.pillars[3].description,
+    Icon:        HeartHandshake,
+    badge:       "TRANSPARENT TRUST",
+    year:        "PILLAR 04",
+    bg:          "bg-[#E6DCBA] text-[#1E293B] border-[#CFC39B] shadow-[0_20px_50px_rgba(0,0,0,0.5)]",
+    iconBg:      "bg-slate-900/10 text-amber-950",
+    duration:    "11.6s",
+    delay:       "-1.8s",
+    desktopPos:  "bottom-[10%] left-[5%] lg:left-[8%] max-w-[290px] lg:max-w-[320px]",
   },
 ];
 
 export default function WhyUs() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const cardsRef     = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-
-      // ── Desktop 3D Pinned Scrub Animation ──
-      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
-        const cardElements = cardsRef.current.filter(Boolean) as HTMLDivElement[];
-
-        // Initial 3D placements
-        cardElements.forEach((el, idx) => {
-          const config = BENCHMARK_CARDS[idx];
-          gsap.set(el, {
-            x: config.start.x,
-            y: config.start.y,
-            rotateY: config.start.rotateY,
-            rotateX: config.start.rotateX,
-            rotateZ: config.start.rotateZ,
-            transformPerspective: 1600,
-            transformOrigin: "50% 50%",
-          });
-        });
-
-        // Pinned Scroll Timeline
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: container,
-            start: "top top",
-            end: "+=260%",
-            pin: true,
-            scrub: 1.2,
-            invalidateOnRefresh: true,
-          },
-        });
-
-        // 3D rotation & vertical parallax drift across the screen
-        cardElements.forEach((el, idx) => {
-          const config = BENCHMARK_CARDS[idx];
-          tl.to(
-            el,
-            {
-              x: config.end.x,
-              y: config.end.y,
-              rotateY: config.end.rotateY,
-              rotateX: config.end.rotateX,
-              rotateZ: config.end.rotateZ,
-              ease: "none",
-            },
-            0
-          );
-        });
-
-        return () => {
-          tl.scrollTrigger?.kill();
-        };
-      });
-
-      // ── Mobile / Reduced Motion: Responsive grid ──
-      mm.add("(max-width: 767px), (prefers-reduced-motion: reduce)", () => {
-        const cardElements = cardsRef.current.filter(Boolean) as HTMLDivElement[];
-        gsap.set(cardElements, { clearProps: "all" });
-
-        cardElements.forEach((el) => {
-          gsap.from(el, {
-            opacity: 0,
-            y: 30,
-            duration: 0.6,
-            scrollTrigger: {
-              trigger: el,
-              start: "top 90%",
-              once: true,
-            },
-          });
-        });
-
-        return () => ScrollTrigger.getAll().forEach((st) => st.kill());
-      });
-    }, container);
-
-    const timer = setTimeout(() => ScrollTrigger.refresh(), 300);
-
-    return () => {
-      ctx.revert();
-      clearTimeout(timer);
-    };
-  }, []);
-
   return (
     <section
       id="why-us"
-      ref={containerRef}
-      className="relative bg-[#000000] text-white min-h-screen overflow-hidden flex items-center justify-center border-t border-b border-white/5 select-none"
-      style={{ perspective: "1600px" }}
+      className="relative bg-[#000000] text-white min-h-screen py-24 md:py-36 overflow-hidden flex items-center justify-center border-t border-b border-white/5 select-none"
+      style={{ perspective: "1200px" }}
     >
-      {/* ── 6 Subtle Vertical Grid Lines (Exact Appinventiv Style) ── */}
+      {/* ── 6 Subtle Vertical Grid Lines (Signature Benchmark Aesthetic) ── */}
       <div className="absolute inset-0 pointer-events-none flex justify-between px-4 sm:px-12 md:px-24 opacity-15 z-0">
         <div className="w-[1px] h-full bg-white/20" />
         <div className="w-[1px] h-full bg-white/20" />
@@ -211,120 +72,107 @@ export default function WhyUs() {
         <div className="w-[1px] h-full bg-white/20" />
       </div>
 
-      {/* ── Giant Pinned Centerpiece Headline ── */}
-      <div className="relative z-10 text-center max-w-5xl px-4 pointer-events-none space-y-4 sm:space-y-6">
-        <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-extrabold tracking-tighter leading-[0.92] uppercase font-display text-white">
-          THE INDUSTRY
-          <br />
-          <span className="text-[#FACC15] block mt-1 tracking-tight drop-shadow-[0_0_35px_rgba(250,204,21,0.35)]">
-            BENCHMARK
-          </span>
+      {/* ── Center Content: Heading + Description (Layered with z-10) ── */}
+      <div className="relative z-10 text-center max-w-2xl lg:max-w-3xl px-6 pointer-events-none space-y-5">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-widest text-[#FACC15]">
+          <Sparkles className="w-3.5 h-3.5 text-[#FACC15]" />
+          <span>{WHY_CHOOSE_US.label}</span>
+        </div>
+
+        <h2 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] uppercase font-display text-white">
+          Why Choose <br />
+          <span className="text-[#FACC15] drop-shadow-[0_0_35px_rgba(250,204,21,0.35)]">
+            Praaroop Media
+          </span>{" "}
+          in Udaipur?
         </h2>
 
-        <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-xl mx-auto font-normal leading-relaxed tracking-wide">
-          Validated by Rajasthan&apos;s leading enterprises, national brand partners, and 360° growth milestones.
+        <p className="text-sm sm:text-base text-slate-300 font-normal leading-relaxed tracking-wide max-w-xl mx-auto">
+          {WHY_CHOOSE_US.body}
         </p>
 
-        <div className="pt-1 flex items-center justify-center gap-3">
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold uppercase tracking-widest text-[#FACC15]">
-            <Sparkles className="w-3.5 h-3.5 text-[#FACC15]" />
-            What Sets Praaroop Apart
-          </span>
+        <div className="pt-2 flex items-center justify-center gap-2 text-xs font-semibold text-[#0C9DA8]">
+          <CheckCircle2 className="w-4 h-4 text-[#FACC15]" />
+          <span className="tracking-wider uppercase text-slate-200">What Sets Us Apart</span>
         </div>
       </div>
 
-      {/* ── Desktop 3D Floating / Rotating Cards Canvas ── */}
+      {/* ── Desktop: Organic Scattered Living Trust-Badge 3D Flip Wall ── */}
       <div
         className="hidden md:block absolute inset-0 pointer-events-none z-20"
         style={{ transformStyle: "preserve-3d" }}
       >
-        {BENCHMARK_CARDS.map((card, idx) => (
-          <div
-            key={card.id}
-            ref={(el) => { cardsRef.current[idx] = el; }}
-            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 sm:w-56 md:w-60 p-5 rounded-xl border ${card.bg} pointer-events-auto transition-transform duration-200`}
-            style={{
-              transformStyle: "preserve-3d",
-              willChange: "transform",
-            }}
-          >
-            {/* Top header row */}
-            <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider opacity-85 mb-2.5 border-b border-current/20 pb-1.5">
-              <span className="font-semibold">{card.category}</span>
-              <span>{card.year}</span>
-            </div>
+        {PILLARS_CONFIG.map((card) => {
+          const IconComp = card.Icon;
+          return (
+            <div
+              key={card.title}
+              className={`absolute ${card.desktopPos} living-badge-3d p-6 rounded-2xl border ${card.bg} pointer-events-auto`}
+              style={
+                {
+                  "--duration": card.duration,
+                  "--delay":    card.delay,
+                  transformStyle: "preserve-3d",
+                  backfaceVisibility: "visible", // shows mirrored back on 3D rotation
+                } as React.CSSProperties
+              }
+            >
+              {/* Card Top Pill Tag */}
+              <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider opacity-85 mb-3 border-b border-current/20 pb-1.5">
+                <span className="font-semibold">{card.badge}</span>
+                <span>{card.year}</span>
+              </div>
 
-            {/* Visual Icon Badge */}
-            <div className="my-2 flex items-center justify-center">
-              {card.type === "red" && (
-                <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center shadow-inner">
-                  <Trophy className="w-6 h-6 text-white" />
+              {/* Icon */}
+              <div className="my-2.5 flex items-center">
+                <div className={`w-11 h-11 rounded-xl ${card.iconBg} flex items-center justify-center shadow-sm`}>
+                  <IconComp className="w-6 h-6" />
                 </div>
-              )}
-              {card.type === "sand" && (
-                <div className="w-10 h-10 rounded-lg bg-slate-900/10 flex items-center justify-center">
-                  <Star className="w-6 h-6 text-amber-900 fill-amber-900" />
-                </div>
-              )}
-              {card.type === "white-laurel" && (
-                <div className="w-11 h-11 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center">
-                  <Award className="w-6 h-6 text-amber-600" />
-                </div>
-              )}
-              {card.type === "yellow" && (
-                <div className="w-10 h-10 rounded-lg bg-black/10 flex items-center justify-center">
-                  <Zap className="w-6 h-6 text-black" />
-                </div>
-              )}
-              {card.type === "green" && (
-                <div className="w-10 h-10 rounded-lg bg-emerald-900/10 flex items-center justify-center">
-                  <TrendingUp className="w-6 h-6 text-emerald-950" />
-                </div>
-              )}
-              {card.type === "gold-seal" && (
-                <div className="w-11 h-11 rounded-full bg-amber-200/80 border-2 border-dashed border-amber-600 flex items-center justify-center">
-                  <ShieldCheck className="w-6 h-6 text-amber-800" />
-                </div>
-              )}
-              {card.type === "white-ft" && (
-                <div className="w-10 h-10 rounded bg-slate-100 flex items-center justify-center font-serif font-black text-xs">
-                  FT
-                </div>
-              )}
-              {card.type === "teal" && (
-                <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
-                  <CheckCircle2 className="w-6 h-6 text-white" />
-                </div>
-              )}
-            </div>
+              </div>
 
-            {/* Title & Badge */}
-            <div className="text-center mt-2 space-y-1">
-              <h3 className="text-base sm:text-lg font-bold font-display leading-snug">
-                {card.title}
-              </h3>
-              <p className="text-xs opacity-85 font-medium">{card.badge}</p>
+              {/* Title & Desc */}
+              <div className="mt-2 space-y-1.5">
+                <h3 className="text-lg font-bold font-display leading-snug">
+                  {card.title}
+                </h3>
+                <p className="text-xs opacity-90 leading-relaxed font-normal">
+                  {card.desc}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {/* ── Mobile Layout: Responsive Grid of Cards ── */}
-      <div className="md:hidden w-full px-4 py-16 grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-20">
-        {BENCHMARK_CARDS.map((card, idx) => (
-          <div
-            key={`mob-${card.id}`}
-            ref={(el) => { cardsRef.current[idx] = el; }}
-            className={`p-5 rounded-xl border ${card.bg} flex flex-col justify-between`}
-          >
-            <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider opacity-80 mb-2">
-              <span>{card.category}</span>
-              <span>{card.year}</span>
+      {/* ── Mobile View: Fluid 2-column or stack with lightweight 3D rotation ── */}
+      <div className="md:hidden w-full px-4 pt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-20">
+        {PILLARS_CONFIG.map((card) => {
+          const IconComp = card.Icon;
+          return (
+            <div
+              key={`mob-${card.title}`}
+              className={`p-5 rounded-xl border ${card.bg} living-badge-3d flex flex-col justify-between`}
+              style={
+                {
+                  "--duration": card.duration,
+                  "--delay":    card.delay,
+                  transformStyle: "preserve-3d",
+                  backfaceVisibility: "visible",
+                } as React.CSSProperties
+              }
+            >
+              <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider opacity-80 mb-2">
+                <span>{card.badge}</span>
+                <span>{card.year}</span>
+              </div>
+              <div className={`w-9 h-9 rounded-lg ${card.iconBg} flex items-center justify-center my-2`}>
+                <IconComp className="w-5 h-5" />
+              </div>
+              <h3 className="text-base font-bold font-display my-1">{card.title}</h3>
+              <p className="text-xs opacity-90 leading-relaxed">{card.desc}</p>
             </div>
-            <h3 className="text-lg font-bold font-display my-1">{card.title}</h3>
-            <p className="text-xs opacity-85">{card.badge}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
