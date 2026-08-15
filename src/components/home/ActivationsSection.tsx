@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Sparkles, X } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -54,8 +54,112 @@ const activationItems = [
   },
 ];
 
+const FACE_HEIGHT = 440; // Balanced 440px height that fits 100vh on all laptop & desktop screens
+
+function CardCube({
+  items,
+  faceHeight,
+  cubeRef,
+}: {
+  items: typeof activationItems;
+  faceHeight: number;
+  cubeRef: React.RefObject<HTMLDivElement | null>;
+}) {
+  const halfHeight = faceHeight / 2;
+
+  return (
+    <div
+      ref={cubeRef}
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "100%",
+        transformStyle: "preserve-3d",
+        willChange: "transform",
+      }}
+    >
+      {items.map((item, i) => (
+        <div
+          key={item.id}
+          style={{
+            position: "absolute",
+            inset: 0,
+            backfaceVisibility: "hidden",
+            transformStyle: "preserve-3d",
+            transform: `rotateX(${i * -90}deg) translateZ(${halfHeight}px)`,
+          }}
+          className="w-full h-full bg-[#F4F2EE] text-slate-900 rounded-2xl md:rounded-r-none flex flex-col justify-center p-6 md:p-8 lg:p-10 select-none overflow-hidden"
+        >
+          <span className="block text-5xl lg:text-6xl font-black font-sans tracking-tight text-slate-950">
+            {item.number}
+          </span>
+          <h3 className="text-xl lg:text-2xl font-bold mt-3 text-slate-950 font-display leading-tight tracking-tight">
+            {item.title}
+          </h3>
+          <div className="w-12 h-[2px] bg-slate-950 my-3.5" />
+          <p className="text-xs lg:text-sm text-neutral-700 leading-relaxed max-w-sm font-normal">
+            {item.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ImageCube({
+  items,
+  faceHeight,
+  cubeRef,
+}: {
+  items: typeof activationItems;
+  faceHeight: number;
+  cubeRef: React.RefObject<HTMLDivElement | null>;
+}) {
+  const halfHeight = faceHeight / 2;
+
+  return (
+    <div
+      ref={cubeRef}
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "100%",
+        transformStyle: "preserve-3d",
+        willChange: "transform",
+      }}
+    >
+      {items.map((item, i) => (
+        <div
+          key={item.id}
+          style={{
+            position: "absolute",
+            inset: 0,
+            backfaceVisibility: "hidden",
+            transformStyle: "preserve-3d",
+            transform: `rotateX(${i * 90}deg) translateZ(${halfHeight}px)`,
+          }}
+          className="relative w-full h-full rounded-2xl md:rounded-l-none overflow-hidden bg-slate-950"
+        >
+          <Image
+            src={item.image}
+            alt={item.title}
+            fill
+            priority={i === 0}
+            className="object-cover"
+          />
+          {/* Subtle bottom vignette */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function ActivationsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const cardCubeRef = useRef<HTMLDivElement>(null);
+  const imageCubeRef = useRef<HTMLDivElement>(null);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
 
@@ -73,34 +177,41 @@ export default function ActivationsSection() {
     return () => window.removeEventListener("resize", checkViewport);
   }, []);
 
-  // GSAP ScrollTrigger Pinned Snapped Stepper
+  // GSAP Continuous Scroll-Scrubbed Vertical 3D Cube Rotation
   useEffect(() => {
     if (isMobile || reducedMotion) return;
 
     const section = sectionRef.current;
-    if (!section) return;
+    const cardCube = cardCubeRef.current;
+    const imageCube = imageCubeRef.current;
+    if (!section || !cardCube || !imageCube) return;
 
-    const steps = activationItems.length;
+    const steps = activationItems.length - 1; // 3 rotations between 4 faces
 
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: section,
         start: "top top",
-        end: () => `+=${steps * window.innerHeight * 0.8}`,
+        end: () => `+=${activationItems.length * window.innerHeight * 0.85}`,
         pin: true,
-        scrub: 0.4,
-        snap: {
-          snapTo: 1 / (steps - 1),
-          duration: 0.35,
-          ease: "power1.inOut",
-        },
+        scrub: 0.5, // smooth, continuous 1:1 scroll scrub
         invalidateOnRefresh: true,
         onUpdate: (self) => {
-          const idx = Math.min(steps - 1, Math.round(self.progress * (steps - 1)));
+          const progress = self.progress;
+          const rotation = progress * steps * 90;
+
+          // Card cube rotates forward: incoming face rolls in from the TOP
+          gsap.set(cardCube, { rotateX: rotation });
+
+          // Image cube rotates opposite: incoming face rolls in from the BOTTOM
+          gsap.set(imageCube, { rotateX: -rotation });
+
+          const idx = Math.min(
+            activationItems.length - 1,
+            Math.max(0, Math.round(progress * steps))
+          );
           setActiveIndex((prev) => {
-            if (prev !== idx) {
-              setRevealed(false); // reset reveal state on step change
-            }
+            if (prev !== idx) setRevealed(false);
             return idx;
           });
         },
@@ -186,145 +297,112 @@ export default function ActivationsSection() {
           </div>
         </div>
       ) : (
-        /* Desktop: Contained Fixed-Height Module with Surrounding Margin */
-        <div className="min-h-screen w-full flex flex-col justify-center py-24 relative overflow-hidden bg-black">
+        /* Desktop: Vertical 3D Cube-Rotate Stepper Perfectly Centered with Equal Spacing */
+        <div className="h-screen w-full flex flex-col justify-center items-center pt-20 pb-4 px-4 relative overflow-hidden bg-black">
           
           {/* Subtle Vertical Grid Lines in Background */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:140px_100%] pointer-events-none" />
 
-          {/* Section Header (Contained at top with breathing room) */}
-          <div className="relative z-20 text-center max-w-3xl mx-auto px-4 mb-8 space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-widest text-[#CCFF00]">
-              <Sparkles className="w-3.5 h-3.5 text-[#CCFF00]" />
-              <span>EXPERIENTIAL MARKETING</span>
-            </div>
-            <h2 className="text-3xl lg:text-4xl font-black uppercase text-white tracking-tight font-display">
-              Brand Activations <span className="text-[#CCFF00]">& Events</span>
-            </h2>
-            <p className="text-xs lg:text-sm text-white/60 max-w-xl mx-auto font-normal">
-              Immersive physical brand experiences that create memorable connections and drive immediate customer action.
-            </p>
-          </div>
-
-          {/* Contained Module Frame (Max-w-6xl, fixed 520px height) */}
-          <div className="relative z-10 max-w-6xl w-full mx-auto px-6 md:px-10">
-            <div className="flex flex-col md:flex-row h-[460px] lg:h-[520px] rounded-2xl overflow-hidden shadow-2xl border border-white/15 bg-[#F4F2EE]">
-              
-              {/* Left Content Card (Paper Tone #F4F2EE) */}
-              <div className="w-full md:w-[42%] h-full bg-[#F4F2EE] text-slate-900 flex flex-col justify-center p-8 md:p-12 lg:p-14 shrink-0 relative z-20 select-none">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentItem.id}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -15 }}
-                    transition={{ duration: 0.35, ease: "easeOut" }}
-                    className="space-y-4"
-                  >
-                    {/* Big Number */}
-                    <span className="text-6xl md:text-7xl font-black font-sans tracking-tight text-slate-950 block">
-                      {currentItem.number}
-                    </span>
-
-                    {/* Bold Title */}
-                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight font-display tracking-tight">
-                      {currentItem.title}
-                    </h3>
-
-                    {/* Thin Divider */}
-                    <div className="w-14 h-[2px] bg-slate-950 my-4" />
-
-                    {/* Description */}
-                    <p className="text-xs md:text-sm lg:text-base text-neutral-700 leading-relaxed max-w-sm font-normal">
-                      {currentItem.description}
-                    </p>
-                  </motion.div>
-                </AnimatePresence>
+          {/* Centered Content Unit */}
+          <div className="w-full flex flex-col items-center justify-center my-auto">
+            {/* Section Header */}
+            <div className="relative z-20 text-center max-w-2xl mx-auto px-4 mb-6 space-y-1.5 shrink-0">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-[#CCFF00]">
+                <Sparkles className="w-3 h-3 text-[#CCFF00]" />
+                <span>EXPERIENTIAL MARKETING</span>
               </div>
+              <h2 className="text-2xl lg:text-3xl font-black uppercase text-white tracking-tight font-display">
+                Brand Activations <span className="text-[#CCFF00]">& Events</span>
+              </h2>
+              <p className="text-xs text-white/60 max-w-lg mx-auto font-normal">
+                Immersive physical brand experiences that create memorable connections and drive immediate customer action.
+              </p>
+            </div>
 
-              {/* Right Image Panel (Seamlessly Joined, Same Height) */}
-              <div className="relative w-full md:w-[58%] h-full overflow-hidden bg-slate-950">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentItem.id}
-                    initial={{ opacity: 0, scale: 1.04 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.98 }}
-                    transition={{ duration: 0.45, ease: "easeOut" }}
-                    className="absolute inset-0 w-full h-full"
-                  >
-                    <Image
-                      src={currentItem.image}
-                      alt={currentItem.title}
-                      fill
-                      priority
-                      className="object-cover"
-                    />
-
-                    {/* Subtle bottom vignette */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Click to Reveal Pill Button */}
-                <div className="absolute bottom-6 right-6 z-30">
-                  <button
-                    type="button"
-                    onClick={() => setRevealed((prev) => !prev)}
-                    className={`px-5 py-2.5 rounded-full backdrop-blur-md text-xs font-bold tracking-wide flex items-center gap-2 shadow-2xl transition-all duration-300 cursor-pointer ${
-                      revealed
-                        ? "bg-[#CCFF00] text-black border border-[#CCFF00]"
-                        : "bg-black/80 hover:bg-black text-white border border-white/20 hover:border-white/40"
-                    }`}
-                  >
-                    <span>{revealed ? "Hide Details" : "Click to reveal"}</span>
-                    {revealed ? (
-                      <X className="w-3.5 h-3.5" />
-                    ) : (
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    )}
-                  </button>
+            {/* Contained Module Frame with Individual Perspective Contexts */}
+            <div className="relative z-10 max-w-5xl w-full mx-auto px-6 md:px-8 shrink-0">
+              <div
+                className="flex flex-col md:flex-row rounded-2xl shadow-2xl border border-white/15 bg-black relative"
+                style={{ height: FACE_HEIGHT }}
+              >
+                {/* Left Card Cube (Hinges & spins so incoming face enters from TOP) */}
+                <div
+                  className="w-full md:w-[42%] h-full rounded-2xl md:rounded-r-none overflow-hidden"
+                  style={{ perspective: "1800px" }}
+                >
+                  <CardCube items={activationItems} faceHeight={FACE_HEIGHT} cubeRef={cardCubeRef} />
                 </div>
 
-                {/* Reveal Overlay Layer */}
-                <AnimatePresence>
-                  {revealed && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 15 }}
-                      transition={{ duration: 0.25 }}
-                      className="absolute inset-0 bg-black/75 backdrop-blur-md flex flex-col justify-end p-8 md:p-12 z-20"
-                    >
-                      <div className="max-w-md space-y-2">
-                        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#CCFF00]">
-                          Key Metric & Impact
-                        </span>
-                        <p className="text-3xl md:text-4xl font-black text-white font-display tracking-tight">
-                          {currentItem.stat}
-                        </p>
-                        <p className="text-xs md:text-sm text-white/80 font-normal leading-relaxed">
-                          {currentItem.statLabel}
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                {/* Right Image Cube (Spins opposite so incoming face enters from BOTTOM) */}
+                <div
+                  className="relative w-full md:w-[58%] h-full rounded-2xl md:rounded-l-none overflow-hidden"
+                  style={{ perspective: "1800px" }}
+                >
+                  <ImageCube
+                    items={activationItems}
+                    faceHeight={FACE_HEIGHT}
+                    cubeRef={imageCubeRef}
+                  />
 
+                  {/* Click to Reveal Pill Button */}
+                  <div className="absolute bottom-5 right-5 z-30">
+                    <button
+                      type="button"
+                      onClick={() => setRevealed((prev) => !prev)}
+                      className={`px-4 py-2 rounded-full backdrop-blur-md text-[11px] font-bold tracking-wide flex items-center gap-1.5 shadow-2xl transition-all duration-300 cursor-pointer ${
+                        revealed
+                          ? "bg-[#CCFF00] text-black border border-[#CCFF00]"
+                          : "bg-black/80 hover:bg-black text-white border border-white/20 hover:border-white/40"
+                      }`}
+                    >
+                      <span>{revealed ? "Hide Details" : "Click to reveal"}</span>
+                      {revealed ? (
+                        <X className="w-3 h-3" />
+                      ) : (
+                        <ArrowUpRight className="w-3 h-3" />
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Reveal Overlay Layer */}
+                  <AnimatePresence>
+                    {revealed && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 12 }}
+                        transition={{ duration: 0.25 }}
+                        className="absolute inset-0 bg-black/80 backdrop-blur-md flex flex-col justify-end p-6 md:p-10 z-20"
+                      >
+                        <div className="max-w-md space-y-1.5">
+                          <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#CCFF00]">
+                            Key Metric & Impact
+                          </span>
+                          <p className="text-2xl md:text-3xl font-black text-white font-display tracking-tight">
+                            {currentItem.stat}
+                          </p>
+                          <p className="text-xs text-white/80 font-normal leading-relaxed">
+                            {currentItem.statLabel}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Dot Progress Nav (Positioned cleanly relative to the viewport/module) */}
-          <div className="hidden md:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col gap-3 z-30">
+          {/* Dot Progress Nav */}
+          <div className="hidden md:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col gap-2.5 z-30">
             {activationItems.map((item, i) => (
               <button
                 key={item.id}
                 aria-label={`Jump to step ${i + 1}`}
                 className={`transition-all duration-300 rounded-full ${
                   i === activeIndex
-                    ? "w-2.5 h-7 bg-[#CCFF00] shadow-[0_0_12px_rgba(204,255,0,0.6)]"
-                    : "w-2.5 h-2.5 bg-white/30 hover:bg-white/60"
+                    ? "w-2 h-6 bg-[#CCFF00] shadow-[0_0_10px_rgba(204,255,0,0.6)]"
+                    : "w-2 h-2 bg-white/30 hover:bg-white/60"
                 }`}
               />
             ))}

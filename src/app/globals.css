@@ -95,3 +95,39 @@ body {
 .whatsapp-pulse-ring {
   animation: whatsapp-ring 2.5s infinite;
 }
+
+/* Orbit Logo Showcase — Pivot + Counter-Spin */
+@keyframes orbit-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes orbit-counter-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+.orbit-pivot {
+  animation-name: orbit-spin;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  transform-origin: 0 0;
+}
+
+.orbit-logo-counter-spin {
+  animation-name: orbit-counter-spin;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* Horizontal logo marquee */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.animate-marquee-left {
+  animation: marquee-left 28s linear infinite;
+  display: flex;
+  width: max-content;
+}
