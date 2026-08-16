@@ -168,10 +168,8 @@ export default function Hero() {
               PANEL 2: WE ARE THE BEST 360° MARKETING AGENCY IN UDAIPUR (100vw x 100vh)
              ════════════════════════════════════════════════════════════════ */}
           <div className="relative h-screen w-screen min-w-[100vw] max-w-[100vw] shrink-0 flex flex-col justify-between py-14 sm:py-18 px-4 sm:px-8 lg:px-16 overflow-hidden bg-[#FAFAFC] text-[#0F172A] border-l border-slate-200">
-            {/* Subtle Gradient Glow in Background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0080CB]/10 via-[#0C9DA8]/10 to-[#D10B6A]/10 opacity-70 pointer-events-none" />
-            <div className="absolute top-1/4 right-10 w-96 h-96 rounded-full bg-[#0080CB]/10 blur-3xl pointer-events-none" />
-            <div className="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-[#D10B6A]/10 blur-3xl pointer-events-none" />
+            {/* Clean Light Background with Subtle Accent */}
+            <div className="absolute top-1/4 right-10 w-96 h-96 rounded-full bg-[#0080CB]/5 blur-3xl pointer-events-none" />
 
             {/* Top Eyebrow Tag */}
             <div className="relative z-10 max-w-6xl mx-auto w-full flex items-center justify-between">

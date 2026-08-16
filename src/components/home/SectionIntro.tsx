@@ -6,9 +6,6 @@ import { SECTION_INTRO } from "@/lib/data";
 export default function SectionIntro() {
   return (
     <section className="relative min-h-[85vh] flex flex-col items-center justify-center py-28 px-4 sm:px-6 lg:px-8 bg-[#FAFAFC] bg-noise overflow-hidden border-t border-b border-slate-200/80">
-      {/* Background Subtle Gradient Glow */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0080CB]/10 via-[#0C9DA8]/10 to-[#D10B6A]/10 opacity-70 pointer-events-none" />
-
       <div className="max-w-5xl mx-auto text-center relative z-10 space-y-8 my-auto">
         {/* Eyebrow Tag */}
         <motion.div

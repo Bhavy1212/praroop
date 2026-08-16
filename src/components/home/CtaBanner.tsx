@@ -26,8 +26,8 @@ export default function CtaBanner() {
               playsInline
               className="absolute inset-0 w-full h-full object-cover filter brightness-[0.45] contrast-125 saturate-150 scale-105"
             />
-            {/* Vibrant Tri-Color Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#070D18]/90 via-[#0080CB]/60 to-[#D10B6A]/70 mix-blend-multiply" />
+            {/* Clean Brand Blue Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#070D18]/95 via-[#0080CB]/60 to-[#070D18]/90 mix-blend-multiply" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#070D18] via-transparent to-[#070D18]/40" />
           </div>
 

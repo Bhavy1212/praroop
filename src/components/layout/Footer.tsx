@@ -7,8 +7,8 @@ import { BRAND, NAV_LINKS } from "@/lib/data";
 export default function Footer() {
   return (
     <footer className="relative bg-[#0B1220] text-white pt-16 pb-12 border-t border-slate-800 overflow-hidden">
-      {/* Background Subtle Gradient Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-48 bg-gradient-to-r from-[#0080CB]/15 via-[#0C9DA8]/15 to-[#D10B6A]/15 blur-[100px] pointer-events-none" />
+      {/* Background Subtle Brand Blue Glow */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-48 bg-[#0080CB]/10 blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 mb-16">

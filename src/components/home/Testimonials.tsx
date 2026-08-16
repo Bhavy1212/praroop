@@ -142,7 +142,7 @@ export default function Testimonials() {
                 }}
                 style={{ transformStyle: "preserve-3d", transformOrigin: "left center" }}
                 onClick={() => jumpToReview(0)}
-                className="relative w-full max-w-md sm:max-w-lg mx-auto rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#1E293B] via-[#0F172A] to-[#020617] text-white border-2 border-slate-700/90 shadow-[0_30px_70px_rgba(0,0,0,0.5)] overflow-hidden pl-12 sm:pl-16 pr-8 sm:pr-10 py-10 sm:py-12 cursor-pointer select-none"
+                className="relative w-full max-w-md sm:max-w-lg mx-auto rounded-2xl sm:rounded-3xl bg-[#0B1220] text-white border-2 border-slate-700/90 shadow-[0_30px_70px_rgba(0,0,0,0.5)] overflow-hidden pl-12 sm:pl-16 pr-8 sm:pr-10 py-10 sm:py-12 cursor-pointer select-none"
               >
                 {/* Leather texture overlay */}
                 <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] opacity-5 pointer-events-none" />
@@ -151,30 +151,30 @@ export default function Testimonials() {
                 <div className="absolute inset-3.5 rounded-xl sm:rounded-2xl border border-cyan-400/25 pointer-events-none" />
 
                 {/* ── Left Spiral Binding Spine ── */}
-                <div className="absolute left-0 top-0 bottom-0 w-11 sm:w-14 bg-gradient-to-r from-black/80 to-transparent flex flex-col justify-between py-6 items-center z-20 pointer-events-none">
+                <div className="absolute left-0 top-0 bottom-0 w-11 sm:w-14 bg-black/80 flex flex-col justify-between py-6 items-center z-20 pointer-events-none">
                   {coils.map((_, idx) => (
                     <div key={idx} className="relative flex items-center justify-center w-full my-0.5">
                       <div className="w-3 h-3 rounded-full bg-black/90 shadow-inner border border-white/20" />
-                      <div className="absolute -left-1 w-6 sm:w-7 h-3 rounded-full bg-gradient-to-r from-slate-400 via-white to-slate-500 shadow-md transform -rotate-12 border-t border-white" />
+                      <div className="absolute -left-1 w-6 sm:w-7 h-3 rounded-full bg-slate-300 shadow-md transform -rotate-12 border-t border-white" />
                     </div>
                   ))}
                 </div>
 
                 {/* ── Right Bookmark Elastic Ribbon ── */}
-                <div className="absolute right-10 top-0 bottom-0 w-4 sm:w-5 bg-gradient-to-b from-[#D10B6A] to-[#0080CB] shadow-lg border-x border-white/20 flex flex-col justify-between items-center py-4 z-10">
+                <div className="absolute right-10 top-0 bottom-0 w-4 sm:w-5 bg-[#0080CB] shadow-lg border-x border-white/20 flex flex-col justify-between items-center py-4 z-10">
                   <div className="w-2 h-2 rounded-full bg-[#0C9DA8]" />
                   <div className="w-2 h-2 rounded-full bg-[#0C9DA8]" />
                 </div>
 
                 {/* ── Sticky Bookmark Tag on top right ── */}
-                <div className="absolute top-0 right-16 px-3.5 py-1 bg-gradient-to-r from-[#0080CB] to-[#0C9DA8] rounded-b-lg shadow-md text-[10px] font-black tracking-wider uppercase text-white border-b border-x border-cyan-200/40">
+                <div className="absolute top-0 right-16 px-3.5 py-1 bg-[#0C9DA8] rounded-b-lg shadow-md text-[10px] font-black tracking-wider uppercase text-white border-b border-x border-cyan-200/40">
                   Vol. 2026
                 </div>
 
                 {/* Cover Content */}
                 <div className="relative z-10 space-y-6 text-center">
                   {/* Embossed Brand Seal */}
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-[#0080CB]/30 via-white/10 to-[#D10B6A]/30 p-0.5 mx-auto border border-cyan-300/40 shadow-[0_0_25px_rgba(0,128,203,0.3)] flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-[#0080CB]/20 p-0.5 mx-auto border border-[#0080CB]/40 shadow-[0_0_25px_rgba(0,128,203,0.3)] flex items-center justify-center">
                     <div className="w-12 h-12 rounded-full bg-[#0F172A] border border-cyan-400/30 flex items-center justify-center">
                       <Quote className="w-6 h-6 text-cyan-300 drop-shadow-[0_0_8px_rgba(12,157,168,0.6)]" />
                     </div>
@@ -225,7 +225,7 @@ export default function Testimonials() {
                   {/* ════════════════════════════════════════════════════════
                      LEFT SIDE: CLIENT RATING, SCORE & METRICS
                      ════════════════════════════════════════════════════════ */}
-                  <div className="relative p-7 sm:p-10 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-200/80 bg-gradient-to-br from-[#FAF8F5] to-[#F1ECE1]">
+                  <div className="relative p-7 sm:p-10 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-200/80 bg-slate-50">
                     {/* Top Header */}
                     <div className="space-y-4">
                       <div className="flex items-center justify-between border-b border-slate-200 pb-3">

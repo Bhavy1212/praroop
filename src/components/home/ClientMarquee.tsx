@@ -185,13 +185,15 @@ export default function ClientMarquee() {
       <div className="max-w-7xl mx-auto relative z-10 space-y-12">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-wider text-[#0C9DA8]">
-            Driving Impact On a Global Scale
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono font-bold uppercase tracking-wider text-[#0C9DA8]">
+            <span>Our Clients</span>
+            <span>•</span>
+            <span>Driving Impact Across India</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Brands We Have <span className="text-gradient-tri">Elevated</span>
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            Brands We Have <span className="text-[#0C9DA8]">Elevated</span>
           </h2>
-          <p className="text-sm sm:text-base text-[#CBD5E1]">
+          <p className="text-sm sm:text-base text-[#CBD5E1] font-light">
             Trusted by corporate leaders, automotive giants, healthcare networks, and regional visionaries.
           </p>
         </div>

@@ -5,7 +5,6 @@ import Navbar from "@/components/layout/Navbar";
 import WhatsAppFAB from "@/components/ui/WhatsAppFAB";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import CustomCursor from "@/components/ui/CustomCursor";
-import ScrollProgressBar from "@/components/ui/ScrollProgressBar";
 import { BRAND } from "@/lib/data";
 
 const inter = Inter({
@@ -120,7 +119,6 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col font-sans bg-[#0A0A0A] text-white antialiased selection:bg-[#0080CB] selection:text-white">
         <SmoothScrollProvider>
-          <ScrollProgressBar />
           <CustomCursor />
           <Navbar />
           <main className="flex-1 pt-0">{children}</main>

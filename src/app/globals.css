@@ -64,25 +64,43 @@ body {
   background: rgba(12, 157, 168, 0.8);
 }
 
-/* Tri-Color Animated Gradient Text Sweep */
-@keyframes tri-gradient-sweep {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* === AUTHENTIC SOLID LOGO PALETTE (PRAAROOP BLUE, TEAL, PINK) === */
+.text-gradient-tri,
+.text-gradient-brand,
+.text-brand-blue {
+  color: #0080CB;
 }
 
-.text-gradient-tri {
-  background: linear-gradient(
-    135deg,
-    #0080CB 0%,
-    #0C9DA8 35%,
-    #D10B6A 70%,
-    #0080CB 100%
-  );
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: tri-gradient-sweep 8s ease infinite;
+.text-brand-teal {
+  color: #0C9DA8;
+}
+
+.text-brand-pink {
+  color: #D10B6A;
+}
+
+.bg-brand-blue {
+  background-color: #0080CB;
+}
+
+.bg-brand-teal {
+  background-color: #0C9DA8;
+}
+
+.bg-brand-pink {
+  background-color: #D10B6A;
+}
+
+.border-brand-blue {
+  border-color: #0080CB;
+}
+
+.border-brand-teal {
+  border-color: #0C9DA8;
+}
+
+.border-brand-pink {
+  border-color: #D10B6A;
 }
 
 /* Pulsing Ring Glow for WhatsApp CTA */

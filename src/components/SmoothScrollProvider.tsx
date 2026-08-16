@@ -29,6 +29,8 @@ export default function SmoothScrollProvider({
       touchMultiplier: 1.5,
     });
 
+    (window as any).__lenis = lenis;
+
     // Synchronize Lenis scroll with GSAP ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update);
 

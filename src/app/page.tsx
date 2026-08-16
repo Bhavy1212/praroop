@@ -1,5 +1,4 @@
 import SideDotNav from "@/components/ui/SideDotNav";
-import AmbientBackground from "@/components/ui/AmbientBackground";
 import Hero from "@/components/home/Hero";
 import GrowthEngine3DCarousel from "@/components/home/GrowthEngine3DCarousel";
 import OutdoorMarketingSection from "@/components/home/OutdoorMarketingSection";
@@ -13,10 +12,7 @@ import Footer from "@/components/layout/Footer";
 
 export default function HomePage() {
   return (
-    <main className="relative bg-[#FAFAFC] text-[#0F172A] min-h-screen selection:bg-[#0080CB] selection:text-white">
-      {/* Drifting Ambient Background Glowing Orbs */}
-      <AmbientBackground />
-
+    <main className="relative text-white min-h-screen selection:bg-[#0080CB] selection:text-white">
       {/* Side Dot Navigation indicator for desktop natural section scroll */}
       <SideDotNav />
 

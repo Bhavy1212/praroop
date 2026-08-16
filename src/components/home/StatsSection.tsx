@@ -75,9 +75,6 @@ export default function StatsSection() {
 
   return (
     <section id="stats" className="relative py-24 px-4 sm:px-6 lg:px-8 bg-[#FAFAFC] overflow-hidden border-t border-b border-slate-200/80">
-      {/* Subtle Background Glow */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0080CB]/5 via-[#0C9DA8]/5 to-[#D10B6A]/5 opacity-60 pointer-events-none" />
-
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {STATS.map((stat, idx) => {
