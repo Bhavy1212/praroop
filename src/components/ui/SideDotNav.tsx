@@ -3,9 +3,9 @@
 import { useEffect, useState, useRef } from "react";
 
 const SECTIONS = [
-  { id: "hero", label: "Hero" },
-  { id: "services", label: "Digital Services" },
-  { id: "growth-engine", label: "Growth Engine" },
+  { id: "hero", label: "Hero Banner" },
+  { id: "about", label: "About Agency" },
+  { id: "growth-engine", label: "Digital Growth" },
   { id: "outdoor", label: "Outdoor Advertising" },
   { id: "activations", label: "Activations" },
   { id: "stats", label: "Agency Impact" },

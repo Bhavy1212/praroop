@@ -1,5 +1,6 @@
 import SideDotNav from "@/components/ui/SideDotNav";
 import Hero from "@/components/home/Hero";
+import SectionIntro from "@/components/home/SectionIntro";
 import GrowthEngine3DCarousel from "@/components/home/GrowthEngine3DCarousel";
 import OutdoorMarketingSection from "@/components/home/OutdoorMarketingSection";
 import ActivationsSection from "@/components/home/ActivationsSection";
@@ -16,10 +17,11 @@ export default function HomePage() {
       {/* Side Dot Navigation indicator for desktop natural section scroll */}
       <SideDotNav />
 
-      {/* Section 0 — Hero Banner Page (Horizontal Scroll: Banner → We Are The Best 360° Agency in Udaipur) */}
-      <div id="hero">
-        <Hero />
-      </div>
+      {/* Section 0 — Static Hero Banner Page with Praaroop Logo */}
+      <Hero />
+
+      {/* Section 0.5 — Agency Introduction & 3 Core Pillars */}
+      <SectionIntro />
 
       {/* Section 1 — 3D Coverflow Digital Services Carousel */}
       <GrowthEngine3DCarousel />

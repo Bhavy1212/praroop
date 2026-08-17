@@ -202,15 +202,17 @@ export default function Navbar() {
                 onClick={() => setIsOpen(false)}
                 className="relative flex items-center shrink-0 group focus:outline-none"
               >
-                <div className="relative h-8 w-28 sm:h-9 sm:w-34 transition-transform duration-300 group-hover:scale-105">
-                  <Image
-                    src="/praaroop-Media-and-Adv-1.png"
-                    alt="Praaroop Media"
-                    fill
-                    priority
-                    sizes="150px"
-                    className="object-contain filter brightness-125 drop-shadow-[0_0_10px_rgba(0,128,203,0.3)]"
-                  />
+                <div className="bg-white/95 px-2.5 py-1 rounded-xl shadow-sm transition-transform duration-300 group-hover:scale-105">
+                  <div className="relative h-7 w-24 sm:h-8 sm:w-28">
+                    <Image
+                      src="/praaroop-Media-and-Adv-1.png"
+                      alt="Praaroop Media"
+                      fill
+                      priority
+                      sizes="150px"
+                      className="object-contain"
+                    />
+                  </div>
                 </div>
               </Link>
 
