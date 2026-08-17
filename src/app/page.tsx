@@ -26,11 +26,11 @@ export default function HomePage() {
       {/* Section 1 — 3D Coverflow Digital Services Carousel */}
       <GrowthEngine3DCarousel />
 
-      {/* Section 2 — Outdoor Marketing */}
-      <OutdoorMarketingSection />
-
-      {/* Section 3 — Activations */}
+      {/* Section 2 — Brand Activations & Events */}
       <ActivationsSection />
+
+      {/* Section 3 — Outdoor Marketing */}
+      <OutdoorMarketingSection />
 
       {/* Section 4 — Stats Counter */}
       <StatsSection />

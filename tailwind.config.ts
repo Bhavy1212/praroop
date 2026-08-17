@@ -47,8 +47,8 @@ const config: Config = {
         display: ["var(--font-display)", "Plus Jakarta Sans", "system-ui", "sans-serif"],
       },
       animation: {
-        "marquee-left":  "marquee-left 35s linear infinite",
-        "marquee-right": "marquee-right 35s linear infinite",
+        "marquee-left":  "marquee-left 65s linear infinite",
+        "marquee-right": "marquee-right 65s linear infinite",
         "float":         "float 6s ease-in-out infinite",
         "pulse-ring":    "pulse-ring 2s ease-out infinite",
       },

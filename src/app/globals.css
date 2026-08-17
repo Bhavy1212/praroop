@@ -138,16 +138,58 @@ body {
   animation-iteration-count: infinite;
 }
 
-/* Horizontal logo marquee */
+/* Horizontal logo marquee - Left (Gentle, smooth pace) */
 @keyframes marquee-left {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .animate-marquee-left {
-  animation: marquee-left 28s linear infinite;
+  animation: marquee-left 65s linear infinite;
   display: flex;
   width: max-content;
+}
+
+/* Horizontal logo marquee - Right (Moves to the RIGHT, Gentle smooth pace) */
+@keyframes marquee-right {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee-right {
+  animation: marquee-right 65s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.animate-marquee-left:hover,
+.animate-marquee-right:hover {
+  animation-play-state: paused;
+}
+
+/* Vertical campaign showcase marquee - Up */
+@keyframes marquee-up {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+.animate-marquee-up {
+  animation: marquee-up 50s linear infinite;
+}
+
+/* Vertical campaign showcase marquee - Down */
+@keyframes marquee-down {
+  0%   { transform: translateY(-50%); }
+  100% { transform: translateY(0); }
+}
+
+.animate-marquee-down {
+  animation: marquee-down 50s linear infinite;
+}
+
+.animate-marquee-up:hover,
+.animate-marquee-down:hover {
+  animation-play-state: paused;
 }
 
 /* Living Trust-Badge Continuous 3D Y-Axis Flip */

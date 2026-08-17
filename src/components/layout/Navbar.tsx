@@ -174,94 +174,97 @@ export default function Navbar() {
         <motion.header
           ref={navRef}
           role="banner"
-          initial={{ y: -60, opacity: 0, x: "-50%" }}
-          animate={{ y: 0, opacity: 1, x: "-50%" }}
-          exit={{ y: -60, opacity: 0, x: "-50%" }}
-          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className={`fixed left-1/2 z-[999] w-[calc(100%-1.5rem)] pointer-events-auto select-none transition-all duration-300 ${
-            isScrolled
-              ? "top-2.5 sm:top-3.5 max-w-[560px] md:max-w-[640px]"
-              : "top-3.5 sm:top-5 max-w-[580px] md:max-w-[680px]"
-          }`}
+          initial={{ y: -80, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -80, opacity: 0 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed top-0 inset-x-0 w-full z-[999] pointer-events-auto select-none bg-[#070C15]/90 border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl"
         >
-          {/* ── Main Top Floating Capsule (Always Stable, No Shape Morph Freeze) ── */}
-          <div className="relative w-full rounded-full bg-[#070C15]/85 border border-white/20 shadow-[0_15px_45px_rgba(0,0,0,0.7)] backdrop-blur-xl overflow-hidden hover:border-white/30 transition-all duration-200">
-            {/* Appinventiv Liquid Glass Background Scroll Fill Capsule */}
-            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-full p-1">
-              <motion.div
-                style={{ width: scrollProgressWidth }}
-                className="h-full rounded-full bg-gradient-to-r from-white/[0.12] via-white/[0.25] to-white/[0.15] border border-white/25 shadow-[0_0_25px_rgba(255,255,255,0.15)] transition-[width] duration-75 ease-out"
-              />
-            </div>
-
-            {/* Top Pill Controls */}
-            <div className="relative z-10 flex items-center justify-between gap-3 px-3.5 sm:px-4 py-2 sm:py-2.5">
-              {/* Logo */}
-              <Link
-                href="/"
-                onClick={() => setIsOpen(false)}
-                className="relative flex items-center shrink-0 group focus:outline-none"
-              >
-                <div className="bg-white/95 px-2.5 py-1 rounded-xl shadow-sm transition-transform duration-300 group-hover:scale-105">
-                  <div className="relative h-7 w-24 sm:h-8 sm:w-28">
-                    <Image
-                      src="/praaroop-Media-and-Adv-1.png"
-                      alt="Praaroop Media"
-                      fill
-                      priority
-                      sizes="150px"
-                      className="object-contain"
-                    />
-                  </div>
+          {/* ── Full-Width Fixed Top Navigation Bar ── */}
+          <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+            {/* Left: Praaroop Media Official Logo in Clean White Pill */}
+            <Link
+              href="/"
+              onClick={() => setIsOpen(false)}
+              className="relative flex items-center shrink-0 group focus:outline-none"
+            >
+              <div className="bg-white px-3 sm:px-4 py-1.5 rounded-2xl shadow-md border border-white/80 transition-all duration-300 group-hover:scale-105">
+                <div className="relative h-7 w-28 sm:h-9 sm:w-36">
+                  <Image
+                    src="/praaroop-Media-and-Adv-1.png"
+                    alt="Praaroop Media"
+                    fill
+                    priority
+                    sizes="(max-width: 640px) 120px, 160px"
+                    className="object-contain"
+                  />
                 </div>
+              </div>
+            </Link>
+
+            {/* Center: Desktop Navigation Links */}
+            <nav className="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main Navigation">
+              {NAV_LINKS.map((link) => {
+                const active = isLinkActive(link.href);
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => handleLinkClick(link.href)}
+                    className={`px-3.5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+                      active
+                        ? "bg-white/15 text-white border border-white/20 shadow-xs"
+                        : "text-slate-300 hover:text-white hover:bg-white/10"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            {/* Right: Quick Action & Hamburger Menu */}
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              {/* Direct Call / Contact Button */}
+              <Link
+                href="/contact-us"
+                onClick={() => setIsOpen(false)}
+                className="inline-flex items-center gap-2 bg-[#0080CB] hover:bg-[#0C9DA8] text-white text-xs font-extrabold uppercase tracking-wider px-4 sm:px-5 py-2.5 rounded-full transition-all duration-200 shadow-md hover:scale-105 active:scale-95 shrink-0"
+              >
+                <Phone className="w-3.5 h-3.5 fill-current" />
+                <span className="hidden sm:inline">Contact Us</span>
               </Link>
 
-              {/* Right Action Group */}
-              <div className="flex items-center gap-2">
-                {/* Contact Us CTA Button */}
-                <Link
-                  href="/contact-us"
-                  onClick={() => setIsOpen(false)}
-                  className="inline-flex items-center gap-1.5 sm:gap-2 bg-white hover:bg-slate-100 text-[#070D18] text-[11px] sm:text-xs font-black uppercase tracking-wider px-3.5 sm:px-4 py-2 rounded-full transition-all duration-200 shadow-md hover:scale-105 active:scale-95 shrink-0"
-                >
-                  <Phone className="w-3.5 h-3.5 text-[#0080CB] fill-current" />
-                  <span>Contact Us</span>
-                </Link>
-
-                {/* Animated 3-Lines Hamburger Menu Trigger */}
-                <button
-                  type="button"
-                  onClick={() => setIsOpen(!isOpen)}
-                  aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-                  aria-expanded={isOpen}
-                  className={`group relative flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full transition-all duration-300 ${
-                    isOpen
-                      ? "bg-white/20 text-white border border-white/35 shadow-inner"
-                      : "bg-white/10 hover:bg-white/20 text-white border border-white/15 hover:border-white/30 active:scale-95"
-                  }`}
-                >
-                  <div className="relative w-4.5 h-3.5 flex flex-col justify-between items-center pointer-events-none">
-                    {/* Line 1 (Top) */}
-                    <span
-                      className={`h-0.5 w-4.5 bg-white rounded-full transition-all duration-300 origin-center ${
-                        isOpen ? "rotate-45 translate-y-[6px]" : ""
-                      }`}
-                    />
-                    {/* Line 2 (Middle) */}
-                    <span
-                      className={`h-0.5 w-3 bg-[#0C9DA8] rounded-full transition-all duration-200 ${
-                        isOpen ? "opacity-0 scale-0" : "group-hover:w-4.5"
-                      }`}
-                    />
-                    {/* Line 3 (Bottom) */}
-                    <span
-                      className={`h-0.5 w-4.5 bg-white rounded-full transition-all duration-300 origin-center ${
-                        isOpen ? "-rotate-45 -translate-y-[6px]" : ""
-                      }`}
-                    />
-                  </div>
-                </button>
-              </div>
+              {/* Hamburger Button for Mobile & Expanded Menu */}
+              <button
+                type="button"
+                onClick={() => setIsOpen(!isOpen)}
+                aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={isOpen}
+                className={`group relative flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-2xl transition-all duration-300 ${
+                  isOpen
+                    ? "bg-white/20 text-white border border-white/35 shadow-inner"
+                    : "bg-white/10 hover:bg-white/20 text-white border border-white/15 hover:border-white/30 active:scale-95"
+                }`}
+              >
+                <div className="relative w-4.5 h-3.5 flex flex-col justify-between items-center pointer-events-none">
+                  <span
+                    className={`h-0.5 w-4.5 bg-white rounded-full transition-all duration-300 origin-center ${
+                      isOpen ? "rotate-45 translate-y-[6px]" : ""
+                    }`}
+                  />
+                  <span
+                    className={`h-0.5 w-3 bg-[#0C9DA8] rounded-full transition-all duration-200 ${
+                      isOpen ? "opacity-0 scale-0" : "group-hover:w-4.5"
+                    }`}
+                  />
+                  <span
+                    className={`h-0.5 w-4.5 bg-white rounded-full transition-all duration-300 origin-center ${
+                      isOpen ? "-rotate-45 -translate-y-[6px]" : ""
+                    }`}
+                  />
+                </div>
+              </button>
             </div>
           </div>
 

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CAMPAIGN_POSTS } from "@/lib/data";
-import { Calendar, Tag, ArrowLeft, ArrowRight, ArrowUpRight, Share2, Sparkles, Layers, Eye } from "lucide-react";
+import { Calendar, Tag, ArrowLeft, ArrowRight, Layers, Sparkles } from "lucide-react";
 import Footer from "@/components/layout/Footer";
 
 export function generateStaticParams() {
@@ -48,98 +48,102 @@ export default async function CampaignDetailPage({
   const relatedCampaigns = CAMPAIGN_POSTS.filter((p) => p.slug !== slug).slice(0, 3);
 
   return (
-    <main className="relative bg-[#07090E] text-white min-h-screen pt-24 selection:bg-[#0080CB] selection:text-white">
-      <div className="space-y-16 pb-0 relative z-10">
-        <article className="space-y-16">
+    <main className="relative bg-[#F6F6F4] text-[#0F172A] min-h-screen pt-20 sm:pt-24 selection:bg-[#0080CB] selection:text-white">
+      <div className="space-y-12 sm:space-y-16 pb-0 relative z-10">
+        <article className="space-y-10 sm:space-y-16">
           {/* Header & Breadcrumbs */}
-          <header className="py-12 bg-white/[0.04] backdrop-blur-xl border-b border-white/10 shadow-lg">
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+          <header className="py-8 sm:py-12 bg-white border-b border-slate-200 shadow-2xs">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
               {/* Breadcrumb */}
-              <nav className="text-xs text-slate-400 flex items-center gap-2 font-semibold" aria-label="Breadcrumb">
-                <Link href="/" className="hover:text-[#38BDF8] transition-colors">Home</Link>
+              <nav className="text-xs text-slate-500 flex items-center gap-2 font-semibold" aria-label="Breadcrumb">
+                <Link href="/" className="hover:text-[#0080CB] transition-colors">Home</Link>
                 <span>/</span>
-                <Link href="/campaigns/" className="hover:text-[#38BDF8] transition-colors">Campaigns</Link>
+                <Link href="/campaigns/" className="hover:text-[#0080CB] transition-colors">Campaigns</Link>
                 <span>/</span>
-                <span className="text-white font-bold">{post.title}</span>
+                <span className="text-[#0F172A] font-bold truncate max-w-xs sm:max-w-md">{post.title}</span>
               </nav>
 
               {/* Badges */}
-              <div className="flex items-center gap-3 pt-2">
-                <span className="px-3.5 py-1 rounded-full bg-[#0080CB] text-white text-xs font-bold flex items-center gap-1 shadow-md">
+              <div className="flex items-center gap-3 pt-1">
+                <span className="px-3.5 py-1 rounded-full bg-[#0080CB] text-white text-xs font-bold flex items-center gap-1 shadow-xs">
                   <Tag className="w-3 h-3" /> {post.category}
                 </span>
-                <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
+                <span className="text-xs font-semibold text-slate-500 flex items-center gap-1">
                   <Calendar className="w-3.5 h-3.5 text-[#0C9DA8]" /> {post.date}
                 </span>
               </div>
 
               {/* Title */}
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-[#0F172A] tracking-tight font-display">
                 {post.title}
               </h1>
             </div>
           </header>
 
-          {/* Featured Hero Slide Image */}
-          <section className="max-w-5xl mx-auto px-4">
-            <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-[#0B132B]">
+          {/* ── Massive Hero Campaign Image (Direct, No Frame Borders) ── */}
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="relative w-full rounded-3xl sm:rounded-[2.5rem] overflow-hidden shadow-2xl bg-black/5">
               <Image
                 src={post.image}
                 alt={post.title}
-                width={1400}
-                height={900}
+                width={1800}
+                height={1200}
                 priority
-                className="w-full h-auto object-contain max-h-[720px] mx-auto"
+                className="w-full h-auto object-cover rounded-3xl sm:rounded-[2.5rem]"
               />
             </div>
           </section>
 
-          {/* Description & Social Share */}
-          <section className="max-w-5xl mx-auto px-4 space-y-8">
-            <div className="text-base sm:text-lg font-light text-slate-200 bg-white/[0.05] p-6 sm:p-8 rounded-3xl border border-white/15 leading-relaxed shadow-xl backdrop-blur-2xl">
+          {/* Description & Campaign Info */}
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div className="text-base sm:text-lg lg:text-xl font-normal text-[#334155] bg-white p-6 sm:p-10 rounded-3xl border border-slate-200/90 leading-relaxed shadow-sm">
               {post.description}
             </div>
 
-            {/* Social Share Bar */}
-            <div className="flex items-center justify-between py-4 border-y border-white/10">
-              <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <Share2 className="w-4 h-4 text-[#0080CB]" /> Share this campaign:
-              </span>
-              <div className="flex items-center gap-3">
-                <a
-                  href={`https://www.facebook.com/sharer/sharer.php?u=https://praaroop.com/${post.slug}/`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-full bg-white/10 border border-white/15 text-white font-semibold text-xs hover:bg-[#0080CB] transition-all"
-                >
-                  Facebook
-                </a>
+            {/* Campaign Stats Strip */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs text-center space-y-1">
+                <span className="text-xs text-slate-500 font-mono">Location</span>
+                <p className="font-bold text-[#0F172A] text-sm sm:text-base">Udaipur, Rajasthan</p>
+              </div>
+              <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs text-center space-y-1">
+                <span className="text-xs text-slate-500 font-mono">Format</span>
+                <p className="font-bold text-[#0080CB] text-sm sm:text-base">{post.category}</p>
+              </div>
+              <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs text-center space-y-1">
+                <span className="text-xs text-slate-500 font-mono">Agency</span>
+                <p className="font-bold text-[#0F172A] text-sm sm:text-base">Praaroop Media</p>
+              </div>
+              <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs text-center space-y-1">
+                <span className="text-xs text-slate-500 font-mono">Status</span>
+                <p className="font-bold text-[#0C9DA8] text-sm sm:text-base">Successfully Executed ✓</p>
               </div>
             </div>
           </section>
 
-          {/* Additional Gallery / Campaign Creatives */}
+          {/* ── BIG & PROMINENT Photo Gallery Section (Full-Width High-Res Visuals) ── */}
           {additionalGallery.length > 0 && (
-            <section className="max-w-5xl mx-auto px-4 space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-white flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-[#0C9DA8]" /> Campaign Creatives
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+              <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
+                <Layers className="w-7 h-7 text-[#0080CB]" />
+                <h2 className="text-2xl sm:text-4xl font-black text-[#0F172A] font-display tracking-tight">
+                  High-Resolution Campaign Gallery
                 </h2>
-                <span className="text-xs text-white/50 font-mono">{additionalGallery.length} Additional Creatives</span>
               </div>
 
-              <div className="space-y-8">
+              {/* Massive, Big High-Impact Image Gallery Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12">
                 {additionalGallery.map((imgSrc, i) => (
                   <div
                     key={i}
-                    className="relative w-full rounded-3xl overflow-hidden border border-white/20 bg-[#0B132B] shadow-2xl"
+                    className="relative w-full rounded-3xl sm:rounded-[2.5rem] overflow-hidden shadow-2xl group cursor-pointer transition-transform duration-500 hover:scale-[1.015]"
                   >
                     <Image
                       src={imgSrc}
-                      alt={`${post.title} creative asset ${i + 2}`}
-                      width={1400}
-                      height={900}
-                      className="w-full h-auto object-contain max-h-[850px] mx-auto"
+                      alt={`${post.title} gallery photo ${i + 1}`}
+                      width={1800}
+                      height={1200}
+                      className="w-full h-auto object-cover rounded-3xl sm:rounded-[2.5rem] group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
                   </div>
                 ))}
@@ -147,17 +151,19 @@ export default async function CampaignDetailPage({
             </section>
           )}
 
-          {/* Prev/Next Switcher */}
-          <section className="max-w-5xl mx-auto px-4 pt-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-white/10 pt-8">
+          {/* ── Prev / Next Campaign Navigator ── */}
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-8 border-t border-b border-slate-200">
               <Link
                 href={`/${prevPost.slug}/`}
-                className="p-5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.10] border border-white/15 hover:border-white/30 transition-all flex items-center gap-3 group shadow-xl backdrop-blur-2xl"
+                className="p-6 rounded-2xl bg-white border border-slate-200 hover:border-[#0080CB] transition-all flex items-center gap-4 group shadow-2xs"
               >
-                <ArrowLeft className="w-5 h-5 text-[#0080CB] group-hover:-translate-x-1 transition-transform" />
-                <div>
-                  <span className="text-[10px] font-mono uppercase text-white/40">Previous Campaign</span>
-                  <p className="font-bold text-base text-white group-hover:text-[#38BDF8] transition-colors line-clamp-1">
+                <div className="w-12 h-12 rounded-full bg-slate-100 group-hover:bg-[#0080CB] text-[#0F172A] group-hover:text-white flex items-center justify-center transition-colors shrink-0">
+                  <ArrowLeft className="w-6 h-6" />
+                </div>
+                <div className="min-w-0">
+                  <span className="text-xs text-slate-500 font-mono uppercase tracking-wider block">Previous Campaign</span>
+                  <p className="font-bold text-[#0F172A] group-hover:text-[#0080CB] transition-colors truncate text-sm sm:text-base">
                     {prevPost.title}
                   </p>
                 </div>
@@ -165,91 +171,56 @@ export default async function CampaignDetailPage({
 
               <Link
                 href={`/${nextPost.slug}/`}
-                className="p-5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.10] border border-white/15 hover:border-white/30 transition-all flex items-center justify-end gap-3 text-right group shadow-xl backdrop-blur-2xl"
+                className="p-6 rounded-2xl bg-white border border-slate-200 hover:border-[#0080CB] transition-all flex items-center justify-between group shadow-2xs text-right"
               >
-                <div>
-                  <span className="text-[10px] font-mono uppercase text-white/40">Next Campaign</span>
-                  <p className="font-bold text-base text-white group-hover:text-[#38BDF8] transition-colors line-clamp-1">
+                <div className="min-w-0 text-left sm:text-right">
+                  <span className="text-xs text-slate-500 font-mono uppercase tracking-wider block">Next Campaign</span>
+                  <p className="font-bold text-[#0F172A] group-hover:text-[#0080CB] transition-colors truncate text-sm sm:text-base">
                     {nextPost.title}
                   </p>
                 </div>
-                <ArrowRight className="w-5 h-5 text-[#0080CB] group-hover:translate-x-1 transition-transform" />
+                <div className="w-12 h-12 rounded-full bg-slate-100 group-hover:bg-[#0080CB] text-[#0F172A] group-hover:text-white flex items-center justify-center transition-colors shrink-0">
+                  <ArrowRight className="w-6 h-6" />
+                </div>
               </Link>
             </div>
           </section>
 
-          {/* ── Related Campaigns Showcase Section ── */}
-          <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 border-t border-white/10 space-y-8">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#0C9DA8]">
-                  <Layers className="w-4 h-4" />
-                  <span>Related Case Studies</span>
-                </div>
-                <h2 className="text-2xl sm:text-4xl font-extrabold text-white">
-                  Explore Related <span className="text-[#0080CB]">Campaigns</span>
-                </h2>
-              </div>
-              <Link
-                href="/campaigns/"
-                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#38BDF8] hover:text-white transition-colors"
-              >
-                <span>View All Campaigns</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
-            </div>
+          {/* ── Related Campaigns Showcase ── */}
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 pb-8">
+            <h2 className="text-2xl sm:text-3xl font-black text-[#0F172A] font-display">
+              More Featured Campaigns
+            </h2>
 
-            {/* 3 Related Campaign Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {relatedCampaigns.map((rc) => (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+              {relatedCampaigns.map((item) => (
                 <Link
-                  key={rc.slug}
-                  href={`/${rc.slug}/`}
-                  className="group flex flex-col justify-between h-[440px] rounded-3xl bg-white/[0.05] hover:bg-white/[0.10] border border-white/15 hover:border-white/30 transition-all duration-300 overflow-hidden shadow-2xl hover:shadow-[0_15px_30px_rgba(0,128,203,0.3)] hover:-translate-y-1.5 backdrop-blur-2xl"
+                  key={item.slug}
+                  href={`/${item.slug}/`}
+                  className="group rounded-3xl overflow-hidden bg-white border border-slate-200 hover:border-[#0080CB] transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between"
                 >
-                  {/* Photo Canvas */}
-                  <div className="relative h-52 w-full bg-slate-900 overflow-hidden">
+                  <div className="relative h-60 w-full overflow-hidden bg-slate-100">
                     <Image
-                      src={rc.image}
-                      alt={rc.title}
+                      src={item.image}
+                      alt={item.title}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 640px) 100vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#060B16] via-transparent to-black/30 pointer-events-none" />
-
-                    {/* Badge */}
-                    <div className="absolute top-3 left-3 z-10">
-                      <span className="px-2.5 py-0.5 rounded-full bg-[#0080CB] text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-md">
-                        <Tag className="w-2.5 h-2.5" /> {rc.category}
+                    <div className="absolute top-3 left-3">
+                      <span className="px-3 py-1 rounded-full bg-[#0080CB] text-white text-xs font-bold uppercase tracking-wider">
+                        {item.category}
                       </span>
                     </div>
                   </div>
 
-                  {/* Body Content */}
-                  <div className="p-5 space-y-3 flex-1 flex flex-col justify-between">
-                    <div className="space-y-1.5">
-                      <div className="text-[9px] font-mono text-white/40 flex items-center gap-1">
-                        <Calendar className="w-3 h-3 text-[#0C9DA8]" /> {rc.date}
-                      </div>
-                      <h3 className="text-lg font-extrabold text-white group-hover:text-[#38BDF8] transition-colors line-clamp-2 leading-snug">
-                        {rc.title}
-                      </h3>
-                      <p className="text-xs text-slate-300 line-clamp-2 font-normal leading-relaxed">
-                        {rc.description}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center justify-between pt-3 border-t border-white/10">
-                      <span className="text-[10px] font-bold text-[#38BDF8] uppercase tracking-wider flex items-center gap-1">
-                        <Eye className="w-3.5 h-3.5" /> View Campaign
-                      </span>
-                      <div className="w-7 h-7 rounded-full bg-white/10 text-white flex items-center justify-center group-hover:bg-[#0080CB] transition-colors">
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                      </div>
-                    </div>
+                  <div className="p-6 space-y-2">
+                    <h3 className="font-bold text-[#0F172A] group-hover:text-[#0080CB] transition-colors text-lg line-clamp-1 font-display">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-500 line-clamp-2">
+                      {item.description}
+                    </p>
                   </div>
                 </Link>
               ))}
@@ -257,6 +228,7 @@ export default async function CampaignDetailPage({
           </section>
         </article>
 
+        {/* Global Footer */}
         <Footer />
       </div>
     </main>

@@ -1,236 +1,188 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
+import { Sparkles, Building2, Award } from "lucide-react";
 import { CLIENT_LOGOS } from "@/lib/data";
 
-import { motion } from "framer-motion";
-
-// ── Brand colours ──────────────────────────────────────────────────────────
-const PINK = "#D10B6A";
-const TEAL = "#0C9DA8";
-
-// ── Single source of truth for ring geometry ──────────────────────────────
-const DIAMETER = 540;
-const OFFSET   = Math.round(DIAMETER * 0.50); // center-to-center ≈ 50% of diameter
-const DURATION = 26; // seconds per full revolution
-
-// ── OrbitCircle: Mathematically locked center and orbit ──────────────────────
-function OrbitCircle({
-  logos,
-  diameter,
-  color,
-  style,
-  direction = 1,
-}: {
-  logos: typeof CLIENT_LOGOS;
-  diameter: number;
-  color: string;
-  style: React.CSSProperties;
-  direction?: number;
-}) {
-  const strokeWidth = diameter * 0.17; // ~92px band width
-  const radius = (diameter - strokeWidth) / 2;
-  const center = diameter / 2;
-  const logoSize = Math.round(strokeWidth * 0.95); // ~88px badge size
-
-  return (
-    <div style={{ ...style, position: "absolute", width: diameter, height: diameter }}>
-      {/* 1. Exact SVG Ring Circle (center is precisely cx, cy) */}
-      <svg
-        width={diameter}
-        height={diameter}
-        viewBox={`0 0 ${diameter} ${diameter}`}
-        className="absolute inset-0 pointer-events-none drop-shadow-[0_0_30px_rgba(0,0,0,0.6)]"
-      >
-        <circle
-          cx={center}
-          cy={center}
-          r={radius}
-          fill="none"
-          stroke={color}
-          strokeWidth={strokeWidth}
-          strokeOpacity={0.92}
-        />
-        {/* Subtle decorative dashed center line */}
-        <circle
-          cx={center}
-          cy={center}
-          r={radius}
-          fill="none"
-          stroke="rgba(255,255,255,0.3)"
-          strokeWidth={1.5}
-          strokeDasharray="5 7"
-        />
-      </svg>
-
-      {/* 2. Rotating container centered EXACTLY on the same (center, center) */}
-      <motion.div
-        animate={{ rotate: direction * 360 }}
-        transition={{ duration: DURATION, repeat: Infinity, ease: "linear" }}
-        style={{
-          position: "absolute",
-          inset: 0,
-          transformOrigin: `${center}px ${center}px`,
-        }}
-      >
-        {logos.map((logo, i) => {
-          const angle = (2 * Math.PI * i) / logos.length;
-          // Exact coordinates along the exact center radius of the circle
-          const x = center + radius * Math.cos(angle);
-          const y = center + radius * Math.sin(angle);
-
-          return (
-            <div
-              key={logo.id}
-              style={{
-                position: "absolute",
-                left: `${x}px`,
-                top: `${y}px`,
-                transform: "translate(-50%, -50%)",
-              }}
-            >
-              {/* Counter-rotation to keep logo upright */}
-              <motion.div
-                animate={{ rotate: -direction * 360 }}
-                transition={{ duration: DURATION, repeat: Infinity, ease: "linear" }}
-                style={{
-                  width: logoSize,
-                  height: logoSize,
-                  transformOrigin: "center center",
-                }}
-                className="flex items-center justify-center p-2.5 rounded-full bg-white shadow-2xl border-2 border-white/80 transition-transform hover:scale-110"
-              >
-                <div className="relative w-full h-full">
-                  <Image
-                    src={logo.logo}
-                    alt={logo.name}
-                    fill
-                    sizes={`${logoSize}px`}
-                    className="object-contain filter contrast-105"
-                  />
-                </div>
-              </motion.div>
-            </div>
-          );
-        })}
-      </motion.div>
-    </div>
-  );
+interface ClientMarqueeProps {
+  hideHeader?: boolean;
+  compact?: boolean;
+  theme?: "light" | "dark";
 }
 
-// ── Mobile marquee fallback ────────────────────────────────────────────────
-function MobileMarquee() {
-  const marqueeLogos = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
-  return (
-    <div className="relative w-full overflow-hidden py-6">
-      <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-[#0A0A0A] to-transparent z-10 pointer-events-none" />
-      <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-[#0A0A0A] to-transparent z-10 pointer-events-none" />
-      <div className="animate-marquee-left items-center gap-6">
-        {marqueeLogos.map((client, idx) => (
-          <div
-            key={`${client.id}-${idx}`}
-            className="shrink-0 w-44 h-24 rounded-2xl bg-[#141414] border border-white/15 p-3.5 flex items-center justify-center shadow-lg"
-          >
-            <div className="relative w-full h-full">
-              <Image
-                src={client.logo}
-                alt={client.name}
-                fill
-                className="object-contain opacity-95"
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+export default function ClientMarquee({
+  hideHeader = false,
+  compact = false,
+  theme = "dark",
+}: ClientMarqueeProps) {
+  const isLight = theme === "light";
 
+  // Split the 23 logos into 3 distinct sets for the 3 marquee rows
+  const row1 = CLIENT_LOGOS.slice(0, 8);
+  const row2 = CLIENT_LOGOS.slice(8, 16);
+  const row3 = CLIENT_LOGOS.slice(16);
 
-// ── Main section ───────────────────────────────────────────────────────────
-export default function ClientMarquee() {
-  const [isDesktop,    setIsDesktop]    = useState(false);
-  const [reducedMotion,setReducedMotion]= useState(false);
-
-  useEffect(() => {
-    const mq  = window.matchMedia("(min-width: 768px)");
-    const rmq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setIsDesktop(mq.matches);
-    setReducedMotion(rmq.matches);
-
-    const onMq  = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-    const onRmq = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mq.addEventListener ("change", onMq);
-    rmq.addEventListener("change", onRmq);
-    return () => {
-      mq.removeEventListener ("change", onMq);
-      rmq.removeEventListener("change", onRmq);
-    };
-  }, []);
-
-  // Split logos across the two rings
-  const mid       = Math.ceil(CLIENT_LOGOS.length / 2);
-  const pinkLogos = CLIENT_LOGOS.slice(0, mid);   // pink = left / front
-  const tealLogos = CLIENT_LOGOS.slice(mid);       // teal = right / behind
-
-  const containerWidth  = DIAMETER + OFFSET;
-  const containerHeight = DIAMETER;
+  // Duplicate each row 4 times to ensure 100% gapless continuous marquee
+  const row1Logos = [...row1, ...row1, ...row1, ...row1];
+  const row2Logos = [...row2, ...row2, ...row2, ...row2];
+  const row3Logos = [...row3, ...row3, ...row3, ...row3];
 
   return (
     <section
       id="client"
-      className="relative py-20 px-4 sm:px-6 lg:px-8 bg-[#0A0A0A] overflow-hidden border-t border-b border-white/5"
+      className={`relative ${
+        compact ? "py-1 sm:py-2" : "py-8 sm:py-12"
+      } ${
+        isLight ? "bg-[#F6F6F4] text-[#0F172A]" : "bg-[#07090E] text-white"
+      } overflow-hidden selection:bg-[#0080CB] selection:text-white`}
     >
-      <div className="max-w-7xl mx-auto relative z-10 space-y-12">
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono font-bold uppercase tracking-wider text-[#0C9DA8]">
-            <span>Our Clients</span>
-            <span>•</span>
-            <span>Driving Impact Across India</span>
+      {/* Ambient background glow */}
+      <div
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[250px] ${
+          isLight ? "bg-[#0080CB]/5" : "bg-[#0080CB]/10"
+        } blur-[120px] pointer-events-none -z-10 rounded-full`}
+      />
+
+      {!hideHeader && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 sm:mb-8 text-center space-y-2 relative z-10">
+          <div
+            className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full ${
+              isLight
+                ? "bg-white border border-slate-200 text-[#0080CB]"
+                : "bg-white/10 border border-white/15 text-[#0C9DA8]"
+            } text-xs font-mono font-bold uppercase tracking-wider shadow-xs backdrop-blur-md`}
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Our Valued Partners</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-            Brands We Have <span className="text-[#0C9DA8]">Elevated</span>
+
+          <h2
+            className={`text-3xl sm:text-4xl font-black ${
+              isLight ? "text-[#0F172A]" : "text-white"
+            } tracking-tight font-display`}
+          >
+            Brands We Have <span className="text-[#0080CB]">Elevated</span>
           </h2>
-          <p className="text-sm sm:text-base text-[#CBD5E1] font-light">
-            Trusted by corporate leaders, automotive giants, healthcare networks, and regional visionaries.
+
+          <p
+            className={`text-xs sm:text-sm ${
+              isLight ? "text-[#334155]" : "text-slate-300"
+            } max-w-xl mx-auto font-normal leading-relaxed`}
+          >
+            Trusted by 100+ corporate leaders, automotive giants, healthcare networks, and regional visionaries.
           </p>
         </div>
+      )}
 
-        {/* Desktop: Dual Overlapping Orbit Rings */}
-        {isDesktop && !reducedMotion ? (
-          <div className="flex flex-col items-center gap-10">
-            {/* Two overlapping rings — all sizes derived from the same DIAMETER + STROKE_RATIO */}
-            <div
-              className="relative mx-auto"
-              style={{ width: containerWidth, height: containerHeight }}
-            >
-              {/* Pink ring — LEFT / FRONT (z-20) */}
-              <OrbitCircle
-                logos={pinkLogos}
-                diameter={DIAMETER}
-                color={PINK}
-                style={{ left: 0, top: 0, zIndex: 20 }}
-              />
+      {/* ── 3-Row Full-Bleed Continuous Logo Marquee ── */}
+      <div className="relative w-full space-y-3 sm:space-y-4 overflow-hidden py-1">
+        {/* Left & Right Soft Vignette Gradients */}
+        <div
+          className={`absolute inset-y-0 left-0 w-12 sm:w-36 bg-gradient-to-r ${
+            isLight
+              ? "from-[#F6F6F4] via-[#F6F6F4]/90"
+              : "from-[#07090E] via-[#07090E]/90"
+          } to-transparent z-20 pointer-events-none`}
+        />
+        <div
+          className={`absolute inset-y-0 right-0 w-12 sm:w-36 bg-gradient-to-l ${
+            isLight
+              ? "from-[#F6F6F4] via-[#F6F6F4]/90"
+              : "from-[#07090E] via-[#07090E]/90"
+          } to-transparent z-20 pointer-events-none`}
+        />
 
-              {/* Teal ring — RIGHT / BEHIND (z-10) */}
-              <OrbitCircle
-                logos={tealLogos}
-                diameter={DIAMETER}
-                color={TEAL}
-                style={{ left: OFFSET, top: 0, zIndex: 10 }}
-              />
-            </div>
-
-            <p className="text-xs text-white/40 tracking-widest uppercase font-mono">
-              {CLIENT_LOGOS.length}+ brands trust Praaroop Media
-            </p>
+        {/* ── ROW 1: Moves to LEFT ── */}
+        <div className="flex overflow-hidden whitespace-nowrap select-none">
+          <div className="flex w-max shrink-0 items-center gap-3.5 sm:gap-5 animate-marquee-left will-change-transform">
+            {row1Logos.map((client, idx) => (
+              <div
+                key={`r1-${client.id}-${idx}`}
+                className="shrink-0 w-36 sm:w-48 lg:w-56 h-18 sm:h-22 lg:h-26 flex items-center justify-center transition-transform duration-300 hover:scale-105 group cursor-pointer"
+              >
+                <div className="relative w-full h-full">
+                  <Image
+                    src={client.logo}
+                    alt={client.name}
+                    fill
+                    sizes="(max-width: 640px) 150px, (max-width: 1024px) 200px, 240px"
+                    className="object-contain filter transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+              </div>
+            ))}
           </div>
-        ) : (
-          <MobileMarquee />
-        )}
+        </div>
+
+        {/* ── ROW 2: Moves to RIGHT ── */}
+        <div className="flex overflow-hidden whitespace-nowrap select-none">
+          <div className="flex w-max shrink-0 items-center gap-3.5 sm:gap-5 animate-marquee-right will-change-transform">
+            {row2Logos.map((client, idx) => (
+              <div
+                key={`r2-${client.id}-${idx}`}
+                className="shrink-0 w-36 sm:w-48 lg:w-56 h-18 sm:h-22 lg:h-26 flex items-center justify-center transition-transform duration-300 hover:scale-105 group cursor-pointer"
+              >
+                <div className="relative w-full h-full">
+                  <Image
+                    src={client.logo}
+                    alt={client.name}
+                    fill
+                    sizes="(max-width: 640px) 150px, (max-width: 1024px) 200px, 240px"
+                    className="object-contain filter transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── ROW 3: Moves to LEFT ── */}
+        <div className="flex overflow-hidden whitespace-nowrap select-none">
+          <div className="flex w-max shrink-0 items-center gap-3.5 sm:gap-5 animate-marquee-left will-change-transform">
+            {row3Logos.map((client, idx) => (
+              <div
+                key={`r3-${client.id}-${idx}`}
+                className="shrink-0 w-36 sm:w-48 lg:w-56 h-18 sm:h-22 lg:h-26 flex items-center justify-center transition-transform duration-300 hover:scale-105 group cursor-pointer"
+              >
+                <div className="relative w-full h-full">
+                  <Image
+                    src={client.logo}
+                    alt={client.name}
+                    fill
+                    sizes="(max-width: 640px) 150px, (max-width: 1024px) 200px, 240px"
+                    className="object-contain filter transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
+
+      {!hideHeader && (
+        <div
+          className={`max-w-4xl mx-auto px-4 mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-2.5 text-xs font-mono ${
+            isLight ? "text-slate-600" : "text-slate-300"
+          }`}
+        >
+          <span
+            className={`px-3.5 py-1.5 rounded-full ${
+              isLight ? "bg-white border border-slate-200 shadow-2xs" : "bg-white/5 border border-white/10"
+            } flex items-center gap-1.5`}
+          >
+            <Building2 className="w-3 h-3 text-[#0080CB]" />
+            <span>100+ Satisfied Clients</span>
+          </span>
+          <span
+            className={`px-3.5 py-1.5 rounded-full ${
+              isLight ? "bg-white border border-slate-200 shadow-2xs" : "bg-white/5 border border-white/10"
+            } flex items-center gap-1.5`}
+          >
+            <Award className="w-3 h-3 text-[#0C9DA8]" />
+            <span>200+ Pan-India Campaigns</span>
+          </span>
+        </div>
+      )}
     </section>
   );
 }
