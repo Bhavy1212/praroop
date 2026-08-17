@@ -2,7 +2,13 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useScroll, useMotionValueEvent } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValueEvent,
+} from "framer-motion";
 import { Sparkles, ArrowUpRight } from "lucide-react";
 import { BRAND } from "@/lib/data";
 
@@ -49,15 +55,15 @@ const activationItems = [
   },
 ];
 
-const MARQUEE_ROWS = 7;
-
 export default function ActivationsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
-    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    setReducedMotion(
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    );
   }, []);
 
   // Framer Motion scroll tracking across the 400vh container track
@@ -66,11 +72,25 @@ export default function ActivationsSection() {
     offset: ["start start", "end end"],
   });
 
+  // 1. Scroll-driven Card Entrance (0 -> 0.12) and Exit (0.88 -> 1.0)
+  const cardScale = useTransform(
+    scrollYProgress,
+    [0, 0.12, 0.88, 1],
+    [0.75, 1, 1, 0.88]
+  );
+
+  const cardOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.1, 0.9, 1],
+    [0, 1, 1, 0]
+  );
+
+  // 2. Map the active segment between progress 0.10 and 0.88 across the 4 activation items
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const total = activationItems.length;
-    // Map progress smoothly into 4 segments (0.00-0.25, 0.25-0.50, 0.50-0.75, 0.75-1.00)
-    const index = Math.min(total - 1, Math.max(0, Math.floor(latest * total)));
-    if (index !== activeIndex) {
+    const clamped = Math.max(0, Math.min(1, (latest - 0.1) / 0.78));
+    const index = Math.min(total - 1, Math.max(0, Math.floor(clamped * total)));
+    if (index !== activeIndex && latest >= 0.05 && latest <= 0.95) {
       setActiveIndex(index);
     }
   });
@@ -79,27 +99,34 @@ export default function ActivationsSection() {
     if (!containerRef.current) return;
     const top = containerRef.current.offsetTop;
     const height = containerRef.current.offsetHeight;
-    const stepHeight = (height - window.innerHeight) / (activationItems.length - 1 || 1);
-    const targetY = top + index * stepHeight;
+    const usableScrollHeight = height - window.innerHeight;
+    const segmentOffset = 0.1 * usableScrollHeight;
+    const stepHeight =
+      (0.78 * usableScrollHeight) / (activationItems.length - 1 || 1);
+    const targetY = top + segmentOffset + index * stepHeight;
     window.scrollTo({ top: targetY, behavior: "smooth" });
   };
 
   const currentItem = activationItems[activeIndex];
 
   return (
-    <section id="activations" className="relative bg-[#07090E] text-white border-t border-white/10">
+    <section
+      id="activations"
+      className="relative bg-[#07090E] text-white border-t border-white/10"
+    >
       {/* ── Mobile & Tablet Layout: Clean Stacked Cards (No 400vh track) ── */}
       <div className="block lg:hidden py-20 px-4 sm:px-6 max-w-4xl mx-auto space-y-10">
         <div className="text-center space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-wider text-[#0C9DA8]">
             <Sparkles className="w-3.5 h-3.5 text-[#0C9DA8]" />
-            <span>EXPERIENTIAL MARKETING</span>
+            <span>Praaroop Media</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight font-display">
             Brand Activations <span className="text-[#D10B6A]">& Events</span>
           </h2>
           <p className="text-sm sm:text-base text-slate-400 max-w-xl mx-auto">
-            Immersive physical brand experiences that create memorable connections and drive immediate customer action.
+            Immersive physical brand experiences that create memorable
+            connections and drive immediate customer action.
           </p>
         </div>
 
@@ -110,7 +137,13 @@ export default function ActivationsSection() {
               className="rounded-3xl overflow-hidden bg-[#0D1527] border border-white/10 shadow-2xl flex flex-col"
             >
               <div className="relative h-[240px] sm:h-[280px] w-full">
-                <Image src={item.image} alt={item.title} fill className="object-cover" sizes="100vw" />
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                />
                 <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/75 backdrop-blur-md text-white text-xs font-mono font-bold border border-white/15">
                   {item.number} / 04
                 </div>
@@ -139,137 +172,66 @@ export default function ActivationsSection() {
         </div>
       </div>
 
-      {/* ── Desktop: 400vh Pinned Scrollytelling Section (Appinventiv Pattern) ── */}
+      {/* ── Desktop: 400vh Pinned Scrollytelling Section with Card Zoom-In ── */}
       <div
         ref={containerRef}
         className="hidden lg:block relative"
         style={{ height: `${activationItems.length * 100}vh` }}
       >
         {/* Sticky Pinned 100vh Viewport */}
-        <div className="sticky top-0 h-screen w-full flex items-center justify-center px-6 lg:px-14 overflow-hidden">
-          
-          {/* ════════════════════════════════════════════════════════════════
-              1. BACKGROUND "WALLPAPER" MARQUEE LAYER (Behind card, full-bleed)
-             ════════════════════════════════════════════════════════════════ */}
-          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none flex flex-col justify-between py-4">
-            {[...Array(MARQUEE_ROWS)].map((_, rowIndex) => {
-              const isEven = rowIndex % 2 === 0;
-              return (
-                <div
-                  key={rowIndex}
-                  className="flex overflow-hidden whitespace-nowrap opacity-60"
-                  style={{
-                    transform: `translateX(${rowIndex * -45}px)`, // Staggered brick/masonry offset
-                  }}
-                >
-                  <div
-                    className={`flex shrink-0 items-center gap-8 ${
-                      isEven ? "animate-marquee-right" : "animate-marquee-left"
-                    }`}
-                  >
-                    {[...Array(6)].map((_, j) => (
-                      <span
-                        key={j}
-                        className="font-black text-7xl lg:text-8xl tracking-tight uppercase font-display text-transparent select-none leading-none"
-                        style={{
-                          WebkitTextStroke:
-                            rowIndex % 3 === 0
-                              ? "1.5px rgba(12, 157, 168, 0.16)"
-                              : rowIndex % 3 === 1
-                              ? "1.5px rgba(0, 128, 203, 0.14)"
-                              : "1.5px rgba(209, 11, 106, 0.14)",
-                        }}
-                      >
-                        ACTIVATIONS <span className="text-white/10 mx-2 text-5xl font-light">•</span>
-                      </span>
-                    ))}
-                  </div>
-
-                  <div
-                    className={`flex shrink-0 items-center gap-8 ${
-                      isEven ? "animate-marquee-right" : "animate-marquee-left"
-                    }`}
-                  >
-                    {[...Array(6)].map((_, j) => (
-                      <span
-                        key={j}
-                        className="font-black text-7xl lg:text-8xl tracking-tight uppercase font-display text-transparent select-none leading-none"
-                        style={{
-                          WebkitTextStroke:
-                            rowIndex % 3 === 0
-                              ? "1.5px rgba(12, 157, 168, 0.16)"
-                              : rowIndex % 3 === 1
-                              ? "1.5px rgba(0, 128, 203, 0.14)"
-                              : "1.5px rgba(209, 11, 106, 0.14)",
-                        }}
-                      >
-                        ACTIVATIONS <span className="text-white/10 mx-2 text-5xl font-light">•</span>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-
-            {/* Dark Vignette Overlay to enhance contrast for the foreground card */}
-            <div className="absolute inset-0 bg-radial from-transparent via-[#07090E]/65 to-[#07090E]/95 pointer-events-none" />
-          </div>
-
-          {/* ════════════════════════════════════════════════════════════════
-              2. SECTION HEADER (Pinned at top of sticky viewport)
-             ════════════════════════════════════════════════════════════════ */}
-          <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20 text-center max-w-xl mx-auto px-4 pointer-events-none">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/60 border border-white/15 backdrop-blur-md text-[11px] font-extrabold uppercase tracking-widest text-[#0C9DA8] shadow-lg mb-1.5">
-              <Sparkles className="w-3 h-3 text-[#0C9DA8]" />
-              <span>EXPERIENTIAL MARKETING</span>
+        <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center px-6 lg:px-14 overflow-hidden">
+          {/* Section Header (Fixed in sticky viewport) */}
+          <div className="text-center max-w-xl mx-auto mb-6 pointer-events-none">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-white/15 backdrop-blur-md text-[11px] font-extrabold uppercase tracking-widest text-[#0C9DA8] shadow-lg mb-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#0C9DA8]" />
+              <span>Praaroop Media</span>
             </div>
-            <h2 className="text-2xl lg:text-3xl font-black uppercase text-white tracking-tight font-display drop-shadow-md">
+            <h2 className="text-3xl lg:text-4xl font-black uppercase text-white tracking-tight font-display drop-shadow-md">
               Brand Activations <span className="text-[#D10B6A]">& Events</span>
             </h2>
           </div>
 
-          {/* ════════════════════════════════════════════════════════════════
-              3. CENTERED CARD (Foreground, Pinned)
-             ════════════════════════════════════════════════════════════════ */}
-          <div className="relative z-20 max-w-4xl lg:max-w-5xl w-full h-[470px] lg:h-[500px] rounded-3xl overflow-hidden bg-[#0B1220]/95 border border-white/15 shadow-[0_30px_90px_rgba(0,0,0,0.85)] backdrop-blur-xl grid grid-cols-1 md:grid-cols-2 mt-12">
-            
-            {/* Left Half: Image (Crossfading 4 Images) */}
+          {/* Centered Card with Scroll-Driven Zoom Entrance & Exit */}
+          <motion.div
+            style={
+              !reducedMotion ? { scale: cardScale, opacity: cardOpacity } : {}
+            }
+            className="relative z-20 max-w-4xl lg:max-w-5xl w-full h-[460px] lg:h-[490px] rounded-3xl overflow-hidden bg-[#0B1220]/95 border border-white/15 shadow-[0_30px_90px_rgba(0,0,0,0.85)] backdrop-blur-xl grid grid-cols-1 md:grid-cols-2 will-change-transform"
+          >
+            {/* Left Half: Image with Zoom-Punch Transition */}
             <div className="relative h-full w-full overflow-hidden bg-black">
-              {activationItems.map((item, i) => {
-                const isActive = activeIndex === i;
-                return (
-                  <div
-                    key={item.id}
-                    style={{ willChange: "opacity, transform" }}
-                    className={`absolute inset-0 transition-all duration-400 ease-out ${
-                      reducedMotion
-                        ? isActive ? "opacity-100 z-10" : "opacity-0 z-0"
-                        : isActive
-                        ? "opacity-100 scale-100 pointer-events-auto z-10"
-                        : "opacity-0 scale-105 pointer-events-none z-0"
-                    }`}
-                  >
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      priority={i === 0}
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-cover"
-                    />
-                    {/* Vignette Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#0B1220]" />
-                    
-                    {/* Top Left Step Badge */}
-                    <div className="absolute top-5 left-5 px-3.5 py-1.5 rounded-full bg-black/80 backdrop-blur-md text-white text-xs font-mono font-bold border border-white/20 shadow-lg">
-                      {item.number} / 04
-                    </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentItem.id}
+                  initial={
+                    reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.92 }
+                  }
+                  animate={
+                    reducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }
+                  }
+                  exit={
+                    reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.92 }
+                  }
+                  transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={currentItem.image}
+                    alt={currentItem.title}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-[#0B1220]" />
+                  <div className="absolute top-5 left-5 px-3.5 py-1.5 rounded-full bg-black/80 backdrop-blur-md text-white text-xs font-mono font-bold border border-white/20 shadow-lg">
+                    {currentItem.number} / 04
                   </div>
-                );
-              })}
+                </motion.div>
+              </AnimatePresence>
             </div>
 
-            {/* Right Half: Title, Description & Key Impact Metric */}
+            {/* Right Half: Dynamic Zoom-Punch Content Transition */}
             <div className="p-8 lg:p-12 flex flex-col justify-between h-full relative z-20 select-none">
               {/* Step Segment Indicators */}
               <div className="flex items-center justify-between gap-4">
@@ -297,15 +259,28 @@ export default function ActivationsSection() {
                 </span>
               </div>
 
-              {/* Scroll-Driven Dynamic Content Transition */}
+              {/* Scroll-Driven Dynamic Content Transition (Zoom-Punch) */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentItem.id}
-                  initial={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
-                  animate={reducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-                  exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -16 }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  initial={
+                    reducedMotion
+                      ? { opacity: 0 }
+                      : { opacity: 0, scale: 0.94, y: 8 }
+                  }
+                  animate={
+                    reducedMotion
+                      ? { opacity: 1 }
+                      : { opacity: 1, scale: 1, y: 0 }
+                  }
+                  exit={
+                    reducedMotion
+                      ? { opacity: 0 }
+                      : { opacity: 0, scale: 0.94, y: -8 }
+                  }
+                  transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
                   className="space-y-3.5 my-auto py-2"
+                  aria-live="polite"
                 >
                   <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#0C9DA8]">
                     Activation Format {currentItem.number}
@@ -340,11 +315,8 @@ export default function ActivationsSection() {
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>
               </div>
-
             </div>
-
-          </div>
-
+          </motion.div>
         </div>
       </div>
     </section>

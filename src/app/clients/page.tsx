@@ -40,7 +40,7 @@ const SECTORS = [
 
 export default function ClientsPage() {
   return (
-    <main className="relative text-white min-h-screen pt-20 sm:pt-24 selection:bg-[#0080CB] selection:text-white">
+    <main className="relative bg-[#07090E] text-white min-h-screen pt-20 sm:pt-24 selection:bg-[#0080CB] selection:text-white">
       <div className="space-y-16 sm:space-y-24 pb-0 relative z-10">
         {/* ── Header Hero Banner ── */}
         <section className="pt-12 sm:pt-20 pb-6 text-center space-y-6 max-w-5xl mx-auto px-4">

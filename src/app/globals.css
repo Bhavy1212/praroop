@@ -20,20 +20,20 @@
 }
 
 :root {
-  --background: #FAFAFC;
-  --foreground: #0F172A;
+  --background: #07090E;
+  --foreground: #FFFFFF;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: #FAFAFC;
-  color: #0F172A;
+  background-color: #07090E;
+  color: #FFFFFF;
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
 body {
-  background-color: #FAFAFC;
-  color: #0F172A;
+  background-color: #07090E;
+  color: #FFFFFF;
   overflow-x: hidden;
   min-height: 100vh;
 }

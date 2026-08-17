@@ -48,7 +48,7 @@ export default async function CampaignDetailPage({
   const relatedCampaigns = CAMPAIGN_POSTS.filter((p) => p.slug !== slug).slice(0, 3);
 
   return (
-    <main className="relative text-white min-h-screen pt-24 selection:bg-[#0080CB] selection:text-white">
+    <main className="relative bg-[#07090E] text-white min-h-screen pt-24 selection:bg-[#0080CB] selection:text-white">
       <div className="space-y-16 pb-0 relative z-10">
         <article className="space-y-16">
           {/* Header & Breadcrumbs */}
