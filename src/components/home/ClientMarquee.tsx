@@ -98,7 +98,7 @@ export default function ClientMarquee({
             {row1Logos.map((client, idx) => (
               <div
                 key={`r1-${client.id}-${idx}`}
-                className="shrink-0 w-36 sm:w-48 lg:w-56 h-18 sm:h-22 lg:h-26 flex items-center justify-center transition-transform duration-300 hover:scale-105 group cursor-pointer"
+                className="shrink-0 w-36 sm:w-48 lg:w-56 h-18 sm:h-22 lg:h-26 flex items-center justify-center cursor-default"
               >
                 <div className="relative w-full h-full">
                   <Image
@@ -106,7 +106,7 @@ export default function ClientMarquee({
                     alt={client.name}
                     fill
                     sizes="(max-width: 640px) 150px, (max-width: 1024px) 200px, 240px"
-                    className="object-contain filter transition-transform duration-300 group-hover:scale-105"
+                    className="object-contain filter"
                   />
                 </div>
               </div>
@@ -120,7 +120,7 @@ export default function ClientMarquee({
             {row2Logos.map((client, idx) => (
               <div
                 key={`r2-${client.id}-${idx}`}
-                className="shrink-0 w-36 sm:w-48 lg:w-56 h-18 sm:h-22 lg:h-26 flex items-center justify-center transition-transform duration-300 hover:scale-105 group cursor-pointer"
+                className="shrink-0 w-36 sm:w-48 lg:w-56 h-18 sm:h-22 lg:h-26 flex items-center justify-center cursor-default"
               >
                 <div className="relative w-full h-full">
                   <Image
@@ -128,7 +128,7 @@ export default function ClientMarquee({
                     alt={client.name}
                     fill
                     sizes="(max-width: 640px) 150px, (max-width: 1024px) 200px, 240px"
-                    className="object-contain filter transition-transform duration-300 group-hover:scale-105"
+                    className="object-contain filter"
                   />
                 </div>
               </div>
@@ -142,7 +142,7 @@ export default function ClientMarquee({
             {row3Logos.map((client, idx) => (
               <div
                 key={`r3-${client.id}-${idx}`}
-                className="shrink-0 w-36 sm:w-48 lg:w-56 h-18 sm:h-22 lg:h-26 flex items-center justify-center transition-transform duration-300 hover:scale-105 group cursor-pointer"
+                className="shrink-0 w-36 sm:w-48 lg:w-56 h-18 sm:h-22 lg:h-26 flex items-center justify-center cursor-default"
               >
                 <div className="relative w-full h-full">
                   <Image
@@ -150,7 +150,7 @@ export default function ClientMarquee({
                     alt={client.name}
                     fill
                     sizes="(max-width: 640px) 150px, (max-width: 1024px) 200px, 240px"
-                    className="object-contain filter transition-transform duration-300 group-hover:scale-105"
+                    className="object-contain filter"
                   />
                 </div>
               </div>
