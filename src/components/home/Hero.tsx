@@ -31,7 +31,7 @@ export default function Hero() {
         }}
       >
         <Image
-          src="/praaroop-crowd-pavilion-hero.jpg"
+          src="/hero-audience-crowd-final.jpg"
           alt="Praaroop Media 360° Audience Reach & Brand Activations"
           fill
           priority
