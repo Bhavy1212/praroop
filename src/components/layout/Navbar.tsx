@@ -169,271 +169,315 @@ export default function Navbar() {
   };
 
   return (
-    <AnimatePresence>
-      {(isVisible || isOpen) && (
-        <motion.header
-          ref={navRef}
-          role="banner"
-          initial={{ y: -80, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -80, opacity: 0 }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed top-0 inset-x-0 w-full z-[999] pointer-events-auto select-none bg-[#070C15]/90 border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)] backdrop-blur-xl"
-        >
-          {/* ── Full-Width Fixed Top Navigation Bar ── */}
-          <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
-            {/* Left: Praaroop Media Official Logo in Clean White Pill */}
-            <Link
-              href="/"
-              onClick={() => setIsOpen(false)}
-              className="relative flex items-center shrink-0 group focus:outline-none"
-            >
-              <div className="bg-white px-3 sm:px-4 py-1.5 rounded-2xl shadow-md border border-white/80 transition-all duration-300 group-hover:scale-105">
-                <div className="relative h-7 w-28 sm:h-9 sm:w-36">
+    <>
+      <AnimatePresence>
+        {(isVisible || isOpen) && (
+          <motion.header
+            ref={navRef}
+            role="banner"
+            initial={{ y: -80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -80, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed top-0 inset-x-0 w-full z-[999] pointer-events-auto select-none bg-white/85 sm:bg-white/90 backdrop-blur-2xl border-b border-slate-200/70 shadow-[0_4px_25px_rgba(0,0,0,0.06)]"
+          >
+            {/* ── Full-Width Fixed Top Navigation Bar (Flush & Non-Floating) ── */}
+            <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+              {/* Left: Praaroop Media Official Logo */}
+              <Link
+                href="/"
+                onClick={() => setIsOpen(false)}
+                className="relative flex items-center shrink-0 group focus:outline-none"
+              >
+                <div className="relative h-8 w-32 sm:h-10 sm:w-40 transition-transform duration-300 group-hover:scale-105">
                   <Image
                     src="/praaroop-Media-and-Adv-1.png"
                     alt="Praaroop Media"
                     fill
                     priority
-                    sizes="(max-width: 640px) 120px, 160px"
+                    sizes="(max-width: 640px) 130px, 170px"
                     className="object-contain"
                   />
                 </div>
-              </div>
-            </Link>
-
-            {/* Center: Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main Navigation">
-              {NAV_LINKS.map((link) => {
-                const active = isLinkActive(link.href);
-                return (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => handleLinkClick(link.href)}
-                    className={`px-3.5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
-                      active
-                        ? "bg-white/15 text-white border border-white/20 shadow-xs"
-                        : "text-slate-300 hover:text-white hover:bg-white/10"
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                );
-              })}
-            </nav>
-
-            {/* Right: Quick Action & Hamburger Menu */}
-            <div className="flex items-center gap-2.5 sm:gap-3">
-              {/* Direct Call / Contact Button */}
-              <Link
-                href="/contact-us"
-                onClick={() => setIsOpen(false)}
-                className="inline-flex items-center gap-2 bg-[#0080CB] hover:bg-[#0C9DA8] text-white text-xs font-extrabold uppercase tracking-wider px-4 sm:px-5 py-2.5 rounded-full transition-all duration-200 shadow-md hover:scale-105 active:scale-95 shrink-0"
-              >
-                <Phone className="w-3.5 h-3.5 fill-current" />
-                <span className="hidden sm:inline">Contact Us</span>
               </Link>
 
-              {/* Hamburger Button for Mobile & Expanded Menu */}
-              <button
-                type="button"
-                onClick={() => setIsOpen(!isOpen)}
-                aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-                aria-expanded={isOpen}
-                className={`group relative flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-2xl transition-all duration-300 ${
-                  isOpen
-                    ? "bg-white/20 text-white border border-white/35 shadow-inner"
-                    : "bg-white/10 hover:bg-white/20 text-white border border-white/15 hover:border-white/30 active:scale-95"
-                }`}
+              {/* Center: Desktop Navigation Links */}
+              <nav className="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main Navigation">
+                {NAV_LINKS.map((link) => {
+                  const active = isLinkActive(link.href);
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      onClick={() => handleLinkClick(link.href)}
+                      className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+                        active
+                          ? "bg-[#0080CB] text-white shadow-md shadow-[#0080CB]/25"
+                          : "text-slate-700 hover:text-[#0080CB] hover:bg-slate-100/90"
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              {/* Right: Quick Action & Hamburger Menu */}
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                {/* Direct Call / Contact Button */}
+                <Link
+                  href="/contact-us"
+                  onClick={() => setIsOpen(false)}
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-[#0080CB] to-[#0C9DA8] hover:from-[#0C9DA8] hover:to-[#0080CB] text-white text-xs font-extrabold uppercase tracking-wider px-4 sm:px-5 py-2.5 rounded-full transition-all duration-200 shadow-md shadow-[#0080CB]/25 hover:shadow-lg hover:shadow-[#0080CB]/35 hover:scale-105 active:scale-95 shrink-0"
+                >
+                  <Phone className="w-3.5 h-3.5 fill-current" />
+                  <span className="hidden sm:inline">Contact Us</span>
+                </Link>
+
+                {/* Hamburger Button for Mobile & Expanded Menu */}
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(!isOpen)}
+                  aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+                  aria-expanded={isOpen}
+                  className={`group relative flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-2xl transition-all duration-300 ${
+                    isOpen
+                      ? "bg-[#0080CB] text-white border border-[#0080CB] shadow-md"
+                      : "bg-slate-100/90 hover:bg-slate-200/90 text-slate-800 border border-slate-200/80 hover:border-slate-300 active:scale-95 shadow-xs"
+                  }`}
+                >
+                  <div className="relative w-4.5 h-3.5 flex flex-col justify-between items-center pointer-events-none">
+                    <span
+                      className={`h-0.5 w-4.5 rounded-full transition-all duration-300 origin-center ${
+                        isOpen ? "bg-white rotate-45 translate-y-[6px]" : "bg-slate-800"
+                      }`}
+                    />
+                    <span
+                      className={`h-0.5 w-3 bg-[#0080CB] rounded-full transition-all duration-200 ${
+                        isOpen ? "opacity-0 scale-0" : "group-hover:w-4.5"
+                      }`}
+                    />
+                    <span
+                      className={`h-0.5 w-4.5 rounded-full transition-all duration-300 origin-center ${
+                        isOpen ? "bg-white -rotate-45 -translate-y-[6px]" : "bg-slate-800"
+                      }`}
+                    />
+                  </div>
+                </button>
+              </div>
+            </div>
+          </motion.header>
+        )}
+      </AnimatePresence>
+
+      {/* ── Full-Screen Vertical Menu (Covers Screen Vertically) ── */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 w-full h-[100dvh] z-[1000] bg-white/95 sm:bg-white/95 backdrop-blur-3xl overflow-y-auto flex flex-col justify-between text-slate-900"
+          >
+            {/* Top Bar inside Vertical Menu */}
+            <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4 border-b border-slate-200/70 shrink-0">
+              <Link
+                href="/"
+                onClick={() => setIsOpen(false)}
+                className="relative flex items-center shrink-0 group focus:outline-none"
               >
-                <div className="relative w-4.5 h-3.5 flex flex-col justify-between items-center pointer-events-none">
-                  <span
-                    className={`h-0.5 w-4.5 bg-white rounded-full transition-all duration-300 origin-center ${
-                      isOpen ? "rotate-45 translate-y-[6px]" : ""
-                    }`}
-                  />
-                  <span
-                    className={`h-0.5 w-3 bg-[#0C9DA8] rounded-full transition-all duration-200 ${
-                      isOpen ? "opacity-0 scale-0" : "group-hover:w-4.5"
-                    }`}
-                  />
-                  <span
-                    className={`h-0.5 w-4.5 bg-white rounded-full transition-all duration-300 origin-center ${
-                      isOpen ? "-rotate-45 -translate-y-[6px]" : ""
-                    }`}
+                <div className="relative h-8 w-32 sm:h-10 sm:w-40 transition-transform duration-300 group-hover:scale-105">
+                  <Image
+                    src="/praaroop-Media-and-Adv-1.png"
+                    alt="Praaroop Media"
+                    fill
+                    priority
+                    sizes="(max-width: 640px) 130px, 170px"
+                    className="object-contain"
                   />
                 </div>
-              </button>
+              </Link>
+
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/contact-us"
+                  onClick={() => setIsOpen(false)}
+                  className="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-[#0080CB] to-[#0C9DA8] hover:from-[#0C9DA8] hover:to-[#0080CB] text-white text-xs font-extrabold uppercase tracking-wider px-5 py-2.5 rounded-full transition-all duration-200 shadow-md shadow-[#0080CB]/25 hover:scale-105 active:scale-95 shrink-0"
+                >
+                  <Phone className="w-3.5 h-3.5 fill-current" />
+                  <span>Contact Us</span>
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  aria-label="Close navigation menu"
+                  className="group relative flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-2xl bg-[#0080CB] text-white shadow-md transition-all duration-300 active:scale-95"
+                >
+                  <div className="relative w-4.5 h-3.5 flex flex-col justify-between items-center pointer-events-none">
+                    <span className="h-0.5 w-4.5 bg-white rounded-full transition-all duration-300 origin-center rotate-45 translate-y-[6px]" />
+                    <span className="h-0.5 w-3 bg-transparent rounded-full opacity-0 scale-0" />
+                    <span className="h-0.5 w-4.5 bg-white rounded-full transition-all duration-300 origin-center -rotate-45 -translate-y-[6px]" />
+                  </div>
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* ── Separate Dropdown Menu Panel (GPU Hardware-Accelerated, Tall & Spacious) ── */}
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -10, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                style={{ willChange: "transform, opacity" }}
-                className="mt-3 w-full rounded-[2rem] bg-[#070C15]/95 border border-white/20 shadow-[0_30px_90px_rgba(0,0,0,0.9)] backdrop-blur-2xl ring-1 ring-white/10 overflow-hidden"
-              >
-                <div className="p-5 sm:p-7 space-y-5">
-                  {/* Primary Navigation Links (Matching praaroop.com) */}
-                  <nav className="space-y-2" aria-label="Main menu">
-                    {NAV_LINKS.map((link, idx) => {
-                      const active = isLinkActive(link.href);
-                      const numStr = `0${idx + 1}`;
+            {/* Middle Section: Full Vertical Navigation Links & Marketing Divisions */}
+            <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6 flex-1 flex flex-col justify-center gap-4 sm:gap-6">
+              {/* Primary Navigation Links */}
+              <nav className="space-y-1 sm:space-y-2" aria-label="Main menu">
+                {NAV_LINKS.map((link, idx) => {
+                  const active = isLinkActive(link.href);
+                  const numStr = `0${idx + 1}`;
 
-                      return (
-                        <Link
-                          key={link.name}
-                          href={link.href}
-                          onClick={() => handleLinkClick(link.href)}
-                          className={`group flex items-center justify-between px-4 py-2.5 sm:py-3 rounded-2xl transition-all duration-200 ${
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      onClick={() => handleLinkClick(link.href)}
+                      className={`group flex items-center justify-between px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-2xl transition-all duration-200 ${
+                        active
+                          ? "bg-[#0080CB]/10 text-[#0080CB] border border-[#0080CB]/25 shadow-xs font-bold"
+                          : "text-slate-800 hover:text-[#0080CB] hover:bg-slate-100/80 border border-transparent hover:border-slate-200/60"
+                      }`}
+                    >
+                      <div className="flex items-center gap-4 sm:gap-6">
+                        <span
+                          className={`text-xs sm:text-sm font-mono font-bold px-3 py-1 rounded-xl transition-colors ${
                             active
-                              ? "bg-white/15 text-white border border-white/25 shadow-md"
-                              : "text-slate-200 hover:text-white hover:bg-white/[0.08] border border-transparent hover:border-white/10"
+                              ? "bg-[#0080CB] text-white"
+                              : "bg-slate-100 text-slate-500 group-hover:text-[#0080CB] group-hover:bg-[#0080CB]/10"
                           }`}
                         >
-                          <div className="flex items-center gap-3.5">
-                            <span
-                              className={`text-xs font-mono font-bold px-2.5 py-1 rounded-lg transition-colors ${
-                                active
-                                  ? "bg-[#0C9DA8] text-white"
-                                  : "bg-white/10 text-white/50 group-hover:text-white/90 group-hover:bg-white/20"
-                              }`}
-                            >
-                              {numStr}
-                            </span>
-                            <span className="text-base sm:text-lg md:text-xl font-black tracking-tight">
-                              {link.name}
-                            </span>
-                          </div>
-
-                          <div className="flex items-center gap-2.5">
-                            {active && (
-                              <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-[#0080CB]/30 text-[#38BDF8] border border-[#0080CB]/40">
-                                Active
-                              </span>
-                            )}
-                            <ArrowUpRight
-                              className={`w-4 h-4 sm:w-5 sm:h-5 transition-all duration-200 ${
-                                active
-                                  ? "text-[#0C9DA8] translate-x-0.5 -translate-y-0.5"
-                                  : "text-white/30 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                              }`}
-                            />
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </nav>
-
-                  {/* ── 3 Core Service Divisions Explorer (Praaroop Marketing Pillars) ── */}
-                  <div className="pt-4 border-t border-white/10 space-y-2.5">
-                    <div className="flex items-center justify-between px-1">
-                      <span className="text-xs font-mono uppercase tracking-widest text-white/60 flex items-center gap-2">
-                        <Sparkles className="w-3.5 h-3.5 text-[#0C9DA8]" />
-                        <span>Marketing Divisions</span>
-                      </span>
-                      <span className="text-[11px] font-mono text-white/40">360° Solutions</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                      {SERVICE_PILLARS.map((pillar) => {
-                        return (
-                          <Link
-                            key={pillar.id}
-                            href={pillar.href}
-                            onClick={() => handleLinkClick(pillar.href)}
-                            className="group flex flex-col justify-between p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/10 hover:border-white/25 transition-all duration-200 shadow-sm"
-                          >
-                            <div className="flex items-center gap-2">
-                              <span
-                                className="w-2 h-2 rounded-full shrink-0 shadow-sm"
-                                style={{ backgroundColor: pillar.accent }}
-                              />
-                              <span className="text-xs sm:text-sm font-bold text-white group-hover:text-[#38BDF8] transition-colors leading-tight">
-                                {pillar.title}
-                              </span>
-                            </div>
-                            <span className="text-[10px] font-mono text-white/50 pt-2">
-                              {pillar.count}
-                            </span>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* ── Footer Actions Inside Menu Drawer ── */}
-                  <div className="pt-4 border-t border-white/10 space-y-3">
-                    {/* WhatsApp Direct Action Button */}
-                    <a
-                      href={BRAND.whatsappLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center gap-2.5 bg-[#0C9DA8] hover:bg-[#0080CB] text-white text-xs sm:text-sm font-black uppercase tracking-wider py-3.5 rounded-2xl shadow-xl transition-all active:scale-[0.98]"
-                    >
-                      <div className="relative flex items-center justify-center">
-                        <MessageSquare className="w-4 h-4" />
-                        <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#10B981] animate-ping" />
-                        <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#10B981]" />
+                          {numStr}
+                        </span>
+                        <span className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight">
+                          {link.name}
+                        </span>
                       </div>
-                      <span>Chat on WhatsApp</span>
-                      <ArrowUpRight className="w-4 h-4" />
-                    </a>
 
-                    {/* Call & Social Row */}
-                    <div className="flex items-center justify-between px-1 text-xs text-white/70">
-                      <a
-                        href={`tel:${BRAND.whatsappNumber}`}
-                        className="inline-flex items-center gap-2 hover:text-white font-semibold transition-colors text-xs sm:text-sm"
-                      >
-                        <Phone className="w-3.5 h-3.5 text-[#0C9DA8]" />
-                        <span>{BRAND.phone}</span>
-                      </a>
-
-                      {/* Social Channels */}
-                      <div className="flex items-center gap-2">
-                        <a
-                          href={BRAND.socials.instagram}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-8 h-8 rounded-full bg-white/5 hover:bg-[#D10B6A] border border-white/10 flex items-center justify-center text-white transition-all"
-                          aria-label="Instagram"
-                        >
-                          <InstagramIcon className="w-4 h-4" />
-                        </a>
-                        <a
-                          href={BRAND.socials.facebook}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-8 h-8 rounded-full bg-white/5 hover:bg-[#0080CB] border border-white/10 flex items-center justify-center text-white transition-all"
-                          aria-label="Facebook"
-                        >
-                          <FacebookIcon className="w-4 h-4" />
-                        </a>
-                        <a
-                          href={BRAND.socials.linkedin}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-8 h-8 rounded-full bg-white/5 hover:bg-[#0C9DA8] border border-white/10 flex items-center justify-center text-white transition-all"
-                          aria-label="LinkedIn"
-                        >
-                          <LinkedinIcon className="w-4 h-4" />
-                        </a>
+                      <div className="flex items-center gap-3">
+                        {active && (
+                          <span className="text-[10px] sm:text-xs uppercase font-bold tracking-wider px-2.5 sm:px-3 py-1 rounded-full bg-[#0080CB]/15 text-[#0080CB] border border-[#0080CB]/30">
+                            Active
+                          </span>
+                        )}
+                        <ArrowUpRight
+                          className={`w-4 h-4 sm:w-6 sm:h-6 transition-all duration-200 ${
+                            active
+                              ? "text-[#0080CB] translate-x-1 -translate-y-1"
+                              : "text-slate-400 group-hover:text-[#0080CB] group-hover:translate-x-1 group-hover:-translate-y-1"
+                          }`}
+                        />
                       </div>
-                    </div>
-                  </div>
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              {/* 3 Core Service Divisions Explorer */}
+              <div className="pt-3 sm:pt-4 border-t border-slate-200/80 space-y-2.5">
+                <div className="flex items-center justify-between px-1">
+                  <span className="text-xs font-mono uppercase tracking-widest text-slate-500 flex items-center gap-2 font-bold">
+                    <Sparkles className="w-4 h-4 text-[#0080CB]" />
+                    <span>Marketing Divisions</span>
+                  </span>
+                  <span className="text-xs font-mono text-slate-400">360° Solutions</span>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.header>
-      )}
-    </AnimatePresence>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                  {SERVICE_PILLARS.map((pillar) => {
+                    return (
+                      <Link
+                        key={pillar.id}
+                        href={pillar.href}
+                        onClick={() => handleLinkClick(pillar.href)}
+                        className="group flex flex-col justify-between p-3 sm:p-4 rounded-2xl bg-slate-50/90 hover:bg-slate-100/90 border border-slate-200/80 hover:border-[#0080CB]/30 transition-all duration-200 shadow-xs"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span
+                            className="w-2.5 h-2.5 rounded-full shrink-0 shadow-xs"
+                            style={{ backgroundColor: pillar.accent }}
+                          />
+                          <span className="text-xs sm:text-sm font-bold text-slate-800 group-hover:text-[#0080CB] transition-colors leading-tight">
+                            {pillar.title}
+                          </span>
+                        </div>
+                        <span className="text-[10px] sm:text-xs font-mono text-slate-500 pt-1.5 font-medium">
+                          {pillar.count}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Footer Action Bar in Fullscreen Menu */}
+            <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-3 sm:py-4 border-t border-slate-200/80 shrink-0 space-y-2.5">
+              {/* WhatsApp Direct Action Button */}
+              <a
+                href={BRAND.whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#0C9DA8] to-[#0080CB] hover:from-[#0080CB] hover:to-[#0C9DA8] text-white text-xs sm:text-sm font-black uppercase tracking-wider py-3 sm:py-3.5 rounded-2xl shadow-lg shadow-[#0C9DA8]/20 transition-all active:scale-[0.98]"
+              >
+                <div className="relative flex items-center justify-center">
+                  <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#10B981] animate-ping" />
+                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#10B981]" />
+                </div>
+                <span>Chat on WhatsApp</span>
+                <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              </a>
+
+              {/* Call & Social Row */}
+              <div className="flex items-center justify-between px-1 text-xs text-slate-600">
+                <a
+                  href={`tel:${BRAND.whatsappNumber}`}
+                  className="inline-flex items-center gap-2 hover:text-[#0080CB] font-bold transition-colors text-xs sm:text-sm text-slate-700"
+                >
+                  <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#0080CB]" />
+                  <span>{BRAND.phone}</span>
+                </a>
+
+                {/* Social Channels */}
+                <div className="flex items-center gap-2">
+                  <a
+                    href={BRAND.socials.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-100 hover:bg-[#D10B6A] hover:text-white border border-slate-200 flex items-center justify-center text-slate-700 transition-all"
+                    aria-label="Instagram"
+                  >
+                    <InstagramIcon className="w-4 h-4" />
+                  </a>
+                  <a
+                    href={BRAND.socials.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-100 hover:bg-[#0080CB] hover:text-white border border-slate-200 flex items-center justify-center text-slate-700 transition-all"
+                    aria-label="Facebook"
+                  >
+                    <FacebookIcon className="w-4 h-4" />
+                  </a>
+                  <a
+                    href={BRAND.socials.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-100 hover:bg-[#0C9DA8] hover:text-white border border-slate-200 flex items-center justify-center text-slate-700 transition-all"
+                    aria-label="LinkedIn"
+                  >
+                    <LinkedinIcon className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

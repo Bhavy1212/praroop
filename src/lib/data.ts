@@ -47,7 +47,6 @@ export const NAV_LINKS = [
   { name: "About Us", href: "/about-us/" },
   { name: "Our Clients", href: "/clients/" },
   { name: "Campaigns", href: "/campaigns/" },
-  { name: "Contact Us", href: "/contact-us/" },
 ];
 
 // HOMEPAGE: DIGITAL MARKETING (6 cards, exact order)
